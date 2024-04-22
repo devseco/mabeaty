@@ -4,10 +4,15 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:ui_ecommerce/controllers/Cart_controller.dart';
 import 'package:ui_ecommerce/controllers/Product_controller.dart';
+
+import '../main.dart';
 class ProductPage extends StatelessWidget {
    ProductPage({super.key});
   final Product_controller controller = Get.find();
+  Cart_controller cart_controller = Get.put(Cart_controller());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,56 +24,111 @@ class ProductPage extends StatelessWidget {
           actions(),
         ],
         elevation: 9.0,
-        title: title(),
-
-      ),
-      body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            sliders(),
-            spaceH(Get.height * 0.002),
-            _text("Xbox Serias X 2020" , Get.height * 0.018,Colors.black,FontWeight.bold),
-            spaceH(Get.height * 0.002),
-            _description('Simple Description For this Products For sale now online Simple Description For this Products For sale now online Simple Description For this Products For sale now '),
-            spaceH(Get.height * 0.002),
-            rate(),
-            spaceH(Get.height * 0.002),
-            price(),
-            spaceH(Get.height * 0.01),
-            _counter(),
-            spaceH(Get.height * 0.08),
-            bottom()
-          ],
+        title: GetBuilder<Product_controller>(builder: (c){
+         if(c.isLoadingItem.value){
+           return Text('');
+         }else{
+           if(c.productList.isNotEmpty){
+             return title();
+           }else{
+             return Text('');
+           }
+         }
+          },
         ),
 
       ),
+      body: GetBuilder<Product_controller>(builder: (c){
+       if(c.isLoadingItem.value){
+        return loading_();
+       }else{
+         if(c.productList.isNotEmpty){
+           return SafeArea(
+             child: Column(
+               crossAxisAlignment: CrossAxisAlignment.start,
+               children: [
+                 sliders(),
+                 spaceH(Get.height * 0.002),
+                 _text(c.productList[0].title , Get.height * 0.018,Colors.black,FontWeight.bold),
+                 spaceH(Get.height * 0.002),
+                 _description(c.productList[0].description),
+                 spaceH(Get.height * 0.002),
+                 rate(double.parse(c.productList[0].rate)),
+                 spaceH(Get.height * 0.002),
+                 price(c.productList[0].price.toString(), c.productList[0].lastprice.toString()),
+                 spaceH(Get.height * 0.01),
+                 _counter(),
+                 spaceH(Get.height * 0.08),
+                 GetBuilder<Cart_controller>(builder: (builder){
+                   if(builder.isLoadingAdded.value){
+                     return loading_button();
+                   }else{
+                     return botton();
+                   }
+                 })
+               ],
+             ),
+
+           );
+         }else{
+           return Center(child: Text('20'.tr),);
+         }
+       }
+      },),
     );
   }
-   bottom(){
-    return Center(
-      child: Container(
-        child: ElevatedButton(
-          onPressed: () {
-            //add_cart(items[0]['id'], id, items[0]['image'], quantity.toString(), items[0]['title'], items[0]['price']);
-          },
-          style: ElevatedButton.styleFrom(
-            backgroundColor:Colors.black,
-            shape: RoundedRectangleBorder(
-              borderRadius:
-              BorderRadius.circular(20), // Rounded corners
+  msgAdded(title , msg){
+    return Get.snackbar(title, msg);
+  }
+   loading_(){
+     return Center(
+       child: LoadingAnimationWidget.staggeredDotsWave(
+         color: Colors.black,
+         size: 80,
+       ),);
+   }
+   loading_button(){
+     return Center(
+       child: LoadingAnimationWidget.staggeredDotsWave(
+         color: Colors.black,
+         size: 20,
+       ),);
+   }
+   botton(){
+    return GetBuilder<Cart_controller>(builder: (builder){
+      return Center(
+        child: Container(
+          child: ElevatedButton(
+            onPressed: () {
+              builder.putDate(controller.productList[0].title, controller.productList[0].price, controller.count, controller.productList[0].id, controller.productList[0].image, controller.productList[0].category);
+              if(!builder.isLoadingAdded.value){
+                if(builder.isAddedCart.value){
+                  msgAdded('29'.tr, '30'.tr);
+                }else{
+                  msgAdded('32'.tr, '33'.tr);
+                }
+              }else{
+                print(builder.msgAdded);
+              }
+              },
+            style: ElevatedButton.styleFrom(
+              backgroundColor:Colors.black,
+              shape: RoundedRectangleBorder(
+                borderRadius:
+                BorderRadius.circular(20), // Rounded corners
+              ),
+              minimumSize: Size(200, 60), // Set the button's size
             ),
-            minimumSize: Size(200, 60), // Set the button's size
-          ),
-          child: Text('19'.tr,
-              style: TextStyle(color: Colors.white,
-                  fontSize: Get.height * 0.02,
-                  fontWeight: FontWeight.bold
+            child: Text('19'.tr,
+                style: TextStyle(color: Colors.white,
+                    fontSize: Get.height * 0.02,
+                    fontWeight: FontWeight.bold
 
-              )),
+                )),
+          ),
         ),
-      ),
-    );
+      );
+    });
    }
   _counter(){
     return Center(
@@ -125,11 +185,11 @@ class ProductPage extends StatelessWidget {
        ),
      );
    }
-   price(){
+   price(price , lastprice){
      return Padding(padding: EdgeInsetsDirectional.only(start: Get.height * 0.02),
      child: Row(
        children: [
-         Text("200,000" + ' '  + '18'.tr,
+         Text(formatter.format(int.parse(lastprice)) + ' '  + '18'.tr,
            style: TextStyle(
                decoration: TextDecoration.lineThrough,
                fontSize: Get.height * 0.015,
@@ -137,8 +197,8 @@ class ProductPage extends StatelessWidget {
                fontWeight: FontWeight.bold
            ),
          ),
-         spaceW(Get.height * 0.005),
-         Text("100,000" + ' '+ '18'.tr,
+         spaceW(Get.height * 0.009),
+         Text(formatter.format(int.parse(price)) + ' '+ '18'.tr,
            style: TextStyle(
                fontSize: Get.height * 0.02,
                fontWeight: FontWeight.bold
@@ -149,18 +209,17 @@ class ProductPage extends StatelessWidget {
            width: Get.height * 0.06,
            height: Get.height * 0.025,
            color: Colors.redAccent,
-           child: Center(child: Text("Offer" , style: TextStyle(
+           child: Center(child: Text("28".tr , style: TextStyle(
              color: Colors.white,
              fontWeight: FontWeight.bold,
              fontSize: Get.height * 0.013
            ),),),
          )
-
        ],
      ),
      );
    }
-   rate(){
+   rate(double rate){
     return Padding(padding: EdgeInsetsDirectional.only(start: Get.height * 0.02),
     child: Row(
       children: [
@@ -168,7 +227,7 @@ class ProductPage extends StatelessWidget {
         spaceW(Get.height * 0.005),
         SizedBox(
           child: RatingBar.builder(
-            initialRating: controller.rate,
+            initialRating: rate,
             minRating: 1,
             ignoreGestures: true,
             itemSize: 17,
@@ -181,7 +240,7 @@ class ProductPage extends StatelessWidget {
               color: Colors.amber,
             ),
             onRatingUpdate: (rating) {
-              controller.changeRate(rating);
+              //controller.changeRate(rating);
             },
           ),
         )
@@ -203,7 +262,7 @@ class ProductPage extends StatelessWidget {
      );
    }
   title(){
-    return Text("Product Title",
+    return Text(controller.productList[0].title,
     style: TextStyle(
       fontSize: Get.height * 0.02,
       fontWeight: FontWeight.bold

@@ -1,5 +1,3 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ui_ecommerce/Services/RemoteServices.dart';
 import 'package:ui_ecommerce/models/Category.dart';
@@ -13,6 +11,8 @@ class Home_controller extends GetxController {
   var productsList = <Product>[].obs;
   var slidersList = <SliderBar>[].obs;
   var categoriesList = <CategoryModel>[].obs;
+
+
   //fetch Productes
   void fetchProducts() async{
     isLoadingProductes(true);
@@ -67,14 +67,6 @@ class Home_controller extends GetxController {
     update();
   }
 
-  var scaffoldKey = GlobalKey<ScaffoldState>();
-
-  var pagesViewScaffoldKey = GlobalKey<ScaffoldState>();
-
-  void openDrawer() {
-    pagesViewScaffoldKey.currentState?.openDrawer();
-    update();
-  }
 
 
 

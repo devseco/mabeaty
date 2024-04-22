@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-class Locale_controller extends Translations {
+class locale extends Translations {
   @override
   // TODO: implement keys
   Map<String, Map<String, String>> get keys => {
@@ -24,12 +24,25 @@ class Locale_controller extends Translations {
       '17': "الحساب",
       '18': 'د.ع',
       '19': 'اضافة الى السلة',
-      '20':'غير متوفر حاليا'
+      '20': 'غير متوفر حاليا',
+      '21': 'اتصل بنا',
+      '22': 'تغيير اللغة',
+      '23': 'تسجيل خروج',
+      '24': 'رقم الهاتف او كلمة المرور غير صحيحة',
+      '25': 'حدث خطآ غير متوقع',
+      '26': 'تغيير الوضع',
+      '27': 'البحث عن قسم',
+      '28': 'عرض',
+      '29': 'تمت العملية بنجاح',
+      '30': 'تم اضافة المنتج الى سلة المشتريات',
+      '31': 'انهاء الشراء',
+      '32': 'موجود مسبقا',
+      '33': 'قمت باضافة المنتج مسبقآ الى السلة',
 
     },
     'en': {
       '1':'Login',
-      '2':'Welcome Back ! ',
+      '2':'Welcome',
       '3':'Phone',
       '4':'Password',
       '5':'Register Now',
@@ -47,8 +60,21 @@ class Locale_controller extends Translations {
       '17': "Account",
       '18': 'IQD',
       '19': 'Add To Cart',
-      '20':'Not Available Now'
-}
+      '20': 'Not Available Now',
+      '21': 'Contact us',
+      '22': 'Change Language',
+      '23': 'Logout',
+      '24': 'Phone or Password is Incurrect',
+      '25': 'An unexpected error occurred',
+      '26': 'Change Mode',
+      '27': 'Search For Category ...',
+      '28': 'Offer',
+      '29': 'Successfully',
+      '30': 'Add To Cart is Success',
+      '31': 'Check Out',
+      '32': 'Already exists',
+      '33': 'You have already added the product to the cart',
+    }
 
   };
 

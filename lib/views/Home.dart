@@ -6,36 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:ui_ecommerce/controllers/Home_controller.dart';
-
-class Home extends GetView {
+import 'package:ui_ecommerce/main.dart';
+class Home extends StatelessWidget {
    Home({super.key});
-  final Home_controller controller = Get.find();
+  final Home_controller controller = Get.put(Home_controller());
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
       resizeToAvoidBottomInset: false,
-        key: controller.pagesViewScaffoldKey,
-      drawer: Drawer(
-
-        child: ListView(
-          children: [
-
-          ],
-        ),
-      ),
-      appBar: AppBar(
-        forceMaterialTransparency: true,
-        scrolledUnderElevation:0.0,
-        surfaceTintColor: Colors.transparent,
-        leadingWidth: Get.height * 0.3,
-        actions: [
-          actions(),
-
-        ],
-
-        leading: logo(),
-
-      ),
       body: Column(
         children: [
           spaceH(Get.height * 0.015),
@@ -98,17 +76,18 @@ class Home extends GetView {
        itemBuilder: (BuildContext context, int index) {
          final product = controller.productsList[index];
          return BestProductItem(
-           product.image!,
-           product.title!,
-           product.price!,
+           product.image,
+           product.title,
+           product.price,
+           product.id
          );
        },
      );
    }
-   BestProductItem(String url , String title , int price  ){
+   BestProductItem(String url , String title , int price , int id ){
      return GestureDetector(
        onTap: (){
-         Get.toNamed('product');
+         Get.toNamed('product' , arguments:[{"id": id}],);
        },
        child: Container(
          height: 210,
@@ -144,14 +123,15 @@ class Home extends GetView {
                overflow: TextOverflow.ellipsis,
                style: TextStyle(
                  fontWeight: FontWeight.bold,
-
                ),
              ),
              spaceH(Get.height * 0.004),
-             Text(price.toString() + " د.ع " , textAlign: TextAlign.start,
+             Text(formatter.format(price).toString() + ' ' + '18'.tr , textAlign: TextAlign.start,
                overflow: TextOverflow.ellipsis,
                style: TextStyle(
+                 fontSize: Get.height * 0.013,
                  fontWeight: FontWeight.w800,
+                 color: Colors.deepPurple
                ),
              ),
            ],
@@ -183,22 +163,6 @@ class Home extends GetView {
      );
    }
 
-  Padding actions() {
-    return Padding(padding: EdgeInsetsDirectional.only(start: Get.height * 0.02, top: Get.height * 0.01 , end: Get.height * 0.02),
-    child: Row(
-      children: [
-        spaceW(Get.height * 0.01),
-        const Icon(Icons.notifications_outlined),
-        spaceW(Get.height * 0.01),
-        const Icon(Icons.favorite_border_outlined),
-        spaceW(Get.height * 0.01),
-        const Icon(Icons.shopping_cart_outlined),
-        spaceW(Get.height * 0.01),
-
-      ],
-    ),
-    );
-  }
    CategoryIcon(String url , String label){
      return Padding(padding: EdgeInsetsDirectional.only(start: Get.height * 0.01,end: Get.height * 0.01),
      child: Column(
@@ -231,12 +195,11 @@ class Home extends GetView {
      ),
      );
    }
-
   categories(){
     return ListView.builder(
       shrinkWrap: true,
       scrollDirection: Axis.horizontal,
-      itemCount: controller.productsList.length, // or slidersList.length, depends on your requirement
+      itemCount: controller.categoriesList.length, // or slidersList.length, depends on your requirement
       itemBuilder: (context, index) {
         var cat = controller.categoriesList[index];
         return CategoryIcon(cat.image,cat.title);
@@ -370,28 +333,6 @@ class Home extends GetView {
 
    }
 
-  Padding logo() {
-    return Padding(padding: EdgeInsetsDirectional.only(start: Get.height * 0.02, top: Get.height * 0.01),
-    child: Row(
-        children: [
-          GetBuilder<Home_controller>(builder: (builder){
-            return GestureDetector(
-              onTap: (){
-                builder.openDrawer();
-              },
-              child: Icon(Icons.menu),
-            );
-          }),
-          Image.asset('assets/images/logo.png' , fit: BoxFit.fill,width: Get.height * 0.06,height: Get.height * 0.03,),
-          Text('Seco Store' , style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: Get.height * 0.018
-          ),)
-      ],
-    ),
-
-    );
-  }
   Padding filtersIcon (){
     return Padding(padding: EdgeInsetsDirectional.only(start: Get.height * 0.009 , end: Get.height * 0.009),
     child: const Icon(Icons.tune),
@@ -422,5 +363,7 @@ class Home extends GetView {
     )),
     );
   }
+
+
 }
 

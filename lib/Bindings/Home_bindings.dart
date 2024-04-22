@@ -5,7 +5,6 @@ class Home_Bindings implements Bindings{
   @override
   void dependencies() {
     Get.lazyPut(() => Home_controller());
-
   }
 
 }

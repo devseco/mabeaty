@@ -13,7 +13,6 @@ class CategoryModel {
   String title;
   String image;
   int active;
-
   CategoryModel({
     required this.id,
     required this.title,

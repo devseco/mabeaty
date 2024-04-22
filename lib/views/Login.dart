@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:ui_ecommerce/controllers/Login_controller.dart';
 class Login extends StatelessWidget {
   Login({super.key});
-  final Login_controller controller = Get.find();
+  final Login_controller controller = Get.put(Login_controller());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-
 
 
       ),
@@ -22,14 +22,27 @@ class Login extends StatelessWidget {
           _space(Get.height * 0.01),
           _text("6" , Get.height * 0.015,Colors.black,FontWeight.w400),
           _space(Get.height * 0.035),
-          _textme('3' , controller.phone_controller , false),
+          _textme('3' , controller.phone_ , false),
           _space(Get.height * 0.02),
-          _textme('4' , controller.password_controller , true),
+          _textme('4' , controller.password_ , true),
           _remberMeCheckBox(),
           _space(Get.height * 0.01),
           _text('13', Get.height * 0.016, Colors.black, FontWeight.w600),
           _space(Get.height * 0.02),
-          _buttonLogin(),
+          GetBuilder<Login_controller>(builder: (builder){
+            if(builder.loading){
+              return loading_();
+            }else{
+              return _buttonLogin();
+            }
+          }),
+          GetBuilder<Login_controller>(builder: (builder){
+            if(builder.errorlogin){
+              return isError(builder.errormsg);
+            }else{
+              return SizedBox();
+            }
+          }),
           _space(Get.height * 0.02),
           _text('8', Get.height * 0.013, Colors.black, FontWeight.w300),
           _space(Get.height * 0.03),
@@ -38,7 +51,23 @@ class Login extends StatelessWidget {
       ),
 
     );
-
+  }
+  isError(error){
+    return Padding(padding: EdgeInsets.only(top: Get.height * 0.01),
+    child: Center(
+      child: Text('${error}'.tr , style: TextStyle(
+        color: Colors.redAccent,
+        fontSize: Get.height * 0.015
+      ),),
+    ),
+    );
+  }
+  loading_(){
+    return Center(
+      child: LoadingAnimationWidget.staggeredDotsWave(
+      color: Colors.black,
+      size: 50,
+    ),);
   }
   _logo(){
     return Center(
@@ -90,7 +119,7 @@ class Login extends StatelessWidget {
       child: Padding(padding: EdgeInsets.only(right: Get.height * 0.04 , left: Get.height * 0.04),
         child: GestureDetector(
           onTap: (){
-            Get.offAllNamed('landing');
+           controller.Login();
           },
           child: Container(
             width: Get.height * 0.30,

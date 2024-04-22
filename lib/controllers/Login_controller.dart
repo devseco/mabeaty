@@ -1,11 +1,20 @@
+import 'dart:convert';
+
+import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-
+import 'package:ui_ecommerce/Bindings/Landing_bindings.dart';
+import 'package:ui_ecommerce/Services/RemoteServices.dart';
+import 'package:ui_ecommerce/main.dart';
+import 'package:ui_ecommerce/views/Landing.dart';
 class Login_controller extends GetxController{
   //variable for check Remember me
   late bool isremember = false;
-  late TextEditingController phone_controller  = TextEditingController();
-  late TextEditingController password_controller = TextEditingController();
+  late bool loading = false;
+  late bool errorlogin = false;
+  late String errormsg = '';
+  late TextEditingController phone_  = TextEditingController();
+  late TextEditingController password_ = TextEditingController();
   //void for check Remember me
   void is_checking() {
     if(isremember){
@@ -15,7 +24,48 @@ class Login_controller extends GetxController{
     }
     update();
    }
+   void is_loading(){
+    loading = true;
+    update();
+   }
+  void isnot_loading(){
+    loading = false;
+    update();
+  }
+  void is_error(){
+    errorlogin = true;
+    update();
+  }
+   void Login() async{
+     is_loading();
+    var response = await RemoteServices.login(phone_.text);
+    if(response != null){
+      var json_response = jsonDecode(response);
+      if(json_response['message'] == "Login Successfully"){
+        await sharedPreferences!.setString('token', json_response['access_token']);
+        await sharedPreferences!.setInt('phone', json_response['phone']);
+        await sharedPreferences!.setString('name', json_response['username']);
+        if(isremember){
+          await sharedPreferences!.setBool('remember', true);
+        }
+        isnot_loading();
+        Get.offAll(Landing());
+      }else if(json_response['message'] == "No user found"){
+        errormsg = "24";
+        is_error();
+        print(json_response['message']);
+        isnot_loading();
+      }else{
+        errormsg = "25";
+        is_error();
+        print(json_response['message']);
+        isnot_loading();
+      }
+    }else{
+      errormsg = "25";
+      is_error();
+      isnot_loading();
+    }
 
-
-
+   }
 }
