@@ -12,7 +12,6 @@ class Home_controller extends GetxController {
   var slidersList = <SliderBar>[].obs;
   var categoriesList = <CategoryModel>[].obs;
 
-
   //fetch Productes
   void fetchProducts() async{
     isLoadingProductes(true);

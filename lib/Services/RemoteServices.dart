@@ -46,9 +46,41 @@ class RemoteServices {
       return null;
     }
   }
-  //Fetch Item From Endpoint (getProduct)
+  //Fetch Items Recently From Endpoint (getProduct)
+  static Future<List<Product>?> fetchProductsRecently() async {
+    var endpoint = 'getProductsRecently';
+    try {
+      var response = await client.get(Uri.parse(baseUrl + endpoint));
+      if (response.statusCode == 200) {
+        var jsonData = response.body;
+        List<Product> products = productFromJson(jsonData);
+        return products;
+      } else {
+        return null;
+      }
+    } catch (e) {
+      return null;
+    }
+  }
+  //Fetch Item By Id From Endpoint (getProduct)
   static Future<List<Product>?> fetchProductone(id) async {
     var endpoint = 'getProduct/${id}';
+    try {
+      var response = await client.get(Uri.parse(baseUrl + endpoint));
+      if (response.statusCode == 200) {
+        var jsonData = response.body;
+        List<Product> products = productFromJson(jsonData);
+        return products;
+      } else {
+        return null;
+      }
+    } catch (e) {
+      return null;
+    }
+  }
+  //Fetch Items By Category From Endpoint (getProductByCategory)
+  static Future<List<Product>?> fetchProductByCate(id) async {
+    var endpoint = 'getProductByCategory/${id}';
     try {
       var response = await client.get(Uri.parse(baseUrl + endpoint));
       if (response.statusCode == 200) {

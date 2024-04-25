@@ -190,6 +190,28 @@ class Landing extends StatelessWidget {
              },
            ),
            ListTile(
+             leading: Icon(Icons.favorite),
+             title: Text('60'.tr , style: TextStyle(
+                 fontWeight: FontWeight.w600,
+                 fontSize: Get.height * 0.017
+             ),),
+             onTap: () {
+               Get.toNamed('/favorites');
+               controller.closeDrawer();
+             },
+           ),
+           ListTile(
+             leading: Icon(Icons.notifications_outlined),
+             title: Text('61'.tr , style: TextStyle(
+                 fontWeight: FontWeight.w600,
+                 fontSize: Get.height * 0.017
+             ),),
+             onTap: () {
+               controller.onItemTapped(0);
+               controller.closeDrawer();
+             },
+           ),
+           ListTile(
              leading: Icon(Icons.call),
              title: Text('21'.tr , style: TextStyle(
                  fontWeight: FontWeight.w600,

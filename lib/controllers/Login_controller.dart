@@ -1,6 +1,4 @@
 import 'dart:convert';
-
-import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:ui_ecommerce/Bindings/Landing_bindings.dart';
@@ -8,6 +6,7 @@ import 'package:ui_ecommerce/Services/RemoteServices.dart';
 import 'package:ui_ecommerce/main.dart';
 import 'package:ui_ecommerce/views/Landing.dart';
 class Login_controller extends GetxController{
+
   //variable for check Remember me
   late bool isremember = false;
   late bool loading = false;
@@ -49,7 +48,7 @@ class Login_controller extends GetxController{
           await sharedPreferences!.setBool('remember', true);
         }
         isnot_loading();
-        Get.offAll(Landing());
+        Get.off(() => Landing() , binding: Landing_bindings());
       }else if(json_response['message'] == "No user found"){
         errormsg = "24";
         is_error();

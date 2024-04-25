@@ -32,7 +32,6 @@ class Categories extends StatelessWidget {
        padding: EdgeInsets.only(right: Get.height * 0.009,left: Get.height * 0.009),
        // to disable GridView's scrolling
        shrinkWrap: true, // You won't see infinite size error
-
        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
          childAspectRatio: 0.95,
          crossAxisCount: 2,
@@ -41,54 +40,60 @@ class Categories extends StatelessWidget {
        ),
        itemCount: controller.categoriesList.length,
        itemBuilder: (BuildContext context, int index) {
-         final product = controller.categoriesList[index];
+         final Category = controller.categoriesList[index];
          return CategoryItem(
-           product.image!,
-           product.title!,
+             Category.image!,
+             Category.title!,
+             Category.id
          );
        },
      );
    }
-   CategoryItem(String url , String title ){
-     return Container(
-       padding: EdgeInsets.all(Get.height * 0.017),
-       width: Get.height * 0.2,
-       decoration: BoxDecoration(
-           border: Border.all(color: Colors.black12),
-           borderRadius: BorderRadius.all(Radius.circular(15))
-       ),
-       child: Column(
-         crossAxisAlignment: CrossAxisAlignment.start,
-         children: <Widget>[
-           spaceH(Get.height * 0.02),
-           Center(
-             child:  CachedNetworkImage(
-               height: Get.height * 0.12,
-               width: Get.height * 0.18,
-               imageUrl: url,
-               imageBuilder: (context, imageProvider) => Container(
-                 decoration: BoxDecoration(
-                   image: DecorationImage(
-                     image: imageProvider,
-                     fit: BoxFit.cover,
+   CategoryItem(String url , String title  , int index){
+     return GestureDetector(
+       onTap: (){
+         Get.toNamed('/products' , arguments: [{'id':index}]);
+       },
+       child: Container(
+         padding: EdgeInsets.all(Get.height * 0.017),
+         width: Get.height * 0.2,
+         decoration: BoxDecoration(
+             border: Border.all(color: Colors.black12),
+             borderRadius: BorderRadius.all(Radius.circular(15))
+         ),
+         child: Column(
+           crossAxisAlignment: CrossAxisAlignment.start,
+           children: <Widget>[
+             spaceH(Get.height * 0.02),
+             Center(
+               child:  CachedNetworkImage(
+                 height: Get.height * 0.12,
+                 width: Get.height * 0.18,
+                 imageUrl: url,
+                 imageBuilder: (context, imageProvider) => Container(
+                   decoration: BoxDecoration(
+                     image: DecorationImage(
+                       image: imageProvider,
+                       fit: BoxFit.scaleDown,
+                     ),
                    ),
                  ),
+                 placeholder: (context, url) => CircularProgressIndicator(),
+                 errorWidget: (context, url, error) => const Icon(Icons.error),
                ),
-               placeholder: (context, url) => CircularProgressIndicator(),
-               errorWidget: (context, url, error) => const Icon(Icons.error),
              ),
-           ),
-           spaceH(Get.height * 0.01),
-           Center(
-             child: Text(title , textAlign: TextAlign.start,
-               overflow: TextOverflow.ellipsis,
-               style: TextStyle(
-                 fontWeight: FontWeight.bold,
+             spaceH(Get.height * 0.01),
+             Center(
+               child: Text(title , textAlign: TextAlign.start,
+                 overflow: TextOverflow.ellipsis,
+                 style: TextStyle(
+                   fontWeight: FontWeight.bold,
 
+                 ),
                ),
-             ),
-           )
-         ],
+             )
+           ],
+         ),
        ),
      );
    }
@@ -112,7 +117,6 @@ class Categories extends StatelessWidget {
        child: SizedBox(
            width: Get.width * 0.83,
            child: TextField(
-
              decoration:  InputDecoration(
                fillColor: Color(0xfff1ebf1),
                filled: true,

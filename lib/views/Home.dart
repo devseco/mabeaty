@@ -4,8 +4,10 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:ui_ecommerce/controllers/Home_controller.dart';
+import 'package:ui_ecommerce/controllers/Landing_controller.dart';
 import 'package:ui_ecommerce/main.dart';
 class Home extends StatelessWidget {
    Home({super.key});
@@ -51,7 +53,7 @@ class Home extends StatelessWidget {
               spaceH(Get.height * 0.02),
               Obx(() {
                 if(!controller.isLoadingProductes.value){
-                  return (controller.productsList.length > 0)? bestproductslist() : Center();
+                  return (controller.productsList.length > 0)? recentlyproductslist() : Center();
                 }else{
                   return Center(child: CircularProgressIndicator(),);
                 }
@@ -62,7 +64,7 @@ class Home extends StatelessWidget {
       )
     );
   }
-   bestproductslist() {
+   recentlyproductslist() {
      return GridView.builder(
        physics: NeverScrollableScrollPhysics(), // to disable GridView's scrolling
        shrinkWrap: true, // You won't see infinite size error
@@ -70,27 +72,28 @@ class Home extends StatelessWidget {
          crossAxisCount: 2,
          crossAxisSpacing: 5.0,
          mainAxisSpacing: 10.0,
-         childAspectRatio: 0.9,
+         childAspectRatio:Get.height * 0.0009,
        ),
-       itemCount: controller.productsList.length,
+       itemCount: (controller.productsList.length > 6 )?  6 : controller.productsList.length,
        itemBuilder: (BuildContext context, int index) {
          final product = controller.productsList[index];
          return BestProductItem(
            product.image,
            product.title,
            product.price,
-           product.id
+           product.id,
+           product.lastprice,
+           product.rate
          );
        },
      );
    }
-   BestProductItem(String url , String title , int price , int id ){
+   BestProductItem(String url , String title , int price , int id  , int lastprice , String rate){
      return GestureDetector(
        onTap: (){
          Get.toNamed('product' , arguments:[{"id": id}],);
        },
        child: Container(
-         height: 210,
          padding: EdgeInsets.all(Get.height * 0.017),
          width: Get.height * 0.2,
          decoration: BoxDecoration(
@@ -100,7 +103,6 @@ class Home extends StatelessWidget {
          child: Column(
            crossAxisAlignment: CrossAxisAlignment.start,
            children: <Widget>[
-             Icon(Icons.favorite_border_outlined),
              Center(
                child:  CachedNetworkImage(
                  height: Get.height * 0.12,
@@ -110,7 +112,7 @@ class Home extends StatelessWidget {
                    decoration: BoxDecoration(
                      image: DecorationImage(
                        image: imageProvider,
-                       fit: BoxFit.cover,
+                       fit: BoxFit.contain,
                      ),
                    ),
                  ),
@@ -123,17 +125,51 @@ class Home extends StatelessWidget {
                overflow: TextOverflow.ellipsis,
                style: TextStyle(
                  fontWeight: FontWeight.bold,
+
                ),
              ),
              spaceH(Get.height * 0.004),
              Text(formatter.format(price).toString() + ' ' + '18'.tr , textAlign: TextAlign.start,
                overflow: TextOverflow.ellipsis,
                style: TextStyle(
-                 fontSize: Get.height * 0.013,
+                 fontSize: Get.height * 0.0135,
                  fontWeight: FontWeight.w800,
                  color: Colors.deepPurple
                ),
              ),
+             spaceH(Get.height * 0.004),
+             Text(formatter.format(lastprice) + " د.ع " , textAlign: TextAlign.start,
+               overflow: TextOverflow.ellipsis,
+               style: TextStyle(
+                 decoration: TextDecoration.lineThrough,
+                 fontWeight: FontWeight.w800,
+               ),
+             ),
+             Row(
+               children: [
+                 Text('(${rate})'),
+                 spaceW(Get.height * 0.005),
+                 SizedBox(
+                   child: RatingBar.builder(
+                     initialRating: double.parse(rate),
+                     minRating: 1,
+                     ignoreGestures: true,
+                     itemSize: 17,
+                     direction: Axis.horizontal,
+                     itemCount: 5,
+                     allowHalfRating: true,
+                     itemPadding: const EdgeInsets.symmetric(horizontal: 1.0),
+                     itemBuilder: (context, _) => const Icon(
+                       Icons.star,
+                       color: Colors.amber,
+                     ),
+                     onRatingUpdate: (rating) {
+                       //controller.changeRate(rating);
+                     },
+                   ),
+                 )
+               ],
+             )
            ],
          ),
        ),
@@ -163,46 +199,51 @@ class Home extends StatelessWidget {
      );
    }
 
-   CategoryIcon(String url , String label){
-     return Padding(padding: EdgeInsetsDirectional.only(start: Get.height * 0.01,end: Get.height * 0.01),
-     child: Column(
-       children: <Widget>[
-         Container(
-           padding: EdgeInsets.all(Get.height * 0.007),
-           decoration: BoxDecoration(
-               border: Border.all(color: Colors.black26),
-               borderRadius: BorderRadius.all(Radius.circular(15))
-           ),
-           height: Get.height * 0.07,
-           width: Get.height * 0.08,
-           child: CachedNetworkImage(
-             imageUrl: url,
-             imageBuilder: (context, imageProvider) => Container(
+   CategoryIcon(String url , String label  , int id){
+     return GestureDetector(
+       onTap: (){
+         Get.toNamed('/products' , arguments: [{'id':id}]);
+       },
+       child: Padding(padding: EdgeInsetsDirectional.only(start: Get.height * 0.01,end: Get.height * 0.01),
+         child: Column(
+           children: <Widget>[
+             Container(
+               padding: EdgeInsets.all(Get.height * 0.007),
                decoration: BoxDecoration(
-                 image: DecorationImage(
-                   image: imageProvider,
-                   fit: BoxFit.fill,
+                   border: Border.all(color: Colors.black26),
+                   borderRadius: BorderRadius.all(Radius.circular(15))
+               ),
+               height: Get.height * 0.07,
+               width: Get.height * 0.08,
+               child: CachedNetworkImage(
+                 imageUrl: url,
+                 imageBuilder: (context, imageProvider) => Container(
+                   decoration: BoxDecoration(
+                     image: DecorationImage(
+                       image: imageProvider,
+                       fit: BoxFit.contain,
+                     ),
+                   ),
                  ),
+                 placeholder: (context, url) => CircularProgressIndicator(),
+                 errorWidget: (context, url, error) => const Icon(Icons.error),
                ),
              ),
-             placeholder: (context, url) => CircularProgressIndicator(),
-             errorWidget: (context, url, error) => const Icon(Icons.error),
-           ),
+             spaceH(Get.height * 0.01),
+             Text(label),
+           ],
          ),
-         spaceH(Get.height * 0.01),
-         Text(label),
-       ],
-     ),
+       ),
      );
    }
   categories(){
     return ListView.builder(
       shrinkWrap: true,
       scrollDirection: Axis.horizontal,
-      itemCount: controller.categoriesList.length, // or slidersList.length, depends on your requirement
+      itemCount: (controller.categoriesList.length > 6 )?  6 : controller.categoriesList.length, // or slidersList.length, depends on your requirement
       itemBuilder: (context, index) {
         var cat = controller.categoriesList[index];
-        return CategoryIcon(cat.image,cat.title);
+        return CategoryIcon(cat.image,cat.title , cat.id);
       },
     );
   }
@@ -216,6 +257,10 @@ class Home extends StatelessWidget {
           fontWeight: FontWeight.bold
         ),),
         GestureDetector(
+          onTap: (){
+            Landing_controller c = Get.put(Landing_controller());
+            c.onItemTapped(1);
+          },
           child: Text("11".tr , style: TextStyle(
               fontSize: Get.height * 0.016,
               fontWeight: FontWeight.w600

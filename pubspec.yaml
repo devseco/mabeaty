@@ -46,6 +46,8 @@ dependencies:
   dart_jsonwebtoken: ^2.13.0
   loading_animation_widget: ^1.2.1
   intl: ^0.19.0
+  font_awesome_flutter: ^10.7.0
+  dropdown_button2: ^2.3.9
 
 dev_dependencies:
   flutter_test:

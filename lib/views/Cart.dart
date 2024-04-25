@@ -4,12 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:ui_ecommerce/controllers/Cart_controller.dart';
-
 import '../main.dart';
+
 class CartPage extends StatelessWidget {
   CartPage({super.key});
    Cart_controller controller = Get.find();
-
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
@@ -20,21 +19,28 @@ class CartPage extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Container(
-              height: Get.height * 0.06,
-              width: Get.height * 0.15,
-              margin: EdgeInsets.all(5),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(15)),
-                  color: Colors.deepPurple,
-                  border: Border.all(color: Colors.deepPurple , width: 0.1)
-              ),
-              child: Center(
-                child: Text('31'.tr, style: TextStyle(
-                  color: Colors.white,
-                  fontSize: Get.height * 0.015,
-                  fontWeight: FontWeight.bold
-                ),),
+            GestureDetector(
+              onTap: (){
+                if(BoxCart.length > 0){
+                  Get.toNamed('checkout');
+                }
+              },
+              child: Container(
+                height: Get.height * 0.06,
+                width: Get.height * 0.15,
+                margin: EdgeInsets.all(2),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(15)),
+                    color: Colors.deepPurple,
+                    border: Border.all(color: Colors.deepPurple , width: 0.1)
+                ),
+                child: Center(
+                  child: Text('31'.tr, style: TextStyle(
+                      color: Colors.white,
+                      fontSize: Get.height * 0.015,
+                      fontWeight: FontWeight.bold
+                  ),),
+                ),
               ),
             ),
             GetBuilder<Cart_controller>(builder: (builder){
@@ -59,12 +65,9 @@ class CartPage extends StatelessWidget {
         ),
       ),
       backgroundColor: Colors.transparent,
-      body: Center(
-        child: Column(
-          children: [
-            Expanded(child: Cartslist()),
-          ],
-        ),
+      body: SizedBox(
+        height: Get.height,
+        child: Cartslist(),
       ),
     );
   }
@@ -94,13 +97,15 @@ class CartPage extends StatelessWidget {
           PositionedDirectional(
            top: Get.height * 0.01,
            end:  Get.height * 0.01,
-           child:  GestureDetector(
+           child:  GetBuilder<Cart_controller>(builder: (builder){
+             return GestureDetector(
                child:Icon(Icons.delete_outline_rounded),
-             onTap: (){
-                 controller.deleteData(index);
-             },
+               onTap: (){
+                 builder.deleteData(index);
+               },
 
-           ),),
+             );
+           },),),
           PositionedDirectional(
             top: Get.height * 0.003,
             start: Get.height * 0.0001,
@@ -121,7 +126,7 @@ class CartPage extends StatelessWidget {
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       image: imageProvider,
-                      fit: BoxFit.fill,
+                      fit: BoxFit.contain,
                     ),
                   ),
                 ),
@@ -129,17 +134,17 @@ class CartPage extends StatelessWidget {
                 errorWidget: (context, url, error) => const Icon(Icons.error),
               )),
           ),
-
           PositionedDirectional(
             top: Get.height * 0.01,
-            end:  Get.height * 0.1,
-            child: Text(title , textAlign: TextAlign.start,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-
-            ),
-          ),),
+            start:  Get.height * 0.15,
+            child: SizedBox(
+              width: Get.height * 0.2,
+              child: Text(title , textAlign: TextAlign.start,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),),
           PositionedDirectional(
             bottom: Get.height * 0.02,
             start:   Get.height * 0.15,
@@ -176,7 +181,7 @@ class CartPage extends StatelessWidget {
                                 child: Center(
                                   child: Icon(Icons.remove , color: Colors.black,),),
                               ),
-                              onTap: (){
+                              onTap: () async{
                                 builder.updateCounterMin(title, price, count, index, url, category);
                               },
                             ),
@@ -201,7 +206,7 @@ class CartPage extends StatelessWidget {
                                   child: Icon(Icons.add , color: Colors.white,),),
                               ),
                               onTap: () async{
-                                builder.updateCounterPlus(title, price, count, index, url, category);
+                                 builder.updateCounterPlus(title, price, count, index, url, category);
 
                                 },
                             )
@@ -218,8 +223,7 @@ class CartPage extends StatelessWidget {
     );
   }
   Cartslist() {
-    return GetBuilder<Cart_controller>(builder: (builder){
-      return ListView.builder(
+    return GetBuilder<Cart_controller>(builder: (builder) => ListView.builder(
         padding: EdgeInsets.only(right: Get.height * 0.009,left: Get.height * 0.009 , top: Get.height * 0.01),
         // to disable GridView's scrolling
         shrinkWrap: true, // You won't see infinite size error
@@ -228,7 +232,7 @@ class CartPage extends StatelessWidget {
           final product = BoxCart.getAt(index);
           return BestProductItem(product.title, product.price, product.image, product.item, product.count, product.category,index);
         },
-      );
-    });
+      )
+    );
   }
 }

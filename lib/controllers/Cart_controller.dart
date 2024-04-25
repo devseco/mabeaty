@@ -33,7 +33,7 @@ class Cart_controller extends GetxController {
       PlusAllData();
       update();
     }else{
-      deleteData(id);
+
     }
   }
   void is_existsloading(){
@@ -66,6 +66,8 @@ class Cart_controller extends GetxController {
            update();
          });
        }else{
+
+
          is_existsloading();
        }
        isLoadingAdded(false);
@@ -81,6 +83,7 @@ class Cart_controller extends GetxController {
   }
   void deleteAll(){
     BoxCart.clear();
+    PlusAllData();
     update();
   }
   @override

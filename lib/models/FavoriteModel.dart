@@ -1,27 +1,27 @@
 import 'package:hive/hive.dart';
-part 'CartModel.g.dart';
-@HiveType(typeId: 1)
-class CartModel {
+part 'FavoriteModel.g.dart';
+@HiveType(typeId: 2)
+class FavoriteModel {
   @HiveField(0)
   String title;
   @HiveField(1)
   int price;
   @HiveField(2)
-  int count;
+  int lastprice;
   @HiveField(3)
   String image;
   @HiveField(4)
-  int category;
+  String rate;
   @HiveField(5)
   int item;
   @HiveField(6)
   int id;
-  CartModel({
+  FavoriteModel({
     required this.price,
     required this.title,
-    required this.count,
+    required this.rate,
     required this.image,
-    required this.category,
+    required this.lastprice,
     required this.item,
     required this.id,
   });

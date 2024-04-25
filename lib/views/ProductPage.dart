@@ -6,6 +6,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:ui_ecommerce/controllers/Cart_controller.dart';
+import 'package:ui_ecommerce/controllers/Favorite_controller.dart';
 import 'package:ui_ecommerce/controllers/Product_controller.dart';
 
 import '../main.dart';
@@ -13,6 +14,7 @@ class ProductPage extends StatelessWidget {
    ProductPage({super.key});
   final Product_controller controller = Get.find();
   Cart_controller cart_controller = Get.put(Cart_controller());
+  Favorite_controller fav_controller = Get.put(Favorite_controller());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +23,18 @@ class ProductPage extends StatelessWidget {
         scrolledUnderElevation:0.0,
         surfaceTintColor: Colors.transparent,
         actions: [
-          actions(),
+          GetBuilder<Product_controller>(builder: (c){
+            if(c.isLoadingItem.value){
+              return Text('');
+            }else{
+              if(c.productList.isNotEmpty){
+                return actions();
+              }else{
+                return Text('');
+              }
+            }
+          },
+          ),
         ],
         elevation: 9.0,
         title: GetBuilder<Product_controller>(builder: (c){
@@ -270,15 +283,37 @@ class ProductPage extends StatelessWidget {
 
     );
   }
+  //builder.putDate(controller.productList[0].title, controller.productList[0].price, controller.productList[0].id, controller.productList[0].image, controller.productList[0].category, controller.productList[0].lastprice, controller.productList[0].rate);
+   //
   Padding actions() {
     return Padding(padding: EdgeInsetsDirectional.only(start: Get.height * 0.02, top: Get.height * 0.01 , end: Get.height * 0.02),
-      child: Row(
-        children: [
-          const Icon(Icons.more_vert),
-          spaceW(Get.height * 0.01),
+      child: GetBuilder<Favorite_controller>(builder: (c){
+        if (c.getStatus(controller.productList[0].id)) {
+          return GestureDetector(
+            onTap: (){
+              c.is_existsloading(controller.productList[0].id);
+            },
+            child: Icon(Icons.favorite , color: Colors.red,),
+          );
+        } else {
+          return  GestureDetector(
+            onTap: () {
+              c.putDate(
+                controller.productList[0].title,
+                controller.productList[0].price,
+                controller.productList[0].id,
+                controller.productList[0].image,
+                controller.productList[0].category,
+                controller.productList[0].lastprice,
+                controller.productList[0].rate,
+              );
+            },
+            child: Icon(Icons.favorite_outline , color: Colors.black,),
+          );
+        }
+      })
 
-        ],
-      ),
+
     );
   }
   line() {

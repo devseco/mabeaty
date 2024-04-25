@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ui_ecommerce/controllers/Cart_controller.dart';
 import 'package:ui_ecommerce/views/Login.dart';
 import '../main.dart';
 class Landing_controller extends GetxController{
@@ -24,6 +25,7 @@ class Landing_controller extends GetxController{
   }
   void logou(){
     sharedPreferences!.clear();
-    Get.offAll(Login() );
+    //BoxCart.clear();
+    Get.off(() => Login());
   }
 }

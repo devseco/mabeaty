@@ -5,7 +5,7 @@ class auth_middleware extends GetMiddleware{
   @override
   RouteSettings? redirect(String? route) {
     if(sharedPreferences!.getBool('remember') == true){
-      return RouteSettings(name: '/landing');
+      return RouteSettings(name: '/landing' , );
     }
   }
 }
