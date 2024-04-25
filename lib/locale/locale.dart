@@ -106,7 +106,7 @@ class locale extends Translations {
       '35': 'Clear All',
       '36': 'Choose a payment method',
       '37': 'Plase select a payment method most convenient to you',
-      '38': 'Pay Cash',
+      '38': 'Cash',
       '39': 'Credit Card',
       '40': 'Apple pay',
       '41': 'Google pay',

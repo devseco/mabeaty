@@ -13,7 +13,7 @@ class Payment extends StatelessWidget {
         children: [
           message(),
           paymentlist(),
-          order('ali',30000,5000,35000),
+          order(controller.price, controller.delivery, controller.total),
         ],
       ),
     );
@@ -23,7 +23,7 @@ class Payment extends StatelessWidget {
        color: Colors.black12,
      );
    }
-   order(name , price , delivery ,total){
+   order(price , delivery ,total){
      return Padding(
        padding: EdgeInsetsDirectional.only(start: Get.height * 0.01 , end: Get.height * 0.01 , top: Get.height * 0.02 , bottom: Get.height * 0.02),
        child: Container(

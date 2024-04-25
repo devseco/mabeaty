@@ -22,7 +22,7 @@ class CartPage extends StatelessWidget {
             GestureDetector(
               onTap: (){
                 if(BoxCart.length > 0){
-                  Get.toNamed('checkout');
+                  Get.toNamed('checkout' , arguments: [{'total' : controller.total}]);
                 }
               },
               child: Container(
