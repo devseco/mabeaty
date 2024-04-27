@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:ui_ecommerce/models/Bill.dart';
 import 'package:ui_ecommerce/models/Category.dart';
 import 'package:ui_ecommerce/models/Product.dart';
 import '../models/Slider.dart';
@@ -55,6 +56,53 @@ class RemoteServices {
         var jsonData = response.body;
         List<Product> products = productFromJson(jsonData);
         return products;
+      } else {
+        return null;
+      }
+    } catch (e) {
+      return null;
+    }
+  }
+  //add new bill To Endpoint (addBill)
+  static Future<String> addBill(String name, String phone, String city, String address, int price, int delivery, List<Map<String, dynamic>> items, user_id) async {
+    var endpoint = 'addBill';
+    var body = jsonEncode({
+      'name': name,
+      'phone': phone,
+      'city': city,
+      'address': address,
+      'price': price,
+      'delivery': delivery,
+      'items': items,
+      'user_id':user_id
+    });
+    try {
+      var response = await http.post(
+        Uri.parse(baseUrl + endpoint),
+        body: body,
+        headers: {'Content-Type': 'application/json'},
+      );
+      if (response.statusCode == 200) {
+        var jsonData = response.body;
+        return jsonData;
+      } else {
+        String rawJson = '{"message":"An unexpected error occurred","Status_code":500}';
+        return rawJson;
+      }
+    } catch (e) {
+      String rawJson = '{"message":"An unexpected error occurred","Status_code":500}';
+      return rawJson;
+    }
+  }
+  //Fetch Bills By Id From Endpoint (getBills)
+  static Future<List<Bill>?> fetchBills(id) async {
+    var endpoint = 'getBills/${id}';
+    try {
+      var response = await client.get(Uri.parse(baseUrl + endpoint));
+      if (response.statusCode == 200) {
+        var jsonData = response.body;
+        List<Bill> bills = billFromJson(jsonData);
+        return bills;
       } else {
         return null;
       }

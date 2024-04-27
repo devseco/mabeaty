@@ -7,8 +7,7 @@ import 'package:ui_ecommerce/controllers/Products_controller.dart';
 import '../main.dart';
 class Products extends StatelessWidget {
    Products({super.key});
-   Products_Controller controller = Get.put(Products_Controller());
-
+   final Products_Controller controller = Get.put(Products_Controller());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -139,15 +138,15 @@ class Products extends StatelessWidget {
         crossAxisCount: 2,
         crossAxisSpacing: 15.0,
         mainAxisSpacing: 15.0,
-        childAspectRatio: Get.height * 0.00085,
+        childAspectRatio: 0.8,
       ),
       itemCount: controller.productList.length,
       itemBuilder: (BuildContext context, int index) {
         final product = controller.productList[index];
         return Item(
-          product.image!,
-          product.title!,
-          product.price!,
+          product.image,
+          product.title,
+          product.price,
           product.id,
           product.lastprice,
           product.rate

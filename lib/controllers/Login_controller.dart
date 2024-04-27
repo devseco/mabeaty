@@ -43,6 +43,7 @@ class Login_controller extends GetxController{
       if(json_response['message'] == "Login Successfully"){
         await sharedPreferences!.setString('token', json_response['access_token']);
         await sharedPreferences!.setInt('phone', json_response['phone']);
+        await sharedPreferences!.setInt('user_id', json_response['user_id']);
         await sharedPreferences!.setString('name', json_response['username']);
         if(isremember){
           await sharedPreferences!.setBool('remember', true);

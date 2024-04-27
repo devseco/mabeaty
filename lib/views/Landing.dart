@@ -4,18 +4,17 @@ import 'package:ui_ecommerce/controllers/Landing_controller.dart';
 import 'package:ui_ecommerce/locale/Locale_controller.dart';
 import 'package:ui_ecommerce/views/Cart.dart';
 import 'package:ui_ecommerce/views/Categories.dart';
-import 'package:ui_ecommerce/views/Favorites.dart';
 import 'package:ui_ecommerce/views/Home.dart';
 import 'package:ui_ecommerce/views/Profile.dart';
 class Landing extends StatelessWidget {
    Landing({super.key});
-  final Landing_controller controller =  Get.put(Landing_controller());
-  final Locale_controller locale_controller = Get.put(Locale_controller());
-   static  List<Widget> _pages = <Widget>[
+   final Landing_controller controller =  Get.put(Landing_controller());
+   final locale_controller = Get.put(Locale_controller());
+   static  final List<Widget> _pages = <Widget>[
      Home(),
      Categories(),
      CartPage(),
-     Profile()
+     const Profile()
    ];
   @override
   Widget build(BuildContext context) {
@@ -43,19 +42,19 @@ class Landing extends StatelessWidget {
         },
         items:  <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home_outlined),
+            icon: const Icon(Icons.home_outlined),
             label: '14'.tr,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.category_outlined),
+            icon: const Icon(Icons.category_outlined),
             label: '15'.tr,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_cart_outlined),
+            icon: const Icon(Icons.shopping_cart_outlined),
             label: '16'.tr,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person_outlined),
+            icon: const Icon(Icons.person_outlined),
             label: '17'.tr,
           ),
         ],
@@ -69,13 +68,11 @@ class Landing extends StatelessWidget {
      return SizedBox(
        height: size,
      );
-
    }
    SizedBox spaceW(double size) {
      return SizedBox(
        width: size,
      );
-
    }
    Padding actions() {
      return Padding(padding: EdgeInsetsDirectional.only(start: Get.height * 0.02, top: Get.height * 0.01 , end: Get.height * 0.02),
@@ -84,9 +81,19 @@ class Landing extends StatelessWidget {
            spaceW(Get.height * 0.01),
            const Icon(Icons.notifications_outlined),
            spaceW(Get.height * 0.01),
-           const Icon(Icons.favorite_border_outlined),
+            GestureDetector(
+              onTap: (){
+                Get.toNamed('favorites');
+              },
+              child: Icon(Icons.favorite_border_outlined),
+            ),
            spaceW(Get.height * 0.01),
-           const Icon(Icons.shopping_cart_outlined),
+           GestureDetector(
+             onTap: (){
+              controller.onItemTapped(2);
+             },
+             child: Icon(Icons.shopping_cart_outlined),
+           ),
            spaceW(Get.height * 0.01),
 
          ],
@@ -102,11 +109,11 @@ class Landing extends StatelessWidget {
                onTap: (){
                  builder.openDrawer();
                },
-               child: Icon(Icons.menu),
+               child: const Icon(Icons.menu),
              );
            }),
            Image.asset('assets/images/logo.png' , fit: BoxFit.fill,width: Get.height * 0.06,height: Get.height * 0.03,),
-           Text('Seco Store' , style: TextStyle(
+           Text('0'.tr , style: TextStyle(
                fontWeight: FontWeight.bold,
                fontSize: Get.height * 0.018
            ),)
@@ -123,7 +130,7 @@ class Landing extends StatelessWidget {
          children: [
            DrawerHeader(
 
-               decoration: BoxDecoration(
+               decoration: const BoxDecoration(
                  color: Colors.white,
                ),
                child: Center(
@@ -136,7 +143,7 @@ class Landing extends StatelessWidget {
                        height: Get.height * 0.1,
                      ),
                      spaceH(Get.height * 0.009),
-                     Text('2'.tr + ' ' +  controller.username,
+                     Text('${'2'.tr} ${controller.username}',
                        style: TextStyle(
                            fontSize: Get.height * 0.02,
                            fontWeight: FontWeight.w600
@@ -146,7 +153,7 @@ class Landing extends StatelessWidget {
                )
            ),
            ListTile(
-             leading: Icon(Icons.home_outlined),
+             leading: const Icon(Icons.home_outlined),
              title: Text('14'.tr , style: TextStyle(
                  fontWeight: FontWeight.w600,
                  fontSize: Get.height * 0.017
@@ -157,7 +164,7 @@ class Landing extends StatelessWidget {
              },
            ),
            ListTile(
-             leading: Icon(Icons.category_outlined),
+             leading: const Icon(Icons.category_outlined),
              title: Text('15'.tr , style: TextStyle(
                  fontWeight: FontWeight.w600,
                  fontSize: Get.height * 0.017
@@ -168,7 +175,7 @@ class Landing extends StatelessWidget {
              },
            ),
            ListTile(
-             leading: Icon(Icons.shopping_cart_outlined),
+             leading: const Icon(Icons.shopping_cart_outlined),
              title: Text('16'.tr , style: TextStyle(
                  fontWeight: FontWeight.w600,
                  fontSize: Get.height * 0.017
@@ -179,7 +186,18 @@ class Landing extends StatelessWidget {
              },
            ),
            ListTile(
-             leading: Icon(Icons.person_outlined),
+             leading: const Icon(Icons.view_list),
+             title: Text('69'.tr , style: TextStyle(
+                 fontWeight: FontWeight.w600,
+                 fontSize: Get.height * 0.017
+             ),),
+             onTap: () {
+               Get.toNamed('/billing');
+               controller.closeDrawer();
+             },
+           ),
+           ListTile(
+             leading: const Icon(Icons.person_outlined),
              title: Text('17'.tr , style: TextStyle(
                  fontWeight: FontWeight.w600,
                  fontSize: Get.height * 0.017
@@ -190,7 +208,7 @@ class Landing extends StatelessWidget {
              },
            ),
            ListTile(
-             leading: Icon(Icons.favorite),
+             leading: const Icon(Icons.favorite_outline),
              title: Text('60'.tr , style: TextStyle(
                  fontWeight: FontWeight.w600,
                  fontSize: Get.height * 0.017
@@ -201,7 +219,7 @@ class Landing extends StatelessWidget {
              },
            ),
            ListTile(
-             leading: Icon(Icons.notifications_outlined),
+             leading: const Icon(Icons.notifications_outlined),
              title: Text('61'.tr , style: TextStyle(
                  fontWeight: FontWeight.w600,
                  fontSize: Get.height * 0.017
@@ -212,7 +230,7 @@ class Landing extends StatelessWidget {
              },
            ),
            ListTile(
-             leading: Icon(Icons.call),
+             leading: const Icon(Icons.call),
              title: Text('21'.tr , style: TextStyle(
                  fontWeight: FontWeight.w600,
                  fontSize: Get.height * 0.017
@@ -222,7 +240,7 @@ class Landing extends StatelessWidget {
              },
            ),
            ListTile(
-             leading: Icon(Icons.language),
+             leading: const Icon(Icons.language),
              title: Text('22'.tr , style: TextStyle(
                  fontWeight: FontWeight.w600,
                  fontSize: Get.height * 0.017
@@ -232,7 +250,7 @@ class Landing extends StatelessWidget {
              },
            ),
            ListTile(
-             leading: Icon(Icons.logout),
+             leading: const Icon(Icons.logout),
              title: Text('23'.tr , style: TextStyle(
                  fontWeight: FontWeight.w600,
                  fontSize: Get.height * 0.017

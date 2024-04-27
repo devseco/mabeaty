@@ -16,7 +16,7 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return  Scaffold(
       resizeToAvoidBottomInset: false,
-      body: Column(
+      body: ListView(
         children: [
           spaceH(Get.height * 0.015),
           Row(
@@ -33,9 +33,6 @@ class Home extends StatelessWidget {
               return placholderSlider();
             }
           }),
-          Expanded(
-              child: ListView(
-            children: [
               categorieslabels(),
               spaceH(Get.height * 0.030),
               Container(
@@ -58,8 +55,7 @@ class Home extends StatelessWidget {
                   return Center(child: CircularProgressIndicator(),);
                 }
               })
-            ],
-          ))
+
         ],
       )
     );
@@ -72,7 +68,7 @@ class Home extends StatelessWidget {
          crossAxisCount: 2,
          crossAxisSpacing: 5.0,
          mainAxisSpacing: 10.0,
-         childAspectRatio:Get.height * 0.0009,
+         childAspectRatio: 0.85,
        ),
        itemCount: (controller.productsList.length > 6 )?  6 : controller.productsList.length,
        itemBuilder: (BuildContext context, int index) {
@@ -271,10 +267,9 @@ class Home extends StatelessWidget {
     );
   }
   sliders() {
-    return Padding(padding: EdgeInsetsDirectional.only(top: Get.height * 0.002 , end: Get.height * 0.001 , start: Get.height * 0.001),
+    return Padding(padding: EdgeInsetsDirectional.only(top: Get.height * 0.002 , end: Get.height * 0.001 ),
       child: SizedBox(
-        height: Get.height * 0.3,
-        width: Get.width * 0.97,
+        height: 280,
         child: Column(
           children: [
             CarouselSlider(
@@ -291,6 +286,7 @@ class Home extends StatelessWidget {
                     border: Border.all(color: Colors.white60)
                 ),
                 margin: EdgeInsets.all(Get.height * 0.004),
+                padding: EdgeInsetsDirectional.only(start: Get.height * 0.004,end: Get.height * 0.004,top: Get.height * 0.004,bottom: Get.height * 0.004),
                 child: Center(
                     child:
                     ClipRRect(
@@ -301,7 +297,7 @@ class Home extends StatelessWidget {
                           decoration: BoxDecoration(
                             image: DecorationImage(
                               image: imageProvider,
-                              fit: BoxFit.fill,
+                              fit: BoxFit.contain,
                             ),
                           ),
                         ),
@@ -320,7 +316,7 @@ class Home extends StatelessWidget {
                 decorator: DotsDecorator(
                   color: Colors.grey,
                   size: const Size.square(9.0),
-                  activeSize: const Size(18.0, 9.0),
+                  activeSize:  Size(Get.height * 0.008, Get.height * 0.009,),
                   activeShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
                 ),
               );
@@ -377,10 +373,9 @@ class Home extends StatelessWidget {
      );
 
    }
-
   Padding filtersIcon (){
     return Padding(padding: EdgeInsetsDirectional.only(start: Get.height * 0.009 , end: Get.height * 0.009),
-    child: const Icon(Icons.tune),
+    child: const Icon(Icons.search),
     );
   }
   Padding searchTextInput() {
@@ -388,11 +383,9 @@ class Home extends StatelessWidget {
     child: SizedBox(
       width: Get.width * 0.83,
       child: TextField(
-
       decoration:  InputDecoration(
         fillColor: Color(0xfff1ebf1),
         filled: true,
-        prefixIcon: const Icon(Icons.search),
         hintText: '9'.tr,
         enabledBorder: const OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(20.0)),

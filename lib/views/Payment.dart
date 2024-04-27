@@ -5,7 +5,7 @@ import 'package:ui_ecommerce/controllers/Checkout_controller.dart';
 import 'package:ui_ecommerce/main.dart';
 class Payment extends StatelessWidget {
   Payment({super.key});
-  Checkout_controller controller = Get.find();
+  final Checkout_controller controller = Get.find();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -13,7 +13,10 @@ class Payment extends StatelessWidget {
         children: [
           message(),
           paymentlist(),
-          order(controller.price, controller.delivery, controller.total),
+          GetBuilder<Checkout_controller>(builder: (builder){
+            return order(builder.price, builder.delivery, builder.total);
+
+          })
         ],
       ),
     );
@@ -96,6 +99,7 @@ class Payment extends StatelessWidget {
       padding: EdgeInsetsDirectional.only(start: Get.height * 0.00001),
       child: Column(
       mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         ListTile(
           title:  Row(
@@ -122,27 +126,32 @@ class Payment extends StatelessWidget {
     );
   }
   paymenytile(title , icone){
-    return ListTile(
-      title:  Row(
-        children: [
-          Text(title),
-          spaceW(Get.height * 0.01),
-          FaIcon(icone,color: Colors.black,)
-        ],
-      ),
-      leading: Radio<int>(
-        value: 2,
-        activeColor: Colors.deepPurple,
-        groupValue: 1,
-        onChanged: (value) {
-          Get.snackbar('42'.tr, '43'.tr);
-        },
+    return GestureDetector(
+      onTap: (){
+        Get.snackbar('42'.tr, '43'.tr);
+      },
+      child: ListTile(
+        title:  Row(
+          children: [
+            Text(title),
+            spaceW(Get.height * 0.01),
+            FaIcon(icone,color: Colors.black,)
+          ],
+        ),
+        leading: Radio<int>(
+          value: 2,
+          activeColor: Colors.deepPurple,
+          groupValue: 1,
+          onChanged: (value) {
+
+          },
+        ),
       ),
     );
   }
    message(){
      return Padding(
-       padding: EdgeInsetsDirectional.only(start: Get.height * 0.033 , end: Get.height * 0.033 , bottom: Get.height * 0.01,),
+       padding: EdgeInsetsDirectional.only(start: Get.height * 0.01 , end: Get.height * 0.01 , bottom: Get.height * 0.01,),
        child: Column(
          mainAxisAlignment: MainAxisAlignment.start,
          crossAxisAlignment: CrossAxisAlignment.start,

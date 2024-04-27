@@ -7,5 +7,6 @@ class auth_middleware extends GetMiddleware{
     if(sharedPreferences!.getBool('remember') == true){
       return RouteSettings(name: '/landing' , );
     }
+    return null;
   }
 }

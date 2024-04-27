@@ -8,66 +8,80 @@ import '../main.dart';
 
 class CartPage extends StatelessWidget {
   CartPage({super.key});
-   Cart_controller controller = Get.find();
+  final Cart_controller controller = Get.find();
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
-      bottomNavigationBar: Container(
-        height:  Get.height * 0.09,
-        color: Colors.white,
-        padding: EdgeInsets.all(Get.height * 0.02),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            GestureDetector(
-              onTap: (){
-                if(BoxCart.length > 0){
-                  Get.toNamed('checkout' , arguments: [{'total' : controller.total}]);
-                }
-              },
-              child: Container(
-                height: Get.height * 0.06,
-                width: Get.height * 0.15,
-                margin: EdgeInsets.all(2),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(15)),
-                    color: Colors.deepPurple,
-                    border: Border.all(color: Colors.deepPurple , width: 0.1)
-                ),
-                child: Center(
-                  child: Text('31'.tr, style: TextStyle(
-                      color: Colors.white,
-                      fontSize: Get.height * 0.015,
-                      fontWeight: FontWeight.bold
-                  ),),
-                ),
-              ),
+      bottomNavigationBar: GetBuilder<Cart_controller>(builder: (builder){
+        if(BoxCart.isNotEmpty){
+          return Container(
+            height:  Get.height * 0.09,
+            color: Colors.white,
+            padding: EdgeInsets.all(Get.height * 0.02),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+               GetBuilder<Cart_controller>(builder: (builder){
+                 return  GestureDetector(
+                   onTap: (){
+                     if(BoxCart.isNotEmpty){
+                       Get.toNamed('checkout' , arguments: [{'total' : builder.total}]);
+                     }
+                   },
+                   child: Container(
+                     height: Get.height * 0.06,
+                     width: Get.height * 0.15,
+                     margin: EdgeInsets.all(2),
+                     decoration: BoxDecoration(
+                         borderRadius: BorderRadius.all(Radius.circular(15)),
+                         color: Colors.deepPurple,
+                         border: Border.all(color: Colors.deepPurple , width: 0.1)
+                     ),
+                     child: Center(
+                       child: Text('31'.tr, style: TextStyle(
+                           color: Colors.white,
+                           fontSize: Get.height * 0.015,
+                           fontWeight: FontWeight.bold
+                       ),),
+                     ),
+                   ),
+                 );
+               }),
+                GetBuilder<Cart_controller>(builder: (builder){
+                  return Container(
+                    height: Get.height * 0.06,
+                    width: Get.height * 0.15,
+                    margin: EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(color: Colors.white , width: 0.1)
+                    ),
+                    child: Center(
+                      child: Text(formatter.format(builder.total) + ' '+'18'.tr, style: TextStyle(
+                          color: Colors.deepPurple,
+                          fontSize: Get.height * 0.017,
+                          fontWeight: FontWeight.bold
+                      ),),
+                    ),
+                  );
+                })
+              ],
             ),
-            GetBuilder<Cart_controller>(builder: (builder){
-              return Container(
-                height: Get.height * 0.06,
-                width: Get.height * 0.15,
-                margin: EdgeInsets.all(5),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(color: Colors.white , width: 0.1)
-                ),
-                child: Center(
-                  child: Text(formatter.format(builder.total) + ' '+'18'.tr, style: TextStyle(
-                      color: Colors.deepPurple,
-                      fontSize: Get.height * 0.017,
-                      fontWeight: FontWeight.bold
-                  ),),
-                ),
-              );
-            })
-          ],
-        ),
-      ),
+          );
+        }else{
+          return SizedBox();
+        }
+      },),
       backgroundColor: Colors.transparent,
       body: SizedBox(
         height: Get.height,
-        child: Cartslist(),
+        child: GetBuilder<Cart_controller>(builder: (builder){
+          if(BoxCart.isNotEmpty){
+            return Cartslist();
+          }else{
+            return Center(child: Text('20'.tr),);
+          }
+        },),
       ),
     );
   }
@@ -231,7 +245,7 @@ class CartPage extends StatelessWidget {
         itemBuilder: (BuildContext context, int index) {
           final product = BoxCart.getAt(index);
           return BestProductItem(product.title, product.price, product.image, product.item, product.count, product.category,index);
-        },
+          },
       )
     );
   }

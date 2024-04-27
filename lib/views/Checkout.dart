@@ -2,14 +2,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:ui_ecommerce/controllers/Cart_controller.dart';
 import 'package:ui_ecommerce/controllers/Checkout_controller.dart';
+import 'package:ui_ecommerce/controllers/Delivery_controller.dart';
 import 'package:ui_ecommerce/views/Payment.dart';
 
 import 'ConfirmationPage.dart';
 import 'Delivery.dart';
 class Checkout extends StatelessWidget {
    Checkout({super.key});
-   Checkout_controller controller = Get.find();
+   final Checkout_controller controller = Get.find();
+   final Cart_controller cart_controller = Get.put(Cart_controller());
+   final Delivery_controller delivery_controller = Get.put(Delivery_controller());
   @override
   Widget build(BuildContext context) {
    return Scaffold(
@@ -61,7 +65,19 @@ class Checkout extends StatelessWidget {
               child:  Row(
                 children: <Widget>[
                   GestureDetector(
-                    onTap: controls.onStepContinue,
+                    onTap: () async {
+                      if(controller.currentStep == 1){
+                        print(43);
+                         await controller.addBill(delivery_controller.name.text, delivery_controller.phone.text, delivery_controller.selectedGovernorate, delivery_controller.address.text, controller.price, controller.delivery, BoxCart);
+                        controls.onStepContinue!();
+                      }else{
+                        if(delivery_controller.name.text.isNotEmpty && delivery_controller.address.text.isNotEmpty && delivery_controller.phone.text.isNotEmpty && delivery_controller.selectedGovernorate != null )
+                        controls.onStepContinue!();
+                        else{
+                          Get.snackbar('67'.tr, '66'.tr);
+                        }
+                      }
+                    },
                     child:  Container(
                       height: Get.height * 0.04,
                       width: Get.height * 0.1,
@@ -72,7 +88,7 @@ class Checkout extends StatelessWidget {
                           border: Border.all(color: Colors.deepPurple , width: 0.1)
                       ),
                       child: Center(
-                        child: Text('51'.tr, style: TextStyle(
+                        child: Text((controller.currentStep > 0)? '65'.tr : '51'.tr, style: TextStyle(
                             color: Colors.white,
                             fontSize: Get.height * 0.015,
                             fontWeight: FontWeight.bold

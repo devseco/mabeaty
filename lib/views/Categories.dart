@@ -5,11 +5,10 @@ import 'package:ui_ecommerce/controllers/Category_controller.dart';
 
 class Categories extends StatelessWidget {
    Categories({super.key});
-  Category_controller controller = Get.put(Category_controller());
+   final Category_controller controller = Get.put(Category_controller());
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
-
       body: SafeArea(
           child: Column(
             children: [
@@ -32,7 +31,7 @@ class Categories extends StatelessWidget {
        padding: EdgeInsets.only(right: Get.height * 0.009,left: Get.height * 0.009),
        // to disable GridView's scrolling
        shrinkWrap: true, // You won't see infinite size error
-       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
          childAspectRatio: 0.95,
          crossAxisCount: 2,
          crossAxisSpacing: 10.0,
@@ -42,8 +41,8 @@ class Categories extends StatelessWidget {
        itemBuilder: (BuildContext context, int index) {
          final Category = controller.categoriesList[index];
          return CategoryItem(
-             Category.image!,
-             Category.title!,
+             Category.image,
+             Category.title,
              Category.id
          );
        },

@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:ui_ecommerce/controllers/Delivery_controller.dart';
 class Delivery extends StatelessWidget {
    Delivery({super.key});
-   Delivery_controller controller = Get.put(Delivery_controller());
+   final Delivery_controller controller = Get.put(Delivery_controller());
 
   @override
   Widget build(BuildContext context) {
@@ -12,6 +12,8 @@ class Delivery extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        message(),
+        _space(Get.height * 0.012),
         //-----name------//
         _text("56" , Get.height * 0.015,Colors.black,FontWeight.w600),
         _space(Get.height * 0.012),
@@ -36,6 +38,53 @@ class Delivery extends StatelessWidget {
       ],
     );
   }
+   message(){
+     return Padding(
+       padding: EdgeInsetsDirectional.only(start: Get.height * 0.01 , end: Get.height * 0.03 , bottom: Get.height * 0.01,),
+       child: Column(
+         mainAxisAlignment: MainAxisAlignment.start,
+         crossAxisAlignment: CrossAxisAlignment.start,
+         children: [
+
+           Text('62'.tr,
+             textAlign: TextAlign.start,
+             style: TextStyle(
+                 fontSize: Get.height * 0.02,
+                 fontWeight: FontWeight.w700
+             ),
+
+           ),
+           spaceH(Get.height * 0.01),
+           Text('63'.tr,
+             textAlign: TextAlign.start,
+             style: TextStyle(
+                 fontSize: Get.height * 0.016,
+                 fontWeight: FontWeight.w500
+             ),
+
+           ),
+           spaceH(Get.height * 0.01),
+           line(),
+         ],
+       ),
+     );
+   }
+   line() {
+     return const Divider(
+       color: Colors.black12,
+     );
+   }
+   SizedBox spaceH(double size) {
+     return SizedBox(
+       height: size,
+     );
+
+   }
+   SizedBox spaceW(double size) {
+     return SizedBox(
+       width: size,
+     );
+   }
   _select(){
     return Padding(padding: EdgeInsetsDirectional.only(start: Get.width * 0.015, end: Get.width * 0.015 ),
        child : GetBuilder<Delivery_controller>(builder: (builder){

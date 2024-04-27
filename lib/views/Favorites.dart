@@ -65,7 +65,7 @@ class Favorites extends StatelessWidget {
          crossAxisCount: 2,
          crossAxisSpacing: 15.0,
          mainAxisSpacing: 15.0,
-         childAspectRatio: Get.height * 0.00077,
+         childAspectRatio: 0.7,
        ),
        itemCount: BoxFavorite.length,
        itemBuilder: (BuildContext context, int index) {

@@ -119,15 +119,15 @@ class RecentlyProducts extends StatelessWidget {
         crossAxisCount: 2,
         crossAxisSpacing: 15.0,
         mainAxisSpacing: 15.0,
-        childAspectRatio:Get.height * 0.00085,
+        childAspectRatio: 0.8,
       ),
       itemCount: controller.productList.length,
       itemBuilder: (BuildContext context, int index) {
         final product = controller.productList[index];
         return Item(
-            product.image!,
-            product.title!,
-            product.price!,
+            product.image,
+            product.title,
+            product.price,
             product.id,
             product.lastprice,
             product.rate

@@ -12,9 +12,9 @@ import 'package:ui_ecommerce/controllers/Product_controller.dart';
 import '../main.dart';
 class ProductPage extends StatelessWidget {
    ProductPage({super.key});
-  final Product_controller controller = Get.find();
-  Cart_controller cart_controller = Get.put(Cart_controller());
-  Favorite_controller fav_controller = Get.put(Favorite_controller());
+   final Product_controller controller = Get.find();
+   final Cart_controller cart_controller = Get.put(Cart_controller());
+   final Favorite_controller fav_controller = Get.put(Favorite_controller());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,6 +61,7 @@ class ProductPage extends StatelessWidget {
                crossAxisAlignment: CrossAxisAlignment.start,
                children: [
                  sliders(),
+                 line(),
                  spaceH(Get.height * 0.002),
                  _text(c.productList[0].title , Get.height * 0.018,Colors.black,FontWeight.bold),
                  spaceH(Get.height * 0.002),
@@ -337,54 +338,25 @@ class ProductPage extends StatelessWidget {
     return Padding(padding: EdgeInsetsDirectional.only(top: Get.height * 0.007),
       child: SizedBox(
         height: Get.height * 0.303,
-        child: Column(
-          children: [
-            CarouselSlider(
-              options: CarouselOptions(autoPlay: true
-                ,viewportFraction: 1,
-            onPageChanged: (index, reason) {
-              controller.changeindex(index);
-            },
-              ),
-              items: controller.imgList
-                  .map((item) => Container(
-
+        child: Container(
+          decoration: BoxDecoration(
+              border: Border.all(color: Colors.white60)
+          ),
+          child: ClipRRect(
+            child: CachedNetworkImage(
+              imageUrl: controller.productList[0].image,
+              imageBuilder: (context, imageProvider) => Container(
                 decoration: BoxDecoration(
-
-                    border: Border.all(color: Colors.white60)
-                ),
-                child: ClipRRect(
-                  child: CachedNetworkImage(
-                    imageUrl: item,
-                    imageBuilder: (context, imageProvider) => Container(
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: imageProvider,
-                          fit: BoxFit.fill,
-                        ),
-                      ),
-                    ),
-                    placeholder: (context, url) => const CircularProgressIndicator(),
-                    errorWidget: (context, url, error) => const Icon(Icons.error),
+                  image: DecorationImage(
+                    image: imageProvider,
+                    fit: BoxFit.contain,
                   ),
                 ),
-              ))
-                  .toList(),
+              ),
+              placeholder: (context, url) => const CircularProgressIndicator(),
+              errorWidget: (context, url, error) => const Icon(Icons.error),
             ),
-            GetBuilder<Product_controller>(builder: (c){
-              return DotsIndicator(
-                dotsCount: controller.imgList.length,
-                position: c.index,
-                decorator: DotsDecorator(
-                  color: Colors.grey,
-                  size: const Size.square(9.0),
-                  activeSize: const Size(18.0, 9.0),
-                  activeShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
-                ),
-              );
-            }),
-            line(),
-          ],
+          ),
         )
       ),
     );
