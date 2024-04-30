@@ -16,7 +16,7 @@ class Home_controller extends GetxController {
   void fetchProducts() async{
     isLoadingProductes(true);
     try {
-      var products = await RemoteServices.fetchProducts();
+      var products = await RemoteServices.fetchProductsRecently();
       if(products != null){
         productsList.value = products;
       }else{
@@ -24,6 +24,7 @@ class Home_controller extends GetxController {
     }finally{
       isLoadingProductes(false);
     }
+    update();
   }
   //fetch Sliders
   void fetchSliders() async{

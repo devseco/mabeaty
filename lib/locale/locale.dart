@@ -81,6 +81,10 @@ class locale extends Translations {
       '73': 'قيد التجهيز',
       '74': 'قيد التوصيل',
       '75': 'مكتملة',
+      '76': 'فلترة',
+      '77': 'عرض الاحدث',
+      '78': 'عرض الاقدم',
+      '79': 'تفاصيل الفاتورة',
 
     },
     'en': {
@@ -160,6 +164,12 @@ class locale extends Translations {
       '73': 'Processing',
       '74': 'Delivery',
       '75': 'Completed',
+      '76': 'Filter',
+      '77': 'View the latest',
+      '78': 'View the oldest',
+      '79': 'Bill Details',
+
+
     }
   };
 }

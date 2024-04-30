@@ -28,7 +28,8 @@ class Billing extends StatelessWidget {
             ],
           ),
           spaceH(Get.height * 0.015),
-         Expanded(child:  BillList())
+         Expanded(child:  BillList()),
+          spaceH(Get.height * 0.015),
         ],
       )
     );
@@ -47,8 +48,8 @@ class Billing extends StatelessWidget {
      )
      );
    }
-   BillItem(int price, int delivery, String city, String address, DateTime date, int status, String phone, int index) {
-    var total = price + delivery;
+   BillItem(int price, int delivery, String city, String address, DateTime date, int status, String phone, int id) {
+    var finalTotal = price + delivery;
     var status_code ;
     if(status == 0){
       status_code = "73";
@@ -57,10 +58,10 @@ class Billing extends StatelessWidget {
     }else if(status == 2){
       status_code = "75";
     }
-    String formattedDate = DateFormat('yyyy/MM/dd').format(date);
+    String formattedDate = DateFormat('yyyy-MM-dd hh:mm a').format(date);
      return GestureDetector(
        onTap: () {
-         Get.toNamed('/products', arguments: [{'id': index}]);
+         Get.toNamed('/Item_Billing', arguments: [{'id': id}]);
        },
        child: Container(
          height: Get.height * 0.19,
@@ -92,7 +93,7 @@ class Billing extends StatelessWidget {
                bottom: Get.height * 0.001,
                end:  Get.height * 0.005,
                child: SizedBox(
-                 child: Text(' #${index} ${'71'.tr}' , textAlign: TextAlign.start,
+                 child: Text(' #${id} ${'71'.tr}' , textAlign: TextAlign.start,
                    style: TextStyle(
                      fontWeight: FontWeight.bold,
                    ),
@@ -136,7 +137,7 @@ class Billing extends StatelessWidget {
                start:  Get.height * 0.005,
                child: SizedBox(
                  width: Get.height * 0.2,
-                 child: Text('${'47'.tr} : ${formatter.format(price)}' , textAlign: TextAlign.start,
+                 child: Text('${'47'.tr} : ${formatter.format(price)} ${'18'.tr}' , textAlign: TextAlign.start,
                    style: TextStyle(
                      fontWeight: FontWeight.w400,
                    ),
@@ -147,7 +148,7 @@ class Billing extends StatelessWidget {
                start:  Get.height * 0.005,
                child: SizedBox(
                  width: Get.height * 0.2,
-                 child: Text('${'48'.tr} : ${formatter.format(delivery)}' , textAlign: TextAlign.start,
+                 child: Text('${'48'.tr} : ${formatter.format(delivery)} ${'18'.tr}' , textAlign: TextAlign.start,
                    style: TextStyle(
                      fontWeight: FontWeight.w400,
                    ),
@@ -158,7 +159,7 @@ class Billing extends StatelessWidget {
                start:  Get.height * 0.005,
                child: SizedBox(
                  width: Get.height * 0.2,
-                 child: Text('${'49'.tr} : ${formatter.format(total)}' , textAlign: TextAlign.start,
+                 child: Text('${'49'.tr} : ${formatter.format(finalTotal)} ${'18'.tr}' , textAlign: TextAlign.start,
                    style: TextStyle(
                      fontWeight: FontWeight.bold,
                    ),
@@ -170,10 +171,107 @@ class Billing extends StatelessWidget {
        ),
      );
    }
+  showDialog(){
+    return Get.dialog(
+        barrierDismissible: false,
+        Dialog(
+          child: WillPopScope(
+            onWillPop: () async => false,
+            child: Container(
+              padding: EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20)),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(padding: EdgeInsets.only(top: 10,bottom: 10),
+                  child: Center(
+                    child: Text("76".tr),
+                  ),
+                  ),
+                  SizedBox(height:10,),
 
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    child: GetBuilder<Billing_controller>(builder: (c){
+                      return Row(
+                        children: [
+                          GestureDetector(
+                            onTap: (){
+                              c.changeSelected(0);
+                            },
+                            child: Container(
+                              margin: const EdgeInsets.all(5.0),
+                              padding: const EdgeInsets.all(5.0),
+                              decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.blueAccent , width: 0.5),
+                                color: (c.selectedIndex == 0)? Colors.deepPurple : Colors.white
+                              ),
+                              child: Text(
+                                  '77'.tr,
+                                style: TextStyle(
+                                    color: (c.selectedIndex == 0)? Colors.white : Colors.black
+                                ),
+                              ),
+                            ),
+                          ),
+                          spaceW(5),
+                          GestureDetector(
+                            onTap: (){
+                              c.changeSelected(1);
+                            },
+                            child: Container(
+                              margin: const EdgeInsets.all(5.0),
+                              padding: const EdgeInsets.all(5.0),
+                              decoration: BoxDecoration(
+                              color: (c.selectedIndex == 1)? Colors.deepPurple : Colors.white,
+                                  border: Border.all(color: Colors.blueAccent , width: 0.5)
+                              ),
+                              child: Text(
+                                  '78'.tr,
+                                 style: TextStyle(
+                                     color: (c.selectedIndex == 1)? Colors.white : Colors.black
+                                 ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    },),
+                  ),
+                  Divider(
+                    color: Colors.green,
+                    thickness: 1,
+                  ),
+                 Padding(padding: EdgeInsets.all(10),
+                 child:  Row(
+                   children: [
+                     GestureDetector(
+                       onTap: Get.back,
+                       child: Container(
+                         child: Text(
+                             '53'.tr
+                         ),
+                       ),
+                     ),
+                   ],
+                 ),
+                 )
+                ],
+              ),
+            ),
+          ),
+        )
+    );
+  }
    Padding filtersIcon (){
      return Padding(padding: EdgeInsetsDirectional.only(start: Get.height * 0.009 , end: Get.height * 0.009),
-       child: const Icon(Icons.tune),
+       child:  GestureDetector(
+         onTap: showDialog,
+         child: Icon(Icons.tune),
+       ),
      );
    }
    Padding searchTextInput() {

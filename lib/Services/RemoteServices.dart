@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:ui_ecommerce/models/Bill.dart';
 import 'package:ui_ecommerce/models/Category.dart';
 import 'package:ui_ecommerce/models/Product.dart';
+import 'package:ui_ecommerce/models/Sale.dart';
 import '../models/Slider.dart';
 
 class RemoteServices {
@@ -103,6 +104,38 @@ class RemoteServices {
         var jsonData = response.body;
         List<Bill> bills = billFromJson(jsonData);
         return bills;
+      } else {
+        return null;
+      }
+    } catch (e) {
+      return null;
+    }
+  }
+  //Fetch Bills By Id From Endpoint (getBills)
+  static Future<List<Bill>?> fetchLatestBills(id) async {
+    var endpoint = 'getBillsLastest/${id}';
+    try {
+      var response = await client.get(Uri.parse(baseUrl + endpoint));
+      if (response.statusCode == 200) {
+        var jsonData = response.body;
+        List<Bill> bills = billFromJson(jsonData);
+        return bills;
+      } else {
+        return null;
+      }
+    } catch (e) {
+      return null;
+    }
+  }
+  //
+  static Future<List<Sale>?> getBill(id) async {
+    var endpoint = 'getBill/${id}';
+    try {
+      var response = await client.get(Uri.parse(baseUrl + endpoint));
+      if (response.statusCode == 200) {
+        var jsonData = response.body;
+        List<Sale> Sales = saleFromJson(jsonData);
+        return Sales;
       } else {
         return null;
       }

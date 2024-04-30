@@ -4,6 +4,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ui_ecommerce/Bindings/Billing_bindings.dart';
 import 'package:ui_ecommerce/Bindings/Checkout_bindings.dart';
+import 'package:ui_ecommerce/Bindings/ItemBilling_bindings.dart';
 import 'package:ui_ecommerce/Bindings/RecentlyProducts_bindings.dart';
 import 'package:ui_ecommerce/Bindings/Cart_bindings.dart';
 import 'package:ui_ecommerce/Bindings/Category_bindings.dart';
@@ -20,6 +21,7 @@ import 'package:ui_ecommerce/models/FavoriteModel.dart';
 import 'package:ui_ecommerce/views/Billing.dart';
 import 'package:ui_ecommerce/views/Checkout.dart';
 import 'package:ui_ecommerce/views/Favorites.dart';
+import 'package:ui_ecommerce/views/Item_Billing.dart';
 import 'package:ui_ecommerce/views/RecentlyProducts.dart';
 import 'package:ui_ecommerce/views/Cart.dart';
 import 'package:ui_ecommerce/views/Categories.dart';
@@ -70,6 +72,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/checkout', page: ()=>Checkout() , binding: Checkout_bindings()),
         GetPage(name: '/favorites', page: ()=>Favorites() , binding: Checkout_bindings()),
         GetPage(name: '/billing', page: ()=>Billing() , binding: Billing_bindings()),
+        GetPage(name: '/Item_Billing', page: ()=>Item_Billing() , binding: ItemBilling_bindings()),
       ],
     );
   }
