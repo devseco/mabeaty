@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
+import 'package:easy_autocomplete/easy_autocomplete.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -360,18 +361,15 @@ class Home extends StatelessWidget {
        ),
      );
    }
-
    SizedBox spaceH(double size) {
     return SizedBox(
       height: size,
     );
-
    }
    SizedBox spaceW(double size) {
      return SizedBox(
        width: size,
      );
-
    }
   Padding filtersIcon (){
     return Padding(padding: EdgeInsetsDirectional.only(start: Get.height * 0.009 , end: Get.height * 0.009),
@@ -382,26 +380,31 @@ class Home extends StatelessWidget {
     return Padding(padding: EdgeInsetsDirectional.only(start: Get.height * 0.02 , end: Get.height * 0.002),
     child: SizedBox(
       width: Get.width * 0.83,
-      child: TextField(
-      decoration:  InputDecoration(
-        fillColor: Color(0xfff1ebf1),
-        filled: true,
-        hintText: '9'.tr,
-        enabledBorder: const OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(20.0)),
-          borderSide:  BorderSide(
-            color: Color(0xfff1ebf1),
-          ),
-        ),
-        focusedBorder: const OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(20.0)),
-          borderSide: BorderSide(color:Color(0xfff1ebf1),),
-        ),
-      ),
-    )),
+      child: GetBuilder<Home_controller>(builder: (c){
+        return EasyAutocomplete(
+            decoration:  InputDecoration(
+              fillColor: Color(0xfff1ebf1),
+              filled: true,
+              prefixIcon: const Icon(Icons.search),
+              hintText: '9'.tr,
+              enabledBorder: const OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                borderSide:  BorderSide(
+                  color: Color(0xfff1ebf1),
+                ),
+              ),
+              focusedBorder: const OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                borderSide: BorderSide(color:Color(0xfff1ebf1),),
+              ),
+            ),
+            suggestions: c.productNames,
+            onChanged: (value) => c.searchProducts(value),
+            onSubmitted: (value) => print('onSubmitted value: $value')
+        );
+      },)
+    ),
     );
   }
-
-
 }
 

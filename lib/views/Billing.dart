@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:ui_ecommerce/controllers/Billing_controller.dart';
 import 'package:ui_ecommerce/main.dart';
-import 'package:ui_ecommerce/models/Bill.dart';
 class Billing extends StatelessWidget {
    Billing({super.key});
    final Billing_controller controller = Get.find();
@@ -131,7 +130,6 @@ class Billing extends StatelessWidget {
                    (status == 0)? FaIcon(FontAwesomeIcons.hourglass , size: 15, color: Colors.black,) : (status == 1)? FaIcon(FontAwesomeIcons.truck , size: 15, color: Colors.deepPurple,)  : FaIcon(FontAwesomeIcons.check,size: 15 , color: Colors.green,) ,
                  ],
                ),),
-
              PositionedDirectional(
                top: Get.height * 0.01,
                start:  Get.height * 0.005,
@@ -165,7 +163,6 @@ class Billing extends StatelessWidget {
                    ),
                  ),
                ),),
-
            ],
          ),
        ),
@@ -175,92 +172,88 @@ class Billing extends StatelessWidget {
     return Get.dialog(
         barrierDismissible: false,
         Dialog(
-          child: WillPopScope(
-            onWillPop: () async => false,
-            child: Container(
-              padding: EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20)),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Padding(padding: EdgeInsets.only(top: 10,bottom: 10),
+          child: Container(
+            padding: EdgeInsets.all(10),
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20)),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(padding: EdgeInsets.only(top: 10,bottom: 10),
                   child: Center(
                     child: Text("76".tr),
                   ),
-                  ),
-                  SizedBox(height:10,),
-
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10),
-                    child: GetBuilder<Billing_controller>(builder: (c){
-                      return Row(
-                        children: [
-                          GestureDetector(
-                            onTap: (){
-                              c.changeSelected(0);
-                            },
-                            child: Container(
-                              margin: const EdgeInsets.all(5.0),
-                              padding: const EdgeInsets.all(5.0),
-                              decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.blueAccent , width: 0.5),
+                ),
+                SizedBox(height:10,),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: GetBuilder<Billing_controller>(builder: (c){
+                    return Row(
+                      children: [
+                        GestureDetector(
+                          onTap: (){
+                            c.changeSelected(0);
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.all(5.0),
+                            padding: const EdgeInsets.all(5.0),
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Colors.blueAccent , width: 0.5),
                                 color: (c.selectedIndex == 0)? Colors.deepPurple : Colors.white
-                              ),
-                              child: Text(
-                                  '77'.tr,
-                                style: TextStyle(
-                                    color: (c.selectedIndex == 0)? Colors.white : Colors.black
-                                ),
+                            ),
+                            child: Text(
+                              '77'.tr,
+                              style: TextStyle(
+                                  color: (c.selectedIndex == 0)? Colors.white : Colors.black
                               ),
                             ),
                           ),
-                          spaceW(5),
-                          GestureDetector(
-                            onTap: (){
-                              c.changeSelected(1);
-                            },
-                            child: Container(
-                              margin: const EdgeInsets.all(5.0),
-                              padding: const EdgeInsets.all(5.0),
-                              decoration: BoxDecoration(
-                              color: (c.selectedIndex == 1)? Colors.deepPurple : Colors.white,
-                                  border: Border.all(color: Colors.blueAccent , width: 0.5)
-                              ),
-                              child: Text(
-                                  '78'.tr,
-                                 style: TextStyle(
-                                     color: (c.selectedIndex == 1)? Colors.white : Colors.black
-                                 ),
+                        ),
+                        spaceW(5),
+                        GestureDetector(
+                          onTap: (){
+                            c.changeSelected(1);
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.all(5.0),
+                            padding: const EdgeInsets.all(5.0),
+                            decoration: BoxDecoration(
+                                color: (c.selectedIndex == 1)? Colors.deepPurple : Colors.white,
+                                border: Border.all(color: Colors.blueAccent , width: 0.5)
+                            ),
+                            child: Text(
+                              '78'.tr,
+                              style: TextStyle(
+                                  color: (c.selectedIndex == 1)? Colors.white : Colors.black
                               ),
                             ),
                           ),
-                        ],
-                      );
-                    },),
+                        ),
+                      ],
+                    );
+                  },),
+                ),
+                Divider(
+                  color: Colors.green,
+                  thickness: 1,
+                ),
+                Padding(padding: EdgeInsets.all(10),
+                  child:  Row(
+                    children: [
+                      GestureDetector(
+                        onTap: Get.back,
+                        child: Container(
+                          child: Text(
+                              '53'.tr
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  Divider(
-                    color: Colors.green,
-                    thickness: 1,
-                  ),
-                 Padding(padding: EdgeInsets.all(10),
-                 child:  Row(
-                   children: [
-                     GestureDetector(
-                       onTap: Get.back,
-                       child: Container(
-                         child: Text(
-                             '53'.tr
-                         ),
-                       ),
-                     ),
-                   ],
-                 ),
-                 )
-                ],
-              ),
+                )
+              ],
             ),
           ),
         )

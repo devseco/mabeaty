@@ -7,9 +7,11 @@ class Home_controller extends GetxController {
   int index = 0;
   var isLoadingProductes= true.obs;
   var isLoadingSliders= true.obs;
+   List<String> productNames = [];
   var isLoadingCategories= true.obs;
   var productsList = <Product>[].obs;
   var slidersList = <SliderBar>[].obs;
+  var filterProducts = <Product>[].obs;
   var categoriesList = <CategoryModel>[].obs;
 
   //fetch Productes
@@ -53,6 +55,20 @@ class Home_controller extends GetxController {
     }finally{
       isLoadingCategories(false);
     }
+  }
+  void searchProducts(title) async{
+    try {
+      var filters = await RemoteServices.filterProducts(title);
+      if(filters != null){
+        filterProducts.value = filters;
+        productNames = filterProducts.map((product) => product.title).toList();
+        print(productNames);
+        update();
+      }
+    }finally{
+
+    }
+    update();
   }
   @override
   void onInit() {

@@ -29,9 +29,7 @@ class RemoteServices {
       String rawJson = '{"message":"An unexpected error occurred","Status_code":500}';
       return rawJson;
     }
-
   }
-
   //Fetch Products From Endpoint (getProducts)
   static Future<List<Product>?> fetchProducts() async {
     var endpoint = 'getProducts';
@@ -48,6 +46,22 @@ class RemoteServices {
       return null;
     }
   }
+  static Future<List<Product>?> filterProducts(title) async {
+    var endpoint = 'filterProducts/${title}';
+    try {
+      var response = await client.get(Uri.parse(baseUrl + endpoint));
+      if (response.statusCode == 200) {
+        var jsonData = response.body;
+        List<Product> bills = productFromJson(jsonData);
+        return bills;
+      } else {
+        return null;
+      }
+    } catch (e) {
+      return null;
+    }
+  }
+
   //Fetch Items Recently From Endpoint (getProduct)
   static Future<List<Product>?> fetchProductsRecently() async {
     var endpoint = 'getProductsRecently';
