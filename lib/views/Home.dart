@@ -51,7 +51,11 @@ class Home extends StatelessWidget {
               spaceH(Get.height * 0.02),
               Obx(() {
                 if(!controller.isLoadingProductes.value){
-                  return (controller.productsList.value.isNotEmpty)? recentlyproductslist() : Center(child: Text('20'.tr),);
+                  if ((controller.productsList.isNotEmpty)) {
+                    return recentlyproductslist();
+                  } else {
+                    return Center(child: Text('20'.tr),);
+                  }
                 }else{
                   return Center(child: CircularProgressIndicator(),);
                 }

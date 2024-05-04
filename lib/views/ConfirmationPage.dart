@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ui_ecommerce/controllers/Checkout_controller.dart';
-import 'package:ui_ecommerce/views/Landing.dart';
 class ConfirmationPage extends StatelessWidget {
   ConfirmationPage({super.key});
   final Checkout_controller checkout_controller = Get.put(Checkout_controller());
