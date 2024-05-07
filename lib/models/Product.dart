@@ -1,3 +1,7 @@
+// To parse this JSON data, do
+//
+//     final product = productFromJson(jsonString);
+
 import 'dart:convert';
 
 List<Product> productFromJson(String str) => List<Product>.from(json.decode(str).map((x) => Product.fromJson(x)));
@@ -10,9 +14,10 @@ class Product {
   int price;
   String description;
   String image;
-  String rate;
   int category;
   int lastprice;
+  int count;
+  int renewable;
 
   Product({
     required this.id,
@@ -20,9 +25,10 @@ class Product {
     required this.price,
     required this.description,
     required this.image,
-    required this.rate,
     required this.category,
     required this.lastprice,
+    required this.count,
+    required this.renewable,
   });
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
@@ -31,9 +37,10 @@ class Product {
     price: json["price"],
     description: json["description"],
     image: json["image"],
-    rate: json["rate"],
     category: json["category"],
     lastprice: json["lastprice"],
+    count: json["count"],
+    renewable: json["renewable"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -42,8 +49,9 @@ class Product {
     "price": price,
     "description": description,
     "image": image,
-    "rate": rate,
     "category": category,
     "lastprice": lastprice,
+    "count": count,
+    "renewable": renewable,
   };
 }

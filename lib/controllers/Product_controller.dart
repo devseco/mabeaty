@@ -27,14 +27,16 @@ class Product_controller extends GetxController {
     }
     update();
   }
-
-
   void changeindex(int i){
     index = i;
     update();
   }
-  void inCounter(){
-    count++;
+  void inCounter(count_now){
+    if(count == 1){
+      if(count_now > 1){
+        count++;
+      }
+    }
     update();
   }
   void outCounter(){

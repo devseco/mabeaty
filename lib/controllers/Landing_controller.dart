@@ -4,11 +4,11 @@ import 'package:get/get.dart';
 import 'package:ui_ecommerce/views/Login.dart';
 import '../main.dart';
 class Landing_controller extends GetxController{
-  int selectedIndex = 0;
+  RxInt selectedIndex = 0.obs;
   var username  = sharedPreferences!.getString('name').toString();
   var phone  = sharedPreferences!.getInt('phone').toString();
   void onItemTapped(int index) {
-    selectedIndex = index;
+    selectedIndex.value = index;
     print('tap: ${index}');
     update();
   }

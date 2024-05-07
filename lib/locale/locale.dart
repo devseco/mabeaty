@@ -85,7 +85,8 @@ class locale extends Translations {
       '77': 'عرض الاحدث',
       '78': 'عرض الاقدم',
       '79': 'تفاصيل الفاتورة',
-
+      '80': 'محظور',
+      '81': 'العدد الاقصى للاضافة الى السلة هو ستة عناصر فقط'
     },
     'en': {
       '0': 'Seco Store',
@@ -168,6 +169,8 @@ class locale extends Translations {
       '77': 'View the latest',
       '78': 'View the oldest',
       '79': 'Bill Details',
+      '80': 'blocked',
+      '81': 'The maximum number to add to the cart is six items'
 
 
     }

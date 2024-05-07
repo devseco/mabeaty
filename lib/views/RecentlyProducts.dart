@@ -15,8 +15,10 @@ class RecentlyProducts extends StatelessWidget {
         forceMaterialTransparency: true,
         scrolledUnderElevation:0.0,
         surfaceTintColor: Colors.transparent,
-        leadingWidth: Get.height * 0.3,
-        leading: logo(),
+        title: Text('12'.tr , style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: Get.height * 0.018
+        ),),
       ),
       body: SafeArea(
           child: Column(
@@ -59,25 +61,6 @@ class RecentlyProducts extends StatelessWidget {
   SizedBox spaceW(double size) {
     return SizedBox(
       width: size,
-    );
-  }
-  Padding logo() {
-    return Padding(padding: EdgeInsetsDirectional.only(start: Get.height * 0.02, top: Get.height * 0.01),
-      child: Row(
-        children: [
-          GestureDetector(
-            onTap: (){
-              Get.back();
-            },
-            child: Icon(Icons.arrow_back_ios),
-          ),
-          Image.asset('assets/images/logo.png' , fit: BoxFit.fill,width: Get.height * 0.06,height: Get.height * 0.03,),
-          Text('12'.tr , style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: Get.height * 0.018
-          ),)
-        ],
-      ),
     );
   }
   Padding filtersIcon (){
@@ -130,12 +113,13 @@ class RecentlyProducts extends StatelessWidget {
             product.price,
             product.id,
             product.lastprice,
-            product.rate
+            product.count,
+            product.renewable
         );
       },
     );
   }
-  Item(String url , String title , int price , int id , lastprice ,String rate){
+  Item(String url , String title , int price , int id , lastprice ,int count , int renewable){
     return GestureDetector(
       onTap: (){
         Get.toNamed('/product' , arguments: [{'id':id}]);
@@ -192,27 +176,9 @@ class RecentlyProducts extends StatelessWidget {
             ),
             Row(
               children: [
-                Text('(${rate})'),
+                Text('(${count})'),
                 spaceW(Get.height * 0.005),
-                SizedBox(
-                  child: RatingBar.builder(
-                    initialRating: double.parse(rate),
-                    minRating: 1,
-                    ignoreGestures: true,
-                    itemSize: 17,
-                    direction: Axis.horizontal,
-                    itemCount: 5,
-                    allowHalfRating: true,
-                    itemPadding: const EdgeInsets.symmetric(horizontal: 1.0),
-                    itemBuilder: (context, _) => const Icon(
-                      Icons.star,
-                      color: Colors.amber,
-                    ),
-                    onRatingUpdate: (rating) {
-                      //controller.changeRate(rating);
-                    },
-                  ),
-                )
+
               ],
             )
           ],

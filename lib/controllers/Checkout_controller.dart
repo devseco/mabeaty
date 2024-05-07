@@ -1,12 +1,15 @@
 import 'package:get/get.dart';
 import 'package:ui_ecommerce/Services/RemoteServices.dart';
 import 'package:ui_ecommerce/controllers/Cart_controller.dart';
+import 'package:ui_ecommerce/controllers/Delivery_controller.dart';
 import 'package:ui_ecommerce/main.dart';
 class Checkout_controller extends GetxController{
   int total = 0;
   var isPay = false.obs;
   int price  = 0;
-  int delivery = 5000;
+  int delivery_Baghdad = 4000;
+  int delivery_another = 6000;
+  int delivery = 0;
   int currentStep = 0;
   var user_id ;
 

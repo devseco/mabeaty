@@ -10,13 +10,6 @@ class Billing extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
-      appBar: AppBar(
-        forceMaterialTransparency: true,
-        scrolledUnderElevation:0.0,
-        surfaceTintColor: Colors.transparent,
-        leadingWidth: Get.height * 0.3,
-        leading: logo(),
-      ),
       body: Column(
         children: [
           spaceH(Get.height * 0.015),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ui_ecommerce/controllers/Checkout_controller.dart';
 
 import '../main.dart';
 
@@ -51,13 +52,19 @@ class Delivery_controller extends GetxController{
   late TextEditingController phone  = TextEditingController();
  void changeSelect(value){
    selectedGovernorate = value;
+   final Checkout_controller checkout_controller = Get.put(Checkout_controller());
+   if(selectedGovernorate == 'بغداد'){
+     checkout_controller.delivery = checkout_controller.delivery_Baghdad;
+   }else{
+     checkout_controller.delivery = checkout_controller.delivery_another;
+   }
    update();
  }
  @override
   void onInit() {
    var sharePhone = sharedPreferences!.getInt('phone')!;
    print('${sharePhone} is phone');
-   gonvernorates = sharedPreferences!.getString('lang') == 'ar' ? governorates_ar : governorates_en;
+   gonvernorates = sharedPreferences!.getString('lang') == 'ar' ? governorates_ar : governorates_ar;
    name.text = sharedPreferences!.getString('name')!;
    phone.text = sharePhone.toString();
    //phone.text = ;

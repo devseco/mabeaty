@@ -12,11 +12,19 @@ class CartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
+      appBar: AppBar(
+        title: Text('16'.tr,
+          style: TextStyle(
+              fontSize: Get.height * 0.02,
+              fontWeight: FontWeight.bold
+          ),
+        ),
+      ),
       bottomNavigationBar: GetBuilder<Cart_controller>(builder: (builder){
-        if(BoxCart.isNotEmpty){
           return Container(
-            height:  Get.height * 0.09,
+            height:  Get.height * 0.099,
             color: Colors.white,
+            margin: EdgeInsets.only(bottom: 20),
             padding: EdgeInsets.all(Get.height * 0.02),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -68,18 +76,17 @@ class CartPage extends StatelessWidget {
               ],
             ),
           );
-        }else{
-          return SizedBox();
-        }
       },),
-      backgroundColor: Colors.transparent,
-      body: SizedBox(
+      backgroundColor: Colors.white,
+      body: Container(
         height: Get.height,
         child: GetBuilder<Cart_controller>(builder: (builder){
           if(BoxCart.isNotEmpty){
             return Cartslist();
           }else{
-            return Center(child: Text('20'.tr),);
+            return Container(
+               child:  Center(child: Text('20'.tr),)
+            );
           }
         },),
       ),
@@ -178,53 +185,24 @@ class CartPage extends StatelessWidget {
                   children: <Widget>[
                     Container(
                       child: GetBuilder<Cart_controller>(builder: (builder){
-                        return Row(
-                          mainAxisSize: MainAxisSize.min, // لجعل الصف يأخذ أقل مساحة ممكنة
-                          children: <Widget>[
-                            GestureDetector(
-                              child: Container(
-                                width: Get.height * 0.04,
-                                height: Get.height * 0.035,
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(12),
-                                    border: Border.all(
-                                      color: Colors.deepPurple,
-                                      width: 1,
-                                    )),
-                                child: Center(
-                                  child: Icon(Icons.remove , color: Colors.black,),),
-                              ),
-                              onTap: () async{
-                                builder.updateCounterMin(title, price, count, index, url, category);
-                              },
-                            ),
-                            spaceW(Get.height * 0.01),
-                            Text(
+                        return Container(
+                          width: Get.height * 0.04,
+                          height: Get.height * 0.035,
+                          decoration: BoxDecoration(
+                              color: Colors.deepPurple,
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(
+                                color: Colors.deepPurpleAccent,
+                                width: 1,
+                              )),
+                          child: Center(
+                            child: Text(
                               '${count}',
-                              style: TextStyle(fontSize: Get.height * 0.02 , color: Colors.deepPurple),
-                            ),
-                            spaceW(Get.height * 0.01),
-                            GestureDetector(
-                              child: Container(
-                                width: Get.height * 0.04,
-                                height: Get.height * 0.035,
-                                decoration: BoxDecoration(
-                                    color: Colors.deepPurple,
-                                    borderRadius: BorderRadius.circular(12),
-                                    border: Border.all(
-                                      color: Colors.deepPurpleAccent,
-                                      width: 1,
-                                    )),
-                                child: Center(
-                                  child: Icon(Icons.add , color: Colors.white,),),
+                              style: TextStyle(
+                                  fontSize: Get.height * 0.02 ,
+                                  color: Colors.white
                               ),
-                              onTap: () async{
-                                 builder.updateCounterPlus(title, price, count, index, url, category);
-
-                                },
-                            )
-                          ],
+                            ),),
                         );
                       },),
                     ),

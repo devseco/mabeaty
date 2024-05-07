@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ui_ecommerce/controllers/Landing_controller.dart';
 import 'package:ui_ecommerce/locale/Locale_controller.dart';
+import 'package:ui_ecommerce/views/Billing.dart';
 import 'package:ui_ecommerce/views/Cart.dart';
 import 'package:ui_ecommerce/views/Categories.dart';
 import 'package:ui_ecommerce/views/Home.dart';
@@ -13,34 +14,33 @@ class Landing extends StatelessWidget {
    static  final List<Widget> _pages = <Widget>[
      Home(),
      Categories(),
-     CartPage(),
+     Billing(),
      const Profile()
    ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: controller.pagesViewScaffoldKey,
-      drawer: Drawer(
-        child: drawer(),
-      ),
       appBar: AppBar(
         forceMaterialTransparency: true,
         scrolledUnderElevation:0.0,
         surfaceTintColor: Colors.white,
         backgroundColor: Colors.white,
-        leadingWidth: Get.height * 0.3,
+        leadingWidth: Get.height * 0.12,
         actions: [
           actions(),
         ],
         leading: logo(),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: controller.selectedIndex,
+      bottomNavigationBar: Obx(() => BottomNavigationBar(
+        currentIndex: controller.selectedIndex.value,
         type: BottomNavigationBarType.fixed,
-        onTap: (i){
-          controller.onItemTapped(i);
+        selectedItemColor: Colors.deepPurple, // Change to your desired color
+        unselectedItemColor: Colors.grey,
+        onTap: (index) {
+          controller.onItemTapped(index);
         },
-        items:  <BottomNavigationBarItem>[
+        items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: const Icon(Icons.home_outlined),
             label: '14'.tr,
@@ -50,17 +50,17 @@ class Landing extends StatelessWidget {
             label: '15'.tr,
           ),
           BottomNavigationBarItem(
-            icon: const Icon(Icons.shopping_cart_outlined),
-            label: '16'.tr,
+            icon: const Icon(Icons.list_alt_outlined),
+            label: '69'.tr,
           ),
           BottomNavigationBarItem(
             icon: const Icon(Icons.person_outlined),
             label: '17'.tr,
           ),
         ],
-      ),
+      )),
       body: GetBuilder<Landing_controller>(builder: (c){
-        return _pages.elementAt(c.selectedIndex);
+        return _pages.elementAt(c.selectedIndex.value);
       },),
     );
   }
@@ -78,47 +78,22 @@ class Landing extends StatelessWidget {
      return Padding(padding: EdgeInsetsDirectional.only(start: Get.height * 0.02, top: Get.height * 0.01 , end: Get.height * 0.02),
        child: Row(
          children: [
-           spaceW(Get.height * 0.01),
-           const Icon(Icons.notifications_outlined),
-           spaceW(Get.height * 0.01),
-            GestureDetector(
-              onTap: (){
-                Get.toNamed('favorites');
-              },
-              child: Icon(Icons.favorite_border_outlined),
-            ),
-           spaceW(Get.height * 0.01),
            GestureDetector(
              onTap: (){
-              controller.onItemTapped(2);
+               Get.toNamed('cart');
              },
              child: Icon(Icons.shopping_cart_outlined),
            ),
            spaceW(Get.height * 0.01),
-
+           const Icon(Icons.notifications_outlined),
+           spaceW(Get.height * 0.01),
          ],
        ),
      );
    }
    Padding logo() {
-     return Padding(padding: EdgeInsetsDirectional.only(start: Get.height * 0.02, top: Get.height * 0.01),
-       child: Row(
-         children: [
-           GetBuilder<Landing_controller>(builder: (builder){
-             return GestureDetector(
-               onTap: (){
-                 builder.openDrawer();
-               },
-               child: const Icon(Icons.menu),
-             );
-           }),
-           Image.asset('assets/images/logo.png' , fit: BoxFit.fill,width: Get.height * 0.06,height: Get.height * 0.03,),
-           Text('0'.tr , style: TextStyle(
-               fontWeight: FontWeight.bold,
-               fontSize: Get.height * 0.018
-           ),)
-         ],
-       ),
+     return Padding(padding: EdgeInsetsDirectional.only(start: Get.height * 0.01, top: Get.height * 0.01),
+       child:  Image.asset('assets/images/logo.png' , fit: BoxFit.contain,width: Get.height * 0.06,height: Get.height * 0.03,),
 
      );
    }

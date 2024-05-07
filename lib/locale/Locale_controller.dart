@@ -2,7 +2,7 @@ import 'dart:ui';
 import 'package:get/get.dart';
 import 'package:ui_ecommerce/main.dart';
 class Locale_controller extends GetxController {
-  Locale inliaLang = sharedPreferences!.getString('lang') == 'ar' ? Locale('ar') : Locale('en');
+  Locale inliaLang = sharedPreferences!.getString('lang') == 'ar' ? Locale('ar') : Locale('ar');
   void changelocale() {
     if(Get.locale.toString().contains('ar')){
       Locale locale = Locale('en');

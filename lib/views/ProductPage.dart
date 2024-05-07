@@ -1,12 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:ui_ecommerce/controllers/Cart_controller.dart';
 import 'package:ui_ecommerce/controllers/Favorite_controller.dart';
 import 'package:ui_ecommerce/controllers/Product_controller.dart';
-
 import '../main.dart';
 class ProductPage extends StatelessWidget {
    ProductPage({super.key});
@@ -20,20 +18,6 @@ class ProductPage extends StatelessWidget {
         forceMaterialTransparency: true,
         scrolledUnderElevation:0.0,
         surfaceTintColor: Colors.transparent,
-        actions: [
-          GetBuilder<Product_controller>(builder: (c){
-            if(c.isLoadingItem.value){
-              return Text('');
-            }else{
-              if(c.productList.isNotEmpty){
-                return actions();
-              }else{
-                return Text('');
-              }
-            }
-          },
-          ),
-        ],
         elevation: 9.0,
         title: GetBuilder<Product_controller>(builder: (c){
          if(c.isLoadingItem.value){
@@ -47,7 +31,6 @@ class ProductPage extends StatelessWidget {
          }
           },
         ),
-
       ),
       body: GetBuilder<Product_controller>(builder: (c){
        if(c.isLoadingItem.value){
@@ -65,10 +48,11 @@ class ProductPage extends StatelessWidget {
                  spaceH(Get.height * 0.002),
                  _description(c.productList[0].description),
                  spaceH(Get.height * 0.002),
-                 rate(double.parse(c.productList[0].rate)),
-                 spaceH(Get.height * 0.002),
+
                  price(c.productList[0].price.toString(), c.productList[0].lastprice.toString()),
                  spaceH(Get.height * 0.01),
+                 count_(c.productList[0].count, c.productList[0].renewable),
+
                  _counter(),
                  spaceH(Get.height * 0.08),
                  GetBuilder<Cart_controller>(builder: (builder){
@@ -112,16 +96,22 @@ class ProductPage extends StatelessWidget {
         child: Container(
           child: ElevatedButton(
             onPressed: () {
-              builder.putDate(controller.productList[0].title, controller.productList[0].price, controller.count, controller.productList[0].id, controller.productList[0].image, controller.productList[0].category);
-              if(!builder.isLoadingAdded.value){
-                if(builder.isAddedCart.value){
-                  msgAdded('29'.tr, '30'.tr);
-                }else{
-                  msgAdded('32'.tr, '33'.tr);
-                }
-              }else{
-                print(builder.msgAdded);
-              }
+             if(controller.productList[0].count >= 1){
+               builder.putDate(controller.productList[0].title, controller.productList[0].price, controller.count, controller.productList[0].id, controller.productList[0].image, controller.productList[0].category);
+               if(!builder.isLoadingAdded.value){
+                 if(builder.isAddedCart.value){
+                   msgAdded('29'.tr, '30'.tr);
+                 }else{
+                   if(builder.isBlockAdded.value){
+                     msgAdded('80'.tr, '81'.tr);
+                   }else{
+                     msgAdded('32'.tr, '33'.tr);
+                   }
+                 }
+               }else{
+                 print(builder.msgAdded);
+               }
+             }
               },
             style: ElevatedButton.styleFrom(
               backgroundColor:Colors.black,
@@ -170,7 +160,9 @@ class ProductPage extends StatelessWidget {
                     }),
                     IconButton(
                       icon: Icon(Icons.add),
-                      onPressed: controller.inCounter, // زيادة الكمية
+                      onPressed:(){
+                        controller.inCounter(c.productList[0].count);
+                      }, // زيادة الكمية
                     ),
                   ],
                 ),
@@ -197,69 +189,48 @@ class ProductPage extends StatelessWidget {
        ),
      );
    }
+   count_(count , renewable){
+     return Padding(padding: EdgeInsetsDirectional.only(start: Get.height * 0.02),
+       child: Row(
+         children: [
+           spaceW(Get.height * 0.009),
+           Text( 'المتوفر : ${count ~/ 2} - $count',
+             style: TextStyle(
+                 fontSize: Get.height * 0.018,
+                 fontWeight: FontWeight.w400
+             ),
+           ),
+           spaceW(Get.height * 0.005),
+       (renewable == 1)? Container(
+             width: Get.height * 0.08,
+             height: Get.height * 0.025,
+             color: Colors.deepPurple,
+             child: Center(child:  Text('قابل للتجديد' , style: TextStyle(
+                 color: Colors.white,
+                 fontWeight: FontWeight.bold,
+                 fontSize: Get.height * 0.014
+             ),),),
+           ) : SizedBox()
+         ],
+       ),
+     );
+   }
    price(price , lastprice){
      return Padding(padding: EdgeInsetsDirectional.only(start: Get.height * 0.02),
      child: Row(
        children: [
-         Text(formatter.format(int.parse(lastprice)) + ' '  + '18'.tr,
-           style: TextStyle(
-               decoration: TextDecoration.lineThrough,
-               fontSize: Get.height * 0.015,
-               color: Colors.grey,
-               fontWeight: FontWeight.bold
-           ),
-         ),
          spaceW(Get.height * 0.009),
          Text(formatter.format(int.parse(price)) + ' '+ '18'.tr,
            style: TextStyle(
                fontSize: Get.height * 0.02,
+               color: Colors.deepPurple,
                fontWeight: FontWeight.bold
            ),
          ),
          spaceW(Get.height * 0.005),
-         Container(
-           width: Get.height * 0.06,
-           height: Get.height * 0.025,
-           color: Colors.redAccent,
-           child: Center(child: Text("28".tr , style: TextStyle(
-             color: Colors.white,
-             fontWeight: FontWeight.bold,
-             fontSize: Get.height * 0.013
-           ),),),
-         )
        ],
      ),
      );
-   }
-   rate(double rate){
-    return Padding(padding: EdgeInsetsDirectional.only(start: Get.height * 0.02),
-    child: Row(
-      children: [
-        Text('(${controller.rate})'),
-        spaceW(Get.height * 0.005),
-        SizedBox(
-          child: RatingBar.builder(
-            initialRating: rate,
-            minRating: 1,
-            ignoreGestures: true,
-            itemSize: 17,
-            direction: Axis.horizontal,
-            itemCount: 5,
-            allowHalfRating: true,
-            itemPadding: const EdgeInsets.symmetric(horizontal: 1.0),
-            itemBuilder: (context, _) => const Icon(
-              Icons.star,
-              color: Colors.amber,
-            ),
-            onRatingUpdate: (rating) {
-              //controller.changeRate(rating);
-            },
-          ),
-        )
-      ],
-    ),
-
-    );
    }
    _text(String title , double size , Color color , FontWeight fontWeight){
      return Padding(padding: EdgeInsetsDirectional.only(start: Get.height * 0.02),
@@ -284,37 +255,6 @@ class ProductPage extends StatelessWidget {
   }
   //builder.putDate(controller.productList[0].title, controller.productList[0].price, controller.productList[0].id, controller.productList[0].image, controller.productList[0].category, controller.productList[0].lastprice, controller.productList[0].rate);
    //
-  Padding actions() {
-    return Padding(padding: EdgeInsetsDirectional.only(start: Get.height * 0.02, top: Get.height * 0.01 , end: Get.height * 0.02),
-      child: GetBuilder<Favorite_controller>(builder: (c){
-        if (c.getStatus(controller.productList[0].id)) {
-          return GestureDetector(
-            onTap: (){
-              c.is_existsloading(controller.productList[0].id);
-            },
-            child: Icon(Icons.favorite , color: Colors.red,),
-          );
-        } else {
-          return  GestureDetector(
-            onTap: () {
-              c.putDate(
-                controller.productList[0].title,
-                controller.productList[0].price,
-                controller.productList[0].id,
-                controller.productList[0].image,
-                controller.productList[0].category,
-                controller.productList[0].lastprice,
-                controller.productList[0].rate,
-              );
-            },
-            child: Icon(Icons.favorite_outline , color: Colors.black,),
-          );
-        }
-      })
-
-
-    );
-  }
   line() {
     return const Divider(
       color: Colors.black12,

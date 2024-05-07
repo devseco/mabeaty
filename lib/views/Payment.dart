@@ -15,7 +15,6 @@ class Payment extends StatelessWidget {
           paymentlist(),
           GetBuilder<Checkout_controller>(builder: (builder){
             return order(builder.price, builder.delivery, builder.total);
-
           })
         ],
       ),

@@ -7,6 +7,7 @@ class Cart_controller extends GetxController {
   var isLoadingAdded = false.obs;
   var msgAdded = '';
   var total = 0;
+  var isBlockAdded = false.obs;
 
   void PlusAllData() {
     total = 0;
@@ -40,6 +41,12 @@ class Cart_controller extends GetxController {
     isLoadingAdded(true);
     update();
   }
+  void is_Bloackloading(){
+    isBlockAdded(true);
+    isAddedCart(false);
+    isLoadingAdded(true);
+    update();
+  }
   void is_loading(){
     msgAdded = 'Loading';
     isAddedCart(true);
@@ -61,21 +68,34 @@ class Cart_controller extends GetxController {
   void putDate(title , price , count,id,image, category)  {
     is_loading();
      try{
-       if(!BoxCart.containsKey(id)){
-         BoxCart.put(id, CartModel(price: price, title: title, count: count, image: image, category: category, item: id,id: id)).whenComplete(() {
-           is_loadingDone();
-           Cart_controller cart_controller = Get.put(Cart_controller());
-           cart_controller.PlusAllData();
-         }).onError((error, stackTrace) {
-           is_loadingDone();
-           msgAdded = "Error";
-           update();
-         });
-       }else{
-
-
-         is_existsloading();
+       var totalCount = 0;
+       for(var i = 0 ; i< BoxCart.length; ++i) {
+         var item = BoxCart.getAt(i);
+         totalCount += item.count as int;
        }
+       print('Total : ${totalCount}');
+       if(totalCount != 6){
+         if(!BoxCart.containsKey(id)){
+
+           BoxCart.put(id, CartModel(price: price, title: title, count: count, image: image, category: category, item: id,id: id)).whenComplete(() {
+             is_loadingDone();
+             Cart_controller cart_controller = Get.put(Cart_controller());
+             cart_controller.PlusAllData();
+           }).onError((error, stackTrace) {
+             is_loadingDone();
+             msgAdded = "Error";
+             update();
+           });
+         }else{
+
+
+           is_existsloading();
+         }
+       }else{
+         is_Bloackloading();
+         msgAdded = "Error";
+       }
+
        isLoadingAdded(false);
        update();
      }catch(err){
