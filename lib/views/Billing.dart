@@ -35,12 +35,12 @@ class Billing extends StatelessWidget {
        itemCount: builder.billsList.length,
        itemBuilder: (BuildContext context, int index) {
          final BillOne = builder.billsList[index];
-         return BillItem(BillOne.price, BillOne.delivery, BillOne.city, BillOne.address, BillOne.date, BillOne.status,BillOne.phone , BillOne.id);
+         return BillItem(BillOne.price, BillOne.delivery, BillOne.city, BillOne.address, BillOne.date, BillOne.status,BillOne.phone , BillOne.id ,BillOne.customerTotal , BillOne.customerName);
        },
      )
      );
    }
-   BillItem(int price, int delivery, String city, String address, DateTime date, int status, String phone, int id) {
+   BillItem(int price, int delivery, String city, String address, DateTime date, int status, String phone, int id , int customer_total , String customer_name) {
     var finalTotal = price + delivery;
     var status_code ;
     if(status == 0){
@@ -56,7 +56,7 @@ class Billing extends StatelessWidget {
          Get.toNamed('/Item_Billing', arguments: [{'id': id}]);
        },
        child: Container(
-         height: Get.height * 0.19,
+         height: Get.height * 0.285,
          padding: EdgeInsets.all(Get.height * 0.017),
          margin: EdgeInsets.only(top: Get.height * 0.01),
          width: Get.height * 0.2,
@@ -150,9 +150,44 @@ class Billing extends StatelessWidget {
                start:  Get.height * 0.005,
                child: SizedBox(
                  width: Get.height * 0.2,
-                 child: Text('${'49'.tr} : ${formatter.format(finalTotal)} ${'18'.tr}' , textAlign: TextAlign.start,
+                 child: Text('${'88'.tr} : ${formatter.format(finalTotal)} ${'18'.tr}' , textAlign: TextAlign.start,
+                   style: TextStyle(
+                     fontWeight: FontWeight.w400,
+                   ),
+                 ),
+               ),),
+             PositionedDirectional(
+               top: Get.height * 0.1,
+               start:  Get.height * 0.005,
+               child: SizedBox(
+                 width: Get.height * 0.2,
+                 child: Text('${'89'.tr} : ${formatter.format(customer_total - finalTotal)} ${'18'.tr}' , textAlign: TextAlign.start,
                    style: TextStyle(
                      fontWeight: FontWeight.bold,
+                       color: Colors.green
+                   ),
+                 ),
+               ),),
+             PositionedDirectional(
+               top: Get.height * 0.13,
+               start:  Get.height * 0.005,
+               child: SizedBox(
+                 width: Get.height * 0.2,
+                 child: Text('${'49'.tr} : ${formatter.format(customer_total)} ${'18'.tr}' , textAlign: TextAlign.start,
+                   style: TextStyle(
+                     fontWeight: FontWeight.bold,
+                   ),
+                 ),
+               ),),
+             PositionedDirectional(
+               top: Get.height * 0.16,
+               start:  Get.height * 0.005,
+               child: SizedBox(
+                 width: Get.height * 0.2,
+                 child: Text('${'82'.tr} : ${customer_name} ' , textAlign: TextAlign.start,
+                   style: TextStyle(
+                     fontWeight: FontWeight.w600,
+                     color: Colors.deepPurple
                    ),
                  ),
                ),),

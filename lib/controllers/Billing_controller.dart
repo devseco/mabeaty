@@ -26,6 +26,7 @@ class Billing_controller extends GetxController{
     }finally{
       isLoadingBills(false);
     }
+    print('looooading');
     update();
   }
   void changeSelected(selected){
@@ -36,6 +37,13 @@ class Billing_controller extends GetxController{
   void filter(){
 
 
+  }
+
+  @override
+  void onReady() {
+    fetchBills();
+    // TODO: implement onReady
+    super.onReady();
   }
 
 

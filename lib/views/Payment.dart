@@ -14,7 +14,7 @@ class Payment extends StatelessWidget {
           message(),
           paymentlist(),
           GetBuilder<Checkout_controller>(builder: (builder){
-            return order(builder.price, builder.delivery, builder.total);
+            return order(builder.price, builder.delivery , builder.total_user);
           })
         ],
       ),
@@ -25,12 +25,12 @@ class Payment extends StatelessWidget {
        color: Colors.black12,
      );
    }
-   order(price , delivery ,total){
+   order(price , delivery , total_user){
      return Padding(
        padding: EdgeInsetsDirectional.only(start: Get.height * 0.01 , end: Get.height * 0.01 , top: Get.height * 0.02 , bottom: Get.height * 0.02),
        child: Container(
          width: Get.width,
-         height: Get.height * 0.2,
+         height: Get.height * 0.28,
          padding:  EdgeInsets.all(Get.height * 0.015),
          decoration: BoxDecoration(
              borderRadius: BorderRadius.all(
@@ -78,11 +78,39 @@ class Payment extends StatelessWidget {
              Row(
                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                children: [
-                 Text('${'49'.tr} : ' , style: TextStyle(
-                     fontWeight: FontWeight.w800,
+                 Text('${'88'.tr} : ' , style: TextStyle(
+                     fontWeight: FontWeight.w500,
                      fontSize: Get.height * 0.015,
                  ),),
-                 Text('${formatter.format(total)} ${'18'.tr}' , style: TextStyle(
+                 Text('${formatter.format(price  + delivery)} ${'18'.tr}' , style: TextStyle(
+                   fontWeight: FontWeight.w500,
+                   fontSize: Get.height * 0.015,
+                 ),),
+               ],
+             ),
+             spaceH(Get.height * 0.015),
+             Row(
+               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+               children: [
+                 Text('${'89'.tr} : ' , style: TextStyle(
+                   fontWeight: FontWeight.w500,
+                   fontSize: Get.height * 0.015,
+                 ),),
+                 Text('${formatter.format(total_user - (price + delivery))} ${'18'.tr}' , style: TextStyle(
+                   fontWeight: FontWeight.w500,
+                   fontSize: Get.height * 0.015,
+                 ),),
+               ],
+             ),
+             spaceH(Get.height * 0.015),
+             Row(
+               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+               children: [
+                 Text('${'49'.tr} : ' , style: TextStyle(
+                   fontWeight: FontWeight.w800,
+                   fontSize: Get.height * 0.015,
+                 ),),
+                 Text('${formatter.format(total_user)} ${'18'.tr}' , style: TextStyle(
                    fontWeight: FontWeight.w800,
                    fontSize: Get.height * 0.015,
                  ),),
@@ -155,7 +183,6 @@ class Payment extends StatelessWidget {
          mainAxisAlignment: MainAxisAlignment.start,
          crossAxisAlignment: CrossAxisAlignment.start,
          children: [
-
            Text('36'.tr,
              textAlign: TextAlign.start,
              style: TextStyle(

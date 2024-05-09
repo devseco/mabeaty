@@ -1,5 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:ui_ecommerce/controllers/Landing_controller.dart';
 import 'package:ui_ecommerce/models/CartModel.dart';
 late Box BoxCart;
 class Cart_controller extends GetxController {
@@ -10,6 +12,7 @@ class Cart_controller extends GetxController {
   var isBlockAdded = false.obs;
 
   void PlusAllData() {
+
     total = 0;
     for(var i = 0 ; i< BoxCart.length; ++i) {
       var item = BoxCart.getAt(i);
@@ -17,7 +20,14 @@ class Cart_controller extends GetxController {
       int count = item.count;
       total += price * count;
     }
+    refreshCount();
     update();
+  }
+  void refreshCount() {
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      Landing_controller landing_controller = Get.find();
+      landing_controller.setCount();
+    });
   }
 
   void updateCounterPlus(title , price , count,id,image, category){
@@ -58,10 +68,12 @@ class Cart_controller extends GetxController {
     isLoadingAdded(false);
     update();
   }
+
   void Plus(title , price , count,id,image, category){
     var counter = count + 1;
     BoxCart.putAt(id, CartModel(price: price, title: title, count: counter, image: image, category: category, item: id,id: id));
     PlusAllData();
+
     update();
   }
 

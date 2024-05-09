@@ -78,12 +78,46 @@ class Landing extends StatelessWidget {
      return Padding(padding: EdgeInsetsDirectional.only(start: Get.height * 0.02, top: Get.height * 0.01 , end: Get.height * 0.02),
        child: Row(
          children: [
-           GestureDetector(
-             onTap: (){
-               Get.toNamed('cart');
-             },
-             child: Icon(Icons.shopping_cart_outlined),
-           ),
+           GetBuilder<Landing_controller>(builder: (c){
+             return GetBuilder<Landing_controller>(
+  builder: (c) {
+    return GetBuilder<Landing_controller>(
+      builder: (c) {
+        return GestureDetector(
+          onTap: () {
+            Get.toNamed('cart');
+          },
+          child: Row(
+            children: [
+              c.cartItems != 0 ? Container(
+                padding: EdgeInsets.all(5),
+                height: 25,
+                width: 25,
+                decoration: BoxDecoration(
+                  color: Colors.red,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Center(
+                  child: Text(
+                    '${c.cartItems}',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold
+                    ),
+                  ),
+                ),
+              ) : SizedBox(),
+              Icon(Icons.shopping_cart_outlined, color: c.cartItems == 0 ? Colors.black : Colors.red),
+            ],
+          ),
+        );
+      },
+    );
+
+  },
+     );
+           }),
            spaceW(Get.height * 0.01),
            const Icon(Icons.notifications_outlined),
            spaceW(Get.height * 0.01),

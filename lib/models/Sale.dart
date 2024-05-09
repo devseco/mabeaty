@@ -25,6 +25,9 @@ class Sale {
   int count;
   int itemId;
   int priceItem;
+  String customerName;
+  int customerTotal;
+  String customerNearpoint;
 
   Sale({
     required this.id,
@@ -43,6 +46,9 @@ class Sale {
     required this.count,
     required this.itemId,
     required this.priceItem,
+    required this.customerName,
+    required this.customerTotal,
+    required this.customerNearpoint,
   });
 
   factory Sale.fromJson(Map<String, dynamic> json) => Sale(
@@ -62,6 +68,9 @@ class Sale {
     count: json["count"],
     itemId: json["item_id"],
     priceItem: json["price_item"],
+    customerName: json["customer_name"],
+    customerTotal: json["customer_total"],
+    customerNearpoint: json["customer_nearpoint"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -81,5 +90,8 @@ class Sale {
     "count": count,
     "item_id": itemId,
     "price_item": priceItem,
+    "customer_name": customerName,
+    "customer_total": customerTotal,
+    "customer_nearpoint": customerNearpoint,
   };
 }

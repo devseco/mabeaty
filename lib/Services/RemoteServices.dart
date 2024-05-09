@@ -79,7 +79,7 @@ class RemoteServices {
     }
   }
   //add new bill To Endpoint (addBill)
-  static Future<String> addBill(String name, String phone, String city, String address, int price, int delivery, List<Map<String, dynamic>> items, user_id) async {
+  static Future<String> addBill(String name, String phone, String city, String address, int price, int delivery, List<Map<String, dynamic>> items, user_id , customer_name , customer_total , customer_nearpoint) async {
     var endpoint = 'addBill';
     var body = jsonEncode({
       'name': name,
@@ -89,7 +89,10 @@ class RemoteServices {
       'price': price,
       'delivery': delivery,
       'items': items,
-      'user_id':user_id
+      'user_id':user_id,
+      'customer_name' : customer_name,
+      'customer_total' : customer_total,
+      'customer_nearpoint' : customer_nearpoint
     });
     try {
       var response = await http.post(
@@ -97,6 +100,7 @@ class RemoteServices {
         body: body,
         headers: {'Content-Type': 'application/json'},
       );
+      print(response.body);
       if (response.statusCode == 200) {
         var jsonData = response.body;
         return jsonData;

@@ -13,6 +13,9 @@ class Bill {
   int price;
   int delivery;
   int userId;
+  String customerName;
+  int customerTotal;
+  String customerNearpoint;
 
   Bill({
     required this.id,
@@ -25,6 +28,9 @@ class Bill {
     required this.price,
     required this.delivery,
     required this.userId,
+    required this.customerName,
+    required this.customerTotal,
+    required this.customerNearpoint,
   });
 
   factory Bill.fromJson(Map<String, dynamic> json) => Bill(
@@ -38,6 +44,9 @@ class Bill {
     price: json["price"],
     delivery: json["delivery"],
     userId: json["user_id"],
+    customerName: json["customer_name"],
+    customerTotal: json["customer_total"],
+    customerNearpoint: json["customer_nearpoint"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -51,5 +60,8 @@ class Bill {
     "price": price,
     "delivery": delivery,
     "user_id": userId,
+    "customer_name": customerName,
+    "customer_total": customerTotal,
+    "customer_nearpoint": customerNearpoint,
   };
 }

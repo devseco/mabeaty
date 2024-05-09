@@ -12,7 +12,6 @@ class Item_Billing extends StatelessWidget {
    Item_Billing({super.key});
    final ItemBilling_controller controller = Get.find();
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,7 +46,16 @@ class Item_Billing extends StatelessWidget {
               if(builder.SalesList.isNotEmpty){
                 int totalPrice = builder.SalesList[0].price + builder.SalesList[0].delivery;
                 String formattedDate = DateFormat('yyyy-MM-dd hh:mm a').format(builder.SalesList[0].date);
-                return card(totalPrice, builder.SalesList[0].id, builder.SalesList[0].status, formattedDate,builder.SalesList[0].price,builder.SalesList[0].delivery);
+                return card(totalPrice, builder.SalesList[0].id, builder.SalesList[0].status,
+                    formattedDate,
+                    builder.SalesList[0].price,builder.SalesList[0].delivery ,
+                    builder.SalesList[0].customerName ,
+                    builder.SalesList[0].phone ,
+                    builder.SalesList[0].customerTotal ,
+                    builder.SalesList[0].customerNearpoint,
+                    builder.SalesList[0].city,
+                    builder.SalesList[0].address,
+                );
               }else{
                   return Center(child: Text('20'.tr),);
               }
@@ -72,7 +80,7 @@ class Item_Billing extends StatelessWidget {
          size: 80,
        ),);
    }
-  card(total , id , status , date,price,delivery){
+  card(total , id , status , date,price,delivery , customer_name , customer_phone , customer_total , customer_nearpoint ,city , address){
     var status_code ;
     if(status == 0){
       status_code = "73";
@@ -111,7 +119,7 @@ class Item_Billing extends StatelessWidget {
               children: <Widget>[
                 // Display the card's title using a font size of 24 and a dark grey color
                 Text(
-                  '${formatter.format(total)} ${'18'.tr}',
+                  '${formatter.format(customer_total)} ${'18'.tr}',
                   style: TextStyle(
                     fontSize: 24,
                     color: Colors.deepPurple,
@@ -142,6 +150,55 @@ class Item_Billing extends StatelessWidget {
                       ),
                     ),
                   ],
+                ),
+                SizedBox(height: 10,),
+                Row(
+                  children: [
+                    Text(
+                      '${'88'.tr} : ${formatter.format(total)} ${'18'.tr}',
+                      style: TextStyle(
+                          fontSize: 13,
+                          color: Colors.grey,
+                          fontWeight: FontWeight.w600
+                      ),
+                    ),
+                    SizedBox(width: 10,),
+                    Text(
+                      '${'89'.tr} : ${formatter.format(customer_total - total)} ${'18'.tr}',
+                      style: TextStyle(
+                          fontSize: 13,
+                          color: Colors.green,
+                          fontWeight: FontWeight.w600
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 10),
+                Text(
+                  '${'82'.tr} : ${customer_name}',
+                  style: TextStyle(
+                      fontSize: 13,
+                      color: Colors.deepPurple,
+                      fontWeight: FontWeight.w400
+                  ),
+                ),
+                SizedBox(height: 10),
+                Text(
+                  '${'58'.tr} : ${city} - ${address} - ${customer_nearpoint}',
+                  style: TextStyle(
+                      fontSize: 13,
+                      color: Colors.deepPurple,
+                      fontWeight: FontWeight.w400
+                  ),
+                ),
+                SizedBox(height: 10),
+                Text(
+                  '${'83'.tr} : ${customer_phone}',
+                  style: TextStyle(
+                      fontSize: 13,
+                      color: Colors.deepPurple,
+                      fontWeight: FontWeight.w400
+                  ),
                 ),
                 SizedBox(height: 10,),
                 // Add a row with two buttons spaced apart and aligned to the right side of the card
@@ -258,7 +315,7 @@ class Item_Billing extends StatelessWidget {
                ),
              ),),
            PositionedDirectional(
-             bottom: Get.height * 0.02,
+             top: Get.height * 0.05,
              start:   Get.height * 0.15,
              child:  Text(formatter.format(price) + ' '+'18'.tr , textAlign: TextAlign.start,
                overflow: TextOverflow.ellipsis,

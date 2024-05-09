@@ -1,12 +1,18 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'package:ui_ecommerce/controllers/Checkout_controller.dart';
 import 'package:ui_ecommerce/controllers/Delivery_controller.dart';
+import 'package:ui_ecommerce/main.dart';
 class Delivery extends StatelessWidget {
    Delivery({super.key});
    final Delivery_controller controller = Get.put(Delivery_controller());
+   final Checkout_controller checkout_controller = Get.put(Checkout_controller());
 
-  @override
+
+   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -15,26 +21,35 @@ class Delivery extends StatelessWidget {
         message(),
         _space(Get.height * 0.012),
         //-----name------//
-        _text("56" , Get.height * 0.015,Colors.black,FontWeight.w600),
+        _text("82" , Get.height * 0.015,Colors.black,FontWeight.w600),
         _space(Get.height * 0.012),
-        _textme("56" , controller.name, false),
+        _textme("82" , controller.name, false  ,false),
         _space(Get.height * 0.02),
         //-----phone------//
-        _text("3" , Get.height * 0.015,Colors.black,FontWeight.w600),
+        _text("83" , Get.height * 0.015,Colors.black,FontWeight.w600),
         _space(Get.height * 0.012),
-        _textme("3" , controller.phone, false),
+        _textme("83" , controller.phone, false ,false),
         _space(Get.height * 0.02),
         //------city------//
-        _text("57" , Get.height * 0.015,Colors.black,FontWeight.w600),
+        _text("84" , Get.height * 0.015,Colors.black,FontWeight.w600),
         _space(Get.height * 0.012),
         _select(),
         _space(Get.height * 0.02),
         //-----address------//
-        _text("58" , Get.height * 0.015,Colors.black,FontWeight.w600),
+        _text("85" , Get.height * 0.015,Colors.black,FontWeight.w600),
         _space(Get.height * 0.012),
-        _textme("58" , controller.address, false),
+        _textme("85" , controller.address, false ,false),
         _space(Get.height * 0.02),
-
+        //-----near------//
+        _text("86" , Get.height * 0.015,Colors.black,FontWeight.w600),
+        _space(Get.height * 0.012),
+        _textme("86" , controller.nearPoint, false ,false),
+        _space(Get.height * 0.02),
+        //-----Total------//
+        _text('${'34'.tr} : ${formatter.format(checkout_controller.price)}' , Get.height * 0.015,Colors.black,FontWeight.w600),
+        _space(Get.height * 0.012),
+        _textme("87" , controller.price, false ,true),
+        _space(Get.height * 0.02),
       ],
     );
   }
@@ -149,6 +164,7 @@ class Delivery extends StatelessWidget {
          ),
        ),
 
+       
      );
    }
    SizedBox _space(double size){
@@ -156,29 +172,53 @@ class Delivery extends StatelessWidget {
        height: size,
      );
    }
-  Padding _textme(String title , TextEditingController textEditingController , bool ispassword ){
+  Padding _textme(String title , TextEditingController textEditingController , bool ispassword ,bool format){
     return Padding(padding: EdgeInsetsDirectional.only(start: Get.width * 0.015, end: Get.width * 0.015 ),
       child: TextField(
+        onChanged: (value) {
 
+          if(format){
+            controller.FormatNumber(value);
+            int enteredValue = int.tryParse(value.replaceAll(',', '')) ?? 0;
+            // حساب الربح
+            int profit = enteredValue - checkout_controller.price;
+            // التحقق مما إذا كان الربح يتجاوز الحد الأقصى المسموح به
+            if (profit > 15000) {
+              // إذا تجاوز الربح الحد الأقصى، قم بمنع الإدخال
+              textEditingController.value = TextEditingValue(
+                text: (checkout_controller.price + 15000).toString(),
+                selection: TextSelection.collapsed(offset: (checkout_controller.price + 15000).toString().length),
+              );
+            }
+
+            
+          }
+
+
+        },
         style: TextStyle(
-          fontSize: Get.height * 0.014
+          fontSize: Get.height * 0.014,
         ),
         obscureText: ispassword,
+        keyboardType: (format)? TextInputType.number : TextInputType.text,
         controller: textEditingController,
-        decoration:   InputDecoration(
-          focusedBorder:  OutlineInputBorder(
+        decoration: InputDecoration(
+          focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10.0),
             borderSide: const BorderSide(color: Colors.black, width: 0.1),
           ),
-          enabledBorder:  OutlineInputBorder(
+          enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10.0),
             borderSide: const BorderSide(color: Colors.black, width: 0.1),
           ),
           hintText: title.tr,
-          hintStyle: TextStyle(
-            color: Colors.grey
-          )
+          hintStyle: TextStyle(color: Colors.grey),
         ),
+
+         inputFormatters: [
+           (format)?FilteringTextInputFormatter.digitsOnly : FilteringTextInputFormatter.singleLineFormatter // يقبل الأرقام فقط
+        ] ,
+
       ),
     );
   }
