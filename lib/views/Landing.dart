@@ -15,7 +15,7 @@ class Landing extends StatelessWidget {
      Home(),
      Categories(),
      Billing(),
-     const Profile()
+      Profile()
    ];
   @override
   Widget build(BuildContext context) {
@@ -256,16 +256,6 @@ class Landing extends StatelessWidget {
              ),),
              onTap: () {
                locale_controller.changelocale();
-             },
-           ),
-           ListTile(
-             leading: const Icon(Icons.logout),
-             title: Text('23'.tr , style: TextStyle(
-                 fontWeight: FontWeight.w600,
-                 fontSize: Get.height * 0.017
-             ),),
-             onTap: () {
-               controller.logou();
              },
            ),
          ],

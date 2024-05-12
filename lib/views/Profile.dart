@@ -1,11 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-
+import 'package:ui_ecommerce/controllers/Landing_controller.dart';
 class Profile extends StatelessWidget {
-  const Profile({Key? key}) : super(key: key);
-
+   Profile({Key? key}) : super(key: key);
+  final Landing_controller controller = Get.put(Landing_controller());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +25,7 @@ class Profile extends StatelessWidget {
   }
   Widget settingUser(){
     return Container(
-      margin: EdgeInsets.only(top: Get.width * 0.9 , right: Get.width * 0.04),
+      margin: EdgeInsets.only(top: Get.width * 0.85 , right: Get.width * 0.05 ),
       child: Center(
         child: Column(
           children: [
@@ -38,13 +36,13 @@ class Profile extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Icon(Icons.shopping_cart_outlined , size: Get.width * 0.06,),
+                Icon(Icons.shopping_cart_outlined , size: Get.width * 0.04,),
                 SizedBox(width: Get.width * 0.015,),
                 Text(
                   'سلة المشتريات',
                   style: TextStyle(
                       color: Colors.black,
-                      fontSize: Get.width * 0.05,
+                      fontSize: Get.width * 0.04,
                       fontWeight: FontWeight.w500
                   ),
                 ),
@@ -57,13 +55,13 @@ class Profile extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Icon(Icons.info_outline , size: Get.width * 0.06,),
+                Icon(Icons.info_outline , size: Get.width * 0.04,),
                 SizedBox(width: Get.width * 0.015,),
                 Text(
                   'الدعم الفني',
                   style: TextStyle(
                       color: Colors.black,
-                      fontSize: Get.width * 0.05,
+                      fontSize: Get.width * 0.04,
                       fontWeight: FontWeight.w500
                   ),
                 ),
@@ -72,41 +70,28 @@ class Profile extends StatelessWidget {
             SizedBox(
               height: Get.width * 0.06,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Icon(Icons.developer_mode , size: Get.width * 0.06,),
-                SizedBox(width: Get.width * 0.015,),
-                Text(
-                  'مطور التطبيق',
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: Get.width * 0.05,
-                      fontWeight: FontWeight.w500
+            GestureDetector(
+              onTap: (){
+                controller.logout();
+
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Icon(Icons.logout , size: Get.width * 0.04,),
+                  SizedBox(width: Get.width * 0.015,),
+                  Text(
+                    'تسجيل خروج',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: Get.width * 0.04,
+                        fontWeight: FontWeight.w500
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-            SizedBox(
-              height: Get.width * 0.06,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Icon(Icons.logout , size: Get.width * 0.06,),
-                SizedBox(width: Get.width * 0.015,),
-                Text(
-                  'تسجيل خروج',
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: Get.width * 0.05,
-                      fontWeight: FontWeight.w500
-                  ),
-                ),
-              ],
-            )
 
           ],
         ),

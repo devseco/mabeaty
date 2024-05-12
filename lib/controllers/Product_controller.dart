@@ -1,4 +1,7 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:ui_ecommerce/models/Product.dart';
 import '../Services/RemoteServices.dart';
 
@@ -9,15 +12,44 @@ class Product_controller extends GetxController {
   var rate  = 3.0;
   int count = 1;
   int id = 0;
+  int lowerPrice = 0;
+  TextEditingController priceUser = TextEditingController();
   dynamic argumentData = Get.arguments;
 
+  void FormatNumber(value){
+    String newText = value.replaceAll(RegExp(r'[^0-9]'), '');
 
+    // Add commas for every three digits from the right
+    newText = NumberFormat("#,###").format(int.parse(newText));
+
+    // Set the formatted value back to the TextField
+    this.priceUser.value = TextEditingValue(
+      text: newText,
+      selection: TextSelection.collapsed(offset: newText.length),
+    );
+  }
+
+  void Calculate(int price){
+    if (price >= 1000 && price <= 5000) {
+      lowerPrice = price + 2000;
+    } else if (price >= 6000 && price <= 20000) {
+      lowerPrice = price + 3000;
+    } else if (price >= 21000 && price <= 50000) {
+      lowerPrice = price + 5000;
+    } else if (price >= 51000 && price <= 100000) {
+      lowerPrice = price + 10000;
+    } else {
+      lowerPrice = price + 15000;
+    }
+    update();
+  }
   void fetchProduct() async{
     isLoadingItem(true);
     try {
       var products = await RemoteServices.fetchProductone(id);
       if(products != null){
         productList.value = products;
+        Calculate(productList[0].price);
         isLoadingItem(false);
       }else{
         isLoadingItem(false);
@@ -32,7 +64,7 @@ class Product_controller extends GetxController {
     update();
   }
   void inCounter(count_now){
-    if(count == 1){
+    if(count < 3){
       if(count_now > 1){
         count++;
       }

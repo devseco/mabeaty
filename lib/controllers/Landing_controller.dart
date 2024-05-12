@@ -24,7 +24,7 @@ class Landing_controller extends GetxController{
     pagesViewScaffoldKey.currentState?.closeDrawer();
     update();
   }
-  void logou(){
+  void logout(){
     sharedPreferences!.clear();
     //BoxCart.clear();
     Get.off(() => Login());

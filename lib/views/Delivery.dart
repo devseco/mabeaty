@@ -10,8 +10,6 @@ class Delivery extends StatelessWidget {
    Delivery({super.key});
    final Delivery_controller controller = Get.put(Delivery_controller());
    final Checkout_controller checkout_controller = Get.put(Checkout_controller());
-
-
    @override
   Widget build(BuildContext context) {
     return Column(
@@ -45,11 +43,6 @@ class Delivery extends StatelessWidget {
         _space(Get.height * 0.012),
         _textme("86" , controller.nearPoint, false ,false),
         _space(Get.height * 0.02),
-        //-----Total------//
-        _text('${'34'.tr} : ${formatter.format(checkout_controller.price)}' , Get.height * 0.015,Colors.black,FontWeight.w600),
-        _space(Get.height * 0.012),
-        _textme("87" , controller.price, false ,true),
-        _space(Get.height * 0.02),
       ],
     );
   }
@@ -70,7 +63,7 @@ class Delivery extends StatelessWidget {
 
            ),
            spaceH(Get.height * 0.01),
-           Text('63'.tr,
+           Text('الرجاء ادخال تفاصيل الزبون',
              textAlign: TextAlign.start,
              style: TextStyle(
                  fontSize: Get.height * 0.016,
@@ -177,22 +170,6 @@ class Delivery extends StatelessWidget {
       child: TextField(
         onChanged: (value) {
 
-          if(format){
-            controller.FormatNumber(value);
-            int enteredValue = int.tryParse(value.replaceAll(',', '')) ?? 0;
-            // حساب الربح
-            int profit = enteredValue - checkout_controller.price;
-            // التحقق مما إذا كان الربح يتجاوز الحد الأقصى المسموح به
-            if (profit > 15000) {
-              // إذا تجاوز الربح الحد الأقصى، قم بمنع الإدخال
-              textEditingController.value = TextEditingValue(
-                text: (checkout_controller.price + 15000).toString(),
-                selection: TextSelection.collapsed(offset: (checkout_controller.price + 15000).toString().length),
-              );
-            }
-
-            
-          }
 
 
         },

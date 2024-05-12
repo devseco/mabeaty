@@ -14,7 +14,7 @@ class Payment extends StatelessWidget {
           message(),
           paymentlist(),
           GetBuilder<Checkout_controller>(builder: (builder){
-            return order(builder.price, builder.delivery , builder.total_user);
+            return order(builder.price, builder.delivery , builder.total_user , builder.fullTotal , builder.profit);
           })
         ],
       ),
@@ -25,7 +25,7 @@ class Payment extends StatelessWidget {
        color: Colors.black12,
      );
    }
-   order(price , delivery , total_user){
+   order(price , delivery , total_user  , fullTotal , profit){
      return Padding(
        padding: EdgeInsetsDirectional.only(start: Get.height * 0.01 , end: Get.height * 0.01 , top: Get.height * 0.02 , bottom: Get.height * 0.02),
        child: Container(
@@ -82,7 +82,7 @@ class Payment extends StatelessWidget {
                      fontWeight: FontWeight.w500,
                      fontSize: Get.height * 0.015,
                  ),),
-                 Text('${formatter.format(price  + delivery)} ${'18'.tr}' , style: TextStyle(
+                 Text('${formatter.format(total_user)} ${'18'.tr}' , style: TextStyle(
                    fontWeight: FontWeight.w500,
                    fontSize: Get.height * 0.015,
                  ),),
@@ -96,7 +96,7 @@ class Payment extends StatelessWidget {
                    fontWeight: FontWeight.w500,
                    fontSize: Get.height * 0.015,
                  ),),
-                 Text('${formatter.format(total_user - (price + delivery))} ${'18'.tr}' , style: TextStyle(
+                 Text('${formatter.format(profit)} ${'18'.tr}' , style: TextStyle(
                    fontWeight: FontWeight.w500,
                    fontSize: Get.height * 0.015,
                  ),),
@@ -110,7 +110,7 @@ class Payment extends StatelessWidget {
                    fontWeight: FontWeight.w800,
                    fontSize: Get.height * 0.015,
                  ),),
-                 Text('${formatter.format(total_user)} ${'18'.tr}' , style: TextStyle(
+                 Text('${formatter.format(fullTotal)} ${'18'.tr}' , style: TextStyle(
                    fontWeight: FontWeight.w800,
                    fontSize: Get.height * 0.015,
                  ),),

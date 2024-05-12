@@ -68,11 +68,10 @@ class Checkout extends StatelessWidget {
                     onTap: () async {
                       if(controller.currentStep == 1){
                         print(43);
-                         await controller.addBill(delivery_controller.phone.text, delivery_controller.selectedGovernorate, delivery_controller.address.text, controller.price, controller.delivery, BoxCart , delivery_controller.name.text,controller.total_user,delivery_controller.nearPoint.text);
+                         await controller.addBill(delivery_controller.phone.text, delivery_controller.selectedGovernorate, delivery_controller.address.text, controller.price, controller.delivery, BoxCart , delivery_controller.name.text,controller.fullTotal,delivery_controller.nearPoint.text ,controller.profit);
                         controls.onStepContinue!();
                       }else{
                         if(delivery_controller.name.text.isNotEmpty && delivery_controller.address.text.isNotEmpty && delivery_controller.phone.text.isNotEmpty && delivery_controller.selectedGovernorate != null ){
-                          controller.setTotal(int.parse(delivery_controller.price.text));
                           controls.onStepContinue!();
                         } else{
                           Get.snackbar('67'.tr, '66'.tr);

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:ui_ecommerce/controllers/Checkout_controller.dart';
 
 import '../main.dart';
@@ -46,12 +45,14 @@ class Delivery_controller extends GetxController{
     'السليمانية',
     'الانبار',
   ];
+  int total = 0;
+  int totalUser = 0;
+  dynamic argumentData = Get.arguments;
   List<String> gonvernorates = [];
   String? selectedGovernorate ;
   late TextEditingController name  = TextEditingController();
   late TextEditingController address  = TextEditingController();
   late TextEditingController phone  = TextEditingController();
-  late TextEditingController price  = TextEditingController();
   late TextEditingController nearPoint  = TextEditingController();
  void changeSelect(value){
    selectedGovernorate = value;
@@ -61,23 +62,13 @@ class Delivery_controller extends GetxController{
    }else{
      checkout_controller.delivery = checkout_controller.delivery_another;
    }
+   checkout_controller.fullTotal =  checkout_controller.delivery + checkout_controller.total_user;
    update();
- }
- void FormatNumber(value){
-   String newText = value.replaceAll(RegExp(r'[^0-9]'), '');
-
-   // Add commas for every three digits from the right
-   newText = NumberFormat("#,###").format(int.parse(newText));
-
-   // Set the formatted value back to the TextField
-   this.price.value = TextEditingValue(
-     text: newText,
-     selection: TextSelection.collapsed(offset: newText.length),
-   );
  }
  @override
   void onInit() {
-
+   total = argumentData[0]['total'];
+   totalUser = argumentData[0]['totalUser'];
    var sharePhone = sharedPreferences!.getInt('phone')!;
    print('${sharePhone} is phone');
    gonvernorates = sharedPreferences!.getString('lang') == 'ar' ? governorates_ar : governorates_ar;

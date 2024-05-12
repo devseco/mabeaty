@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:ui_ecommerce/controllers/Products_controller.dart';
@@ -15,10 +14,8 @@ class Products extends StatelessWidget {
         forceMaterialTransparency: true,
         scrolledUnderElevation:0.0,
         surfaceTintColor: Colors.transparent,
-        leadingWidth: Get.height * 0.3,
-        actions: [
-          actions(),
-        ],
+        leadingWidth: Get.height * 0.2,
+
         leading: logo(),
       ),
       body: Column(
@@ -41,7 +38,6 @@ class Products extends StatelessWidget {
             }else{
               return  loading_();
             }
-
           }
           )
         ],
@@ -66,10 +62,7 @@ class Products extends StatelessWidget {
              child: Icon(Icons.arrow_back_ios),
            ),
            Image.asset('assets/images/logo.png' , fit: BoxFit.fill,width: Get.height * 0.06,height: Get.height * 0.03,),
-           Text('Apple Store' , style: TextStyle(
-               fontWeight: FontWeight.bold,
-               fontSize: Get.height * 0.018
-           ),)
+
          ],
        ),
 
@@ -149,76 +142,85 @@ class Products extends StatelessWidget {
           product.price,
           product.id,
           product.lastprice,
-          product.count
+          product.count,
+          product.renewable
         );
       },
     );
   }
-   Item(String url , String title , int price , int id , lastprice ,int count){
-    return GestureDetector(
-      onTap: (){
-        Get.toNamed('/product' , arguments: [{'id':id}]);
-      },
-      child: Container(
-        padding: EdgeInsets.all(Get.height * 0.017),
-        width: Get.height * 0.2,
-        decoration: BoxDecoration(
-            border: Border.all(color: Colors.black12),
-            borderRadius: BorderRadius.all(Radius.circular(15))
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Center(
-              child:  CachedNetworkImage(
-                height: Get.height * 0.12,
-                width: Get.height * 0.18,
-                imageUrl: url,
-                imageBuilder: (context, imageProvider) => Container(
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: imageProvider,
-                      fit: BoxFit.contain,
-                    ),
-                  ),
-                ),
-                placeholder: (context, url) => CircularProgressIndicator(),
-                errorWidget: (context, url, error) => const Icon(Icons.error),
-              ),
-            ),
-            spaceH(Get.height * 0.01),
-            Text(title , textAlign: TextAlign.start,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-
-              ),
-            ),
-            spaceH(Get.height * 0.004),
-            Text(formatter.format(price) + " د.ع " , textAlign: TextAlign.start,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                fontWeight: FontWeight.w800,
-              ),
-            ),
-            spaceH(Get.height * 0.004),
-            Text(formatter.format(lastprice) + " د.ع " , textAlign: TextAlign.start,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                decoration: TextDecoration.lineThrough,
-                fontWeight: FontWeight.w800,
-              ),
-            ),
-            Row(
-              children: [
-                Text('(${count})'),
-                spaceW(Get.height * 0.005),
-
-              ],
-            )
-          ],
-        ),
-      ),
-    );
-  }
+   Item(String url , String title , int price , int id  , int lastprice , int count , int renewable){
+     return GestureDetector(
+       onTap: (){
+         Get.toNamed('product' , arguments:[{"id": id}],);
+       },
+       child: Container(
+         padding: EdgeInsets.all(Get.height * 0.017),
+         width: Get.height * 0.2,
+         decoration: BoxDecoration(
+             border: Border.all(color: Colors.black12),
+             borderRadius: const BorderRadius.all(Radius.circular(15))
+         ),
+         child: Column(
+           crossAxisAlignment: CrossAxisAlignment.start,
+           children: <Widget>[
+             Center(
+               child:  CachedNetworkImage(
+                 height: Get.height * 0.12,
+                 width: Get.height * 0.18,
+                 imageUrl: url,
+                 imageBuilder: (context, imageProvider) => Container(
+                   decoration: BoxDecoration(
+                     image: DecorationImage(
+                       image: imageProvider,
+                       fit: BoxFit.contain,
+                     ),
+                   ),
+                 ),
+                 placeholder: (context, url) => const CircularProgressIndicator(),
+                 errorWidget: (context, url, error) => const Icon(Icons.error),
+               ),
+             ),
+             spaceH(Get.height * 0.01),
+             Text(title , textAlign: TextAlign.start,
+               overflow: TextOverflow.ellipsis,
+               style: const TextStyle(
+                 fontWeight: FontWeight.bold,
+               ),
+             ),
+             spaceH(Get.height * 0.004),
+             Text('${formatter.format(price)}  ${'18'.tr}'  , textAlign: TextAlign.start,
+               overflow: TextOverflow.ellipsis,
+               style: TextStyle(
+                   fontSize: Get.height * 0.0135,
+                   fontWeight: FontWeight.w800,
+                   color: Colors.deepPurple
+               ),
+             ),
+             spaceH(Get.height * 0.004),
+             Row(
+               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+               children: [
+                 Text(
+                   'المتوفر : ${count ~/ 2} - $count',
+                   textAlign: TextAlign.start,
+                   style: const TextStyle(
+                     color: Colors.black45,
+                     fontWeight: FontWeight.w800,
+                   ),
+                 ),
+                 Text(
+                   (renewable == 1) ? 'قابل للتجديد' : '',
+                   textAlign: TextAlign.start,
+                   style: const TextStyle(
+                     color: Colors.deepPurple,
+                     fontWeight: FontWeight.w400,
+                   ),
+                 ),
+               ],
+             )
+           ],
+         ),
+       ),
+     );
+   }
 }

@@ -22,7 +22,7 @@ class CartPage extends StatelessWidget {
       ),
       bottomNavigationBar: GetBuilder<Cart_controller>(builder: (builder){
           return Container(
-            height:  Get.height * 0.099,
+            height:  Get.height * 0.14,
             color: Colors.white,
             margin: EdgeInsets.only(bottom: 20),
             padding: EdgeInsets.all(Get.height * 0.02),
@@ -33,7 +33,7 @@ class CartPage extends StatelessWidget {
                  return  GestureDetector(
                    onTap: (){
                      if(BoxCart.isNotEmpty){
-                       Get.toNamed('checkout' , arguments: [{'total' : builder.total}]);
+                       Get.toNamed('checkout' , arguments: [{'total' : builder.total , 'totalUser' : builder.totalUser}]);
                      }
                    },
                    child: Container(
@@ -57,20 +57,33 @@ class CartPage extends StatelessWidget {
                }),
                 GetBuilder<Cart_controller>(builder: (builder){
                   return Container(
-                    height: Get.height * 0.06,
+                    height: Get.height * 0.09,
                     width: Get.height * 0.15,
                     margin: EdgeInsets.all(5),
                     decoration: BoxDecoration(
                         color: Colors.white,
                         border: Border.all(color: Colors.white , width: 0.1)
                     ),
-                    child: Center(
-                      child: Text(formatter.format(builder.total) + ' '+'18'.tr, style: TextStyle(
-                          color: Colors.deepPurple,
-                          fontSize: Get.height * 0.017,
-                          fontWeight: FontWeight.bold
-                      ),),
-                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Center(
+                          child: Text(formatter.format(builder.total) + ' '+'18'.tr, style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: Get.height * 0.014,
+                              fontWeight: FontWeight.bold
+                          ),),
+                        ),
+                        Center(
+                          child: Text(formatter.format(builder.totalUser) + ' '+'18'.tr, style: TextStyle(
+                              color: Colors.deepPurple,
+                              fontSize: Get.height * 0.018,
+                              fontWeight: FontWeight.bold
+                          ),),
+                        ),
+                      ],
+                    )
                   );
                 })
               ],
@@ -102,7 +115,7 @@ class CartPage extends StatelessWidget {
       width: size,
     );
   }
-  BestProductItem(String title , int price , String url , int id , int count , int category  , int index){
+  BestProductItem(String title , int price , String url , int id , int count , int category  , int index , int priceUser){
     return Container(
       height: Get.height * 0.17,
       padding: EdgeInsets.all(Get.height * 0.017),
@@ -167,16 +180,27 @@ class CartPage extends StatelessWidget {
               ),
             ),),
           PositionedDirectional(
-            bottom: Get.height * 0.02,
+            bottom: Get.height * 0.04,
             start:   Get.height * 0.15,
             child:  Text(formatter.format(price) + ' '+'18'.tr , textAlign: TextAlign.start,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
              fontWeight: FontWeight.w800,
-              color: Colors.deepPurple,
+              color: Colors.grey,
               fontSize: Get.height * 0.014
            ),
          ),),
+          PositionedDirectional(
+            bottom: Get.height * 0.015,
+            start:   Get.height * 0.15,
+            child:  Text(formatter.format(priceUser) + ' '+'18'.tr , textAlign: TextAlign.start,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                  fontWeight: FontWeight.w800,
+                  color: Colors.deepPurple,
+                  fontSize: Get.height * 0.014
+              ),
+            ),),
           PositionedDirectional(
             bottom: Get.height * 0.01,
             end:  Get.height * 0.015,
@@ -222,7 +246,7 @@ class CartPage extends StatelessWidget {
         itemCount: BoxCart.length,
         itemBuilder: (BuildContext context, int index) {
           final product = BoxCart.getAt(index);
-          return BestProductItem(product.title, product.price, product.image, product.item, product.count, product.category,index);
+          return BestProductItem(product.title, product.price, product.image, product.item, product.count, product.category,index , product.priceUser);
           },
       )
     );

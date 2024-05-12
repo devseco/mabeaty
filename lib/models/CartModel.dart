@@ -16,6 +16,8 @@ class CartModel {
   int item;
   @HiveField(6)
   int id;
+  @HiveField(7)
+  int priceUser;
   CartModel({
     required this.price,
     required this.title,
@@ -24,5 +26,6 @@ class CartModel {
     required this.category,
     required this.item,
     required this.id,
+    required this.priceUser
   });
 }

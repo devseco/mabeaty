@@ -9,15 +9,18 @@ class Cart_controller extends GetxController {
   var isLoadingAdded = false.obs;
   var msgAdded = '';
   var total = 0;
+  var totalUser = 0;
   var isBlockAdded = false.obs;
 
   void PlusAllData() {
-
+    totalUser = 0;
     total = 0;
     for(var i = 0 ; i< BoxCart.length; ++i) {
       var item = BoxCart.getAt(i);
+      int priceUser = item.priceUser;
       int price = item.price;
       int count = item.count;
+      totalUser += priceUser * count;
       total += price * count;
     }
     refreshCount();
@@ -30,16 +33,16 @@ class Cart_controller extends GetxController {
     });
   }
 
-  void updateCounterPlus(title , price , count,id,image, category){
+  void updateCounterPlus(title , price , count,id,image, category , priceUser){
     var counter = count + 1;
-    BoxCart.putAt(id, CartModel(price: price, title: title, count: counter, image: image, category: category, item: id,id: id));
+    BoxCart.putAt(id, CartModel(price: price, title: title, count: counter, image: image, category: category, item: id,id: id , priceUser: priceUser));
     PlusAllData();
     update();
   }
-  void updateCounterMin(title , price , count,id,image, category){
+  void updateCounterMin(title , price , count,id,image, category , priceUser){
     if(count > 1){
       var counter = count - 1;
-      BoxCart.putAt(id, CartModel(price: price, title: title, count: counter, image: image, category: category, item: id,id: id));
+      BoxCart.putAt(id, CartModel(price: price, title: title, count: counter, image: image, category: category, item: id,id: id , priceUser: priceUser));
       PlusAllData();
       update();
     }else{
@@ -69,15 +72,15 @@ class Cart_controller extends GetxController {
     update();
   }
 
-  void Plus(title , price , count,id,image, category){
+  void Plus(title , price , count,id,image, category , priceUser){
     var counter = count + 1;
-    BoxCart.putAt(id, CartModel(price: price, title: title, count: counter, image: image, category: category, item: id,id: id));
+    BoxCart.putAt(id, CartModel(price: price, title: title, count: counter, image: image, category: category, item: id,id: id , priceUser: priceUser));
     PlusAllData();
 
     update();
   }
 
-  void putDate(title , price , count,id,image, category)  {
+  void putDate(title , price , count,id,image, category , priceUser)  {
     is_loading();
      try{
        var totalCount = 0;
@@ -87,22 +90,28 @@ class Cart_controller extends GetxController {
        }
        print('Total : ${totalCount}');
        if(totalCount != 6){
-         if(!BoxCart.containsKey(id)){
-
-           BoxCart.put(id, CartModel(price: price, title: title, count: count, image: image, category: category, item: id,id: id)).whenComplete(() {
-             is_loadingDone();
-             Cart_controller cart_controller = Get.put(Cart_controller());
-             cart_controller.PlusAllData();
-           }).onError((error, stackTrace) {
-             is_loadingDone();
-             msgAdded = "Error";
-             update();
-           });
+         if(BoxCart.length != 6){
+           if(!BoxCart.containsKey(id)){
+             BoxCart.put(id, CartModel(price: price, title: title, count: count, image: image, category: category, item: id,id: id  , priceUser : priceUser)).whenComplete(() {
+               is_loadingDone();
+               Cart_controller cart_controller = Get.put(Cart_controller());
+               cart_controller.PlusAllData();
+               Get.offNamed('/');
+               update();
+             }).onError((error, stackTrace) {
+               is_loadingDone();
+               msgAdded = "Error";
+               Get.offNamed('/');
+               update();
+             });
+           }else{
+             is_existsloading();
+           }
          }else{
-
-
-           is_existsloading();
+           is_Bloackloading();
+           msgAdded = "Error";
          }
+
        }else{
          is_Bloackloading();
          msgAdded = "Error";

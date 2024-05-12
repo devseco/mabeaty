@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:ui_ecommerce/controllers/Cart_controller.dart';
@@ -38,8 +39,7 @@ class ProductPage extends StatelessWidget {
        }else{
          if(c.productList.isNotEmpty){
            return SafeArea(
-             child: Column(
-               crossAxisAlignment: CrossAxisAlignment.start,
+             child: ListView(
                children: [
                  sliders(),
                  line(),
@@ -48,13 +48,14 @@ class ProductPage extends StatelessWidget {
                  spaceH(Get.height * 0.002),
                  _description(c.productList[0].description),
                  spaceH(Get.height * 0.002),
-
                  price(c.productList[0].price.toString(), c.productList[0].lastprice.toString()),
                  spaceH(Get.height * 0.01),
                  count_(c.productList[0].count, c.productList[0].renewable),
-
+                  spaceH(Get.height * 0.01),
+                 lowerPrice(),
                  _counter(),
-                 spaceH(Get.height * 0.08),
+                 inputPrice(),
+                 spaceH(Get.height * 0.02),
                  GetBuilder<Cart_controller>(builder: (builder){
                    if(builder.isLoadingAdded.value){
                      return loading_button();
@@ -64,13 +65,43 @@ class ProductPage extends StatelessWidget {
                  })
                ],
              ),
-
            );
          }else{
            return Center(child: Text('20'.tr),);
          }
        }
       },),
+    );
+  }
+  inputPrice(){
+    return Padding(padding: EdgeInsetsDirectional.only(start: Get.width * 0.10, end: Get.width * 0.10 , top: Get.width * 0.05 ),
+      child: TextField(
+        onChanged: (value) {
+            controller.FormatNumber(value);
+        },
+        style: TextStyle(
+          fontSize: Get.height * 0.014,
+        ),
+        keyboardType:TextInputType.number,
+        controller: controller.priceUser,
+        decoration: InputDecoration(
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10.0),
+            borderSide: const BorderSide(color: Colors.black, width: 0.1),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10.0),
+            borderSide: const BorderSide(color: Colors.black, width: 0.1),
+          ),
+          hintText: 'مبلغ البيع للزبون',
+          hintStyle: TextStyle(color: Colors.grey),
+        ),
+
+        inputFormatters: [
+          FilteringTextInputFormatter.digitsOnly
+        ] ,
+
+      ),
     );
   }
   msgAdded(title , msg){
@@ -96,20 +127,28 @@ class ProductPage extends StatelessWidget {
         child: Container(
           child: ElevatedButton(
             onPressed: () {
-             if(controller.productList[0].count >= 1){
-               builder.putDate(controller.productList[0].title, controller.productList[0].price, controller.count, controller.productList[0].id, controller.productList[0].image, controller.productList[0].category);
-               if(!builder.isLoadingAdded.value){
-                 if(builder.isAddedCart.value){
-                   msgAdded('29'.tr, '30'.tr);
-                 }else{
-                   if(builder.isBlockAdded.value){
-                     msgAdded('80'.tr, '81'.tr);
+             if(controller.productList[0].count >= 1 ){
+               if(controller.priceUser.text.isNotEmpty){
+                 if(int.parse(controller.priceUser.text.replaceAll(',','')) >= controller.lowerPrice){
+                   builder.putDate(controller.productList[0].title, controller.productList[0].price, controller.count, controller.productList[0].id, controller.productList[0].image, controller.productList[0].category ,int.parse(controller.priceUser.text.replaceAll(',','')) );
+                   if(!builder.isLoadingAdded.value){
+                     if(builder.isAddedCart.value){
+                       msgAdded('29'.tr, '30'.tr);
+                     }else{
+                       if(builder.isBlockAdded.value){
+                         msgAdded('80'.tr, '81'.tr);
+                       }else{
+                         msgAdded('32'.tr, '33'.tr);
+                       }
+                     }
                    }else{
-                     msgAdded('32'.tr, '33'.tr);
+                     print(builder.msgAdded);
                    }
+                 }else{
+                   msgAdded('خطآ', 'سعر البيع المدخل اقل من السعر المحدد');
                  }
                }else{
-                 print(builder.msgAdded);
+                 msgAdded('خطآ', 'يرجى ادخال مبلغ سعر البيع للزبون');
                }
              }
               },
@@ -188,6 +227,16 @@ class ProductPage extends StatelessWidget {
          ),
        ),
      );
+   }
+   lowerPrice() {
+    return Padding(padding: EdgeInsetsDirectional.only(start: Get.height * 0.02),
+      child: Text( 'اقل سعر للبيع : ${formatter.format(controller.lowerPrice)}',
+        style: TextStyle(
+            fontSize: Get.height * 0.018,
+            fontWeight: FontWeight.w400
+        ),
+      ),
+    );
    }
    count_(count , renewable){
      return Padding(padding: EdgeInsetsDirectional.only(start: Get.height * 0.02),

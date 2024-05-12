@@ -79,7 +79,7 @@ class RemoteServices {
     }
   }
   //add new bill To Endpoint (addBill)
-  static Future<String> addBill(String name, String phone, String city, String address, int price, int delivery, List<Map<String, dynamic>> items, user_id , customer_name , customer_total , customer_nearpoint) async {
+  static Future<String> addBill(String name, String phone, String city, String address, int price, int delivery, List<Map<String, dynamic>> items, user_id , customer_name , customer_total , customer_nearpoint , profit) async {
     var endpoint = 'addBill';
     var body = jsonEncode({
       'name': name,
@@ -92,6 +92,7 @@ class RemoteServices {
       'user_id':user_id,
       'customer_name' : customer_name,
       'customer_total' : customer_total,
+      'profit': profit,
       'customer_nearpoint' : customer_nearpoint
     });
     try {
