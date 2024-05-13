@@ -32,7 +32,6 @@ class Cart_controller extends GetxController {
       landing_controller.setCount();
     });
   }
-
   void updateCounterPlus(title , price , count,id,image, category , priceUser){
     var counter = count + 1;
     BoxCart.putAt(id, CartModel(price: price, title: title, count: counter, image: image, category: category, item: id,id: id , priceUser: priceUser));
@@ -46,7 +45,6 @@ class Cart_controller extends GetxController {
       PlusAllData();
       update();
     }else{
-
     }
   }
   void is_existsloading(){
@@ -79,7 +77,6 @@ class Cart_controller extends GetxController {
 
     update();
   }
-
   void putDate(title , price , count,id,image, category , priceUser)  {
     is_loading();
      try{

@@ -46,7 +46,9 @@ class Item_Billing extends StatelessWidget {
               if(builder.SalesList.isNotEmpty){
                 int totalPrice = builder.SalesList[0].price + builder.SalesList[0].delivery;
                 String formattedDate = DateFormat('yyyy-MM-dd hh:mm a').format(builder.SalesList[0].date);
-                return card(totalPrice, builder.SalesList[0].id, builder.SalesList[0].status,
+                return card(
+                  totalPrice,
+                  builder.SalesList[0].id, builder.SalesList[0].status,
                     formattedDate,
                     builder.SalesList[0].price,builder.SalesList[0].delivery ,
                     builder.SalesList[0].customerName ,
@@ -82,12 +84,38 @@ class Item_Billing extends StatelessWidget {
    }
   card(total , id , status , date,price,delivery , customer_name , customer_phone , customer_total , customer_nearpoint ,city , address){
     var status_code ;
-    if(status == 0){
-      status_code = "73";
-    }else if(status == 1){
-      status_code = "74";
-    }else if(status == 2){
-      status_code = "75";
+    var itemIcon;
+    var itemColor;
+    print(status);
+
+    switch (status) {
+      case 1:
+        status_code = 'قيد المراجعة';
+        itemIcon = const FaIcon(FontAwesomeIcons.clock,size: 15 , color: Colors.grey,);
+        itemColor = Colors.grey;
+        break;
+      case 2:
+        status_code = 'قيد التجهيز';
+        itemIcon = const FaIcon(FontAwesomeIcons.hourglass,size: 15 , color: Colors.grey,);
+        itemColor = Colors.grey;
+        break;
+      case 3:
+        status_code = 'قيد التوصيل';
+        itemIcon = const FaIcon(FontAwesomeIcons.car,size: 15 , color: Colors.blue,);
+        itemColor = Colors.blue;
+        break;
+      case 4:
+        status_code = 'مكتملة';
+        itemIcon = const FaIcon(FontAwesomeIcons.circleCheck,size: 15 , color: Colors.green,);
+        itemColor = Colors.green;
+        break;
+      case 5:
+        status_code = 'راجعة';
+        itemIcon = const FaIcon(FontAwesomeIcons.circleMinus,size: 15 , color: Colors.redAccent,);
+        itemColor = Colors.redAccent;
+        break;
+      default:
+        break;
     }
     return Card(
       // Set the shape of the card using a rounded rectangle border with a 8 pixel radius
@@ -204,14 +232,14 @@ class Item_Billing extends StatelessWidget {
                 // Add a row with two buttons spaced apart and aligned to the right side of the card
                 Row(
                   children: <Widget>[
-                    Text((status_code.toString().tr) , textAlign: TextAlign.start,
+                    Text(status_code , textAlign: TextAlign.start,
                       style: TextStyle(
-                        color:  (status == 0)? Colors.black : (status == 1)? Colors.deepPurple : Colors.green,
-                        fontWeight: FontWeight.w600,
+                        color:  itemColor,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                     SizedBox(width: 10,),
-                    (status == 0)? FaIcon(FontAwesomeIcons.hourglass , size: 15, color: Colors.black,) : (status == 1)? FaIcon(FontAwesomeIcons.truck , size: 15, color: Colors.deepPurple,)  : FaIcon(FontAwesomeIcons.check,size: 15 , color: Colors.green,) ,
+                    itemIcon,
                     // Add a spacer to push the buttons to the right side of the card
                     SizedBox(width: 15,),
                     Text(

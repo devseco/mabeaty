@@ -28,7 +28,7 @@ class ConfirmationPage extends StatelessWidget {
               GestureDetector(
                 onTap: (){
 
-                  Get.back();
+                 Get.offNamed('/');
                 },
                 child:  Container(
                   height: Get.height * 0.045,

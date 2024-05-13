@@ -19,36 +19,117 @@ class Billing extends StatelessWidget {
               filtersIcon(),
             ],
           ),
-          spaceH(Get.height * 0.015),
-         Expanded(child:  BillList()),
+          spaceH(Get.height * 0.02),
+          Container(
+            height: 50, // Set the height as desired
+            child: filterList(),
+          ),
+          spaceH(Get.height * 0.01),
+          (!controller.isLoadingBills.value)? (controller.filters.isNotEmpty)? Expanded(child:  BillList()) : Center(child: Padding(child: Text('لا توجد بيانات'), padding: EdgeInsets.all(Get.width * 0.25),),) : Center(child: CircularProgressIndicator(),),
           spaceH(Get.height * 0.015),
         ],
       )
     );
   }
-   BillList() {
-     return GetBuilder<Billing_controller>(builder: (builder) => ListView.builder(
-       physics: PageScrollPhysics(),
-       padding: EdgeInsets.only(right: Get.height * 0.009,left: Get.height * 0.009 , top: Get.height * 0.01),
-       // to disable GridView's scrolling
-       shrinkWrap: true, // You won't see infinite size error
-       itemCount: builder.billsList.length,
-       itemBuilder: (BuildContext context, int index) {
-         final BillOne = builder.billsList[index];
-         return BillItem(BillOne.price, BillOne.delivery, BillOne.city, BillOne.address, BillOne.date, BillOne.status,BillOne.phone , BillOne.id ,BillOne.customerTotal , BillOne.customerName);
+
+   Widget filterList() {
+     return ListView(
+       shrinkWrap: true,
+       padding: const EdgeInsets.symmetric(horizontal: 16.0),
+       scrollDirection: Axis.horizontal,
+       children: controller.filters
+           .asMap() // تحويل القائمة إلى خريطة تحتوي على الفهرس
+           .entries
+           .map(
+             (entry) {
+           int index = entry.key; // الحصول على الفهرس
+           String filter = entry.value; // الحصول على القيمة
+           return FilterBox(filter, index); // تمرير الفهرس إلى الدالة
+         },
+       )
+           .toList(),
+     );
+   }
+
+   Widget FilterBox(String filter , int index) {
+     final controller = Get.find<Billing_controller>();
+     return GestureDetector(
+       onTap: () {
+         controller.filterBillsByStatus(index);
+         // تحديث القيمة المحددة
+         controller.selectedFilter.value = filter;
        },
-     )
+       child: Obx(() => Container(
+         width: Get.width * 0.25,
+         padding: const EdgeInsets.all(5),
+         margin: EdgeInsets.only(left: Get.width * 0.02, right: Get.width * 0.02),
+         decoration: BoxDecoration(
+           border: Border.all(color: Colors.grey),
+           borderRadius: BorderRadius.circular(10),
+           // تغيير لون الخلفية بناءً على العنصر المحدد
+           color: controller.selectedFilter.value == filter ? Colors.deepPurple : Colors.transparent,
+         ),
+         child: Center(
+           child: Text(
+             filter,
+             style: TextStyle(
+               color: controller.selectedFilter.value == filter ? Colors.white : Colors.black,
+             ),
+           ),
+         ),
+       )),
+     );
+   }
+
+   BillList() {
+     return GetBuilder<Billing_controller>(
+       builder: (controller) => ListView.builder(
+         physics: const PageScrollPhysics(),
+         padding: EdgeInsets.only(right: Get.height * 0.009, left: Get.height * 0.009, top: Get.height * 0.01),
+         shrinkWrap: true,
+         itemCount: controller.filteredBillsList.length,
+         itemBuilder: (BuildContext context, int index) {
+           final BillOne = controller.filteredBillsList[index];
+           return BillItem(BillOne.price, BillOne.delivery, BillOne.city, BillOne.address, BillOne.date, BillOne.status, BillOne.phone, BillOne.id, BillOne.customerTotal, BillOne.customerName);
+         },
+       ),
      );
    }
    BillItem(int price, int delivery, String city, String address, DateTime date, int status, String phone, int id , int customer_total , String customer_name) {
     var finalTotal = price + delivery;
     var status_code ;
-    if(status == 0){
-      status_code = "73";
-    }else if(status == 1){
-      status_code = "74";
-    }else if(status == 2){
-      status_code = "75";
+    var itemIcon;
+    var itemColor;
+    print(status);
+
+    switch (status) {
+      case 1:
+        status_code = 'قيد المراجعة';
+        itemIcon = const FaIcon(FontAwesomeIcons.clock,size: 15 , color: Colors.grey,);
+        itemColor = Colors.grey;
+        break;
+      case 2:
+        status_code = 'قيد التجهيز';
+        itemIcon = const FaIcon(FontAwesomeIcons.hourglass,size: 15 , color: Colors.grey,);
+        itemColor = Colors.grey;
+        break;
+      case 3:
+        status_code = 'قيد التوصيل';
+        itemIcon = const FaIcon(FontAwesomeIcons.car,size: 15 , color: Colors.blue,);
+        itemColor = Colors.blue;
+        break;
+      case 4:
+        status_code = 'مكتملة';
+        itemIcon = const FaIcon(FontAwesomeIcons.circleCheck,size: 15 , color: Colors.green,);
+        itemColor = Colors.green;
+        break;
+      case 5:
+        status_code = 'راجعة';
+        itemIcon = const FaIcon(FontAwesomeIcons.circleMinus,size: 15 , color: Colors.redAccent,);
+        itemColor = Colors.redAccent;
+        break;
+      default:
+        break;
     }
     String formattedDate = DateFormat('yyyy-MM-dd hh:mm a').format(date);
      return GestureDetector(
@@ -63,20 +144,20 @@ class Billing extends StatelessWidget {
          decoration: BoxDecoration(
              color: Colors.white,
              border: Border.all(color: Colors.black12),
-             borderRadius: BorderRadius.all(Radius.circular(15))
+             borderRadius: const BorderRadius.all(Radius.circular(15))
          ),
          child: Stack(
            children: [
              PositionedDirectional(
                top: Get.height * 0.01,
                end:  Get.height * 0.005,
-               child: FaIcon(FontAwesomeIcons.moneyBill , color: Colors.green,),),
+               child: const FaIcon(FontAwesomeIcons.moneyBill , color: Colors.green,),),
              PositionedDirectional(
                bottom: Get.height * 0.03,
                end:  Get.height * 0.005,
                child: SizedBox(
                  child: Text('${formattedDate}' , textAlign: TextAlign.start,
-                   style: TextStyle(
+                   style: const TextStyle(
                      fontWeight: FontWeight.w400,
                    ),
                  ),
@@ -86,7 +167,7 @@ class Billing extends StatelessWidget {
                end:  Get.height * 0.005,
                child: SizedBox(
                  child: Text(' #${id} ${'71'.tr}' , textAlign: TextAlign.start,
-                   style: TextStyle(
+                   style: const TextStyle(
                      fontWeight: FontWeight.bold,
                    ),
                  ),
@@ -98,13 +179,13 @@ class Billing extends StatelessWidget {
                  child: Row(
                    children: [
                      Text('${'72'.tr}' , textAlign: TextAlign.start,
-                       style: TextStyle(
+                       style: const TextStyle(
                          fontWeight: FontWeight.w600,
                          color: Colors.deepPurple
                        ),
                      ),
                      spaceW(Get.height * 0.01),
-                     Icon(Icons.remove_red_eye_outlined , color: Colors.deepPurple,)
+                     const Icon(Icons.remove_red_eye_outlined , color: Colors.deepPurple,)
                    ],
                  ),
                ),),
@@ -113,14 +194,14 @@ class Billing extends StatelessWidget {
                start:  Get.height * 0.005,
                child: Row(
                  children: [
-                   Text((status_code.toString().tr) , textAlign: TextAlign.start,
+                   Text('${status_code}' , textAlign: TextAlign.start,
                      style: TextStyle(
-                       color:  (status == 0)? Colors.black : (status == 1)? Colors.deepPurple : Colors.green,
-                       fontWeight: FontWeight.w600,
+                       color:  itemColor,
+                       fontWeight: FontWeight.bold,
                      ),
                    ),
                    spaceW(10),
-                   (status == 0)? FaIcon(FontAwesomeIcons.hourglass , size: 15, color: Colors.black,) : (status == 1)? FaIcon(FontAwesomeIcons.truck , size: 15, color: Colors.deepPurple,)  : FaIcon(FontAwesomeIcons.check,size: 15 , color: Colors.green,) ,
+                   itemIcon  ,
                  ],
                ),),
              PositionedDirectional(
@@ -129,7 +210,7 @@ class Billing extends StatelessWidget {
                child: SizedBox(
                  width: Get.height * 0.2,
                  child: Text('${'47'.tr} : ${formatter.format(price)} ${'18'.tr}' , textAlign: TextAlign.start,
-                   style: TextStyle(
+                   style: const TextStyle(
                      fontWeight: FontWeight.w400,
                    ),
                  ),
@@ -140,7 +221,7 @@ class Billing extends StatelessWidget {
                child: SizedBox(
                  width: Get.height * 0.2,
                  child: Text('${'48'.tr} : ${formatter.format(delivery)} ${'18'.tr}' , textAlign: TextAlign.start,
-                   style: TextStyle(
+                   style: const TextStyle(
                      fontWeight: FontWeight.w400,
                    ),
                  ),
@@ -151,7 +232,7 @@ class Billing extends StatelessWidget {
                child: SizedBox(
                  width: Get.height * 0.2,
                  child: Text('${'88'.tr} : ${formatter.format(finalTotal)} ${'18'.tr}' , textAlign: TextAlign.start,
-                   style: TextStyle(
+                   style: const TextStyle(
                      fontWeight: FontWeight.w400,
                    ),
                  ),
@@ -162,7 +243,7 @@ class Billing extends StatelessWidget {
                child: SizedBox(
                  width: Get.height * 0.2,
                  child: Text('${'89'.tr} : ${formatter.format(customer_total - finalTotal)} ${'18'.tr}' , textAlign: TextAlign.start,
-                   style: TextStyle(
+                   style: const TextStyle(
                      fontWeight: FontWeight.bold,
                        color: Colors.green
                    ),
@@ -174,7 +255,7 @@ class Billing extends StatelessWidget {
                child: SizedBox(
                  width: Get.height * 0.2,
                  child: Text('${'49'.tr} : ${formatter.format(customer_total)} ${'18'.tr}' , textAlign: TextAlign.start,
-                   style: TextStyle(
+                   style: const TextStyle(
                      fontWeight: FontWeight.bold,
                    ),
                  ),
@@ -185,7 +266,7 @@ class Billing extends StatelessWidget {
                child: SizedBox(
                  width: Get.height * 0.2,
                  child: Text('${'82'.tr} : ${customer_name} ' , textAlign: TextAlign.start,
-                   style: TextStyle(
+                   style: const TextStyle(
                      fontWeight: FontWeight.w600,
                      color: Colors.deepPurple
                    ),
@@ -201,7 +282,7 @@ class Billing extends StatelessWidget {
         barrierDismissible: false,
         Dialog(
           child: Container(
-            padding: EdgeInsets.all(10),
+            padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(20)),
@@ -209,16 +290,18 @@ class Billing extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Padding(padding: EdgeInsets.only(top: 10,bottom: 10),
+                Padding(padding: const EdgeInsets.only(top: 10,bottom: 10),
                   child: Center(
                     child: Text("76".tr),
                   ),
                 ),
-                SizedBox(height:10,),
+                const SizedBox(height:10,),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: GetBuilder<Billing_controller>(builder: (c){
                     return Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         GestureDetector(
                           onTap: (){
@@ -259,15 +342,16 @@ class Billing extends StatelessWidget {
                             ),
                           ),
                         ),
+
                       ],
                     );
                   },),
                 ),
-                Divider(
+                const Divider(
                   color: Colors.green,
                   thickness: 1,
                 ),
-                Padding(padding: EdgeInsets.all(10),
+                Padding(padding: const EdgeInsets.all(10),
                   child:  Row(
                     children: [
                       GestureDetector(
@@ -291,7 +375,7 @@ class Billing extends StatelessWidget {
      return Padding(padding: EdgeInsetsDirectional.only(start: Get.height * 0.009 , end: Get.height * 0.009),
        child:  GestureDetector(
          onTap: showDialog,
-         child: Icon(Icons.tune),
+         child: const Icon(Icons.tune),
        ),
      );
    }
@@ -301,7 +385,7 @@ class Billing extends StatelessWidget {
            width: Get.width * 0.83,
            child: TextField(
              decoration:  InputDecoration(
-               fillColor: Color(0xfff1ebf1),
+               fillColor: const Color(0xfff1ebf1),
                filled: true,
                prefixIcon: const Icon(Icons.search),
                hintText: '70'.tr,
@@ -327,7 +411,7 @@ class Billing extends StatelessWidget {
              onTap: (){
                Get.back();
              },
-             child: Icon(Icons.arrow_back_ios),
+             child: const Icon(Icons.arrow_back_ios),
            ),
            Image.asset('assets/images/logo.png' , fit: BoxFit.fill,width: Get.height * 0.06,height: Get.height * 0.03,),
            Text('0'.tr , style: TextStyle(
