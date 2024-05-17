@@ -54,6 +54,7 @@ class Delivery_controller extends GetxController{
   late TextEditingController address  = TextEditingController();
   late TextEditingController phone  = TextEditingController();
   late TextEditingController nearPoint  = TextEditingController();
+  late TextEditingController note  = TextEditingController();
  void changeSelect(value){
    selectedGovernorate = value;
    final Checkout_controller checkout_controller = Get.put(Checkout_controller());
@@ -65,6 +66,10 @@ class Delivery_controller extends GetxController{
    checkout_controller.fullTotal =  checkout_controller.delivery + checkout_controller.total_user;
    update();
  }
+  bool isValidPhoneNumber(String phoneNumber) {
+    // التحقق من أن طول الرقم 11 وأنه يحتوي فقط على أرقام
+    return phoneNumber.length == 11 && RegExp(r'^[0-9]+$').hasMatch(phoneNumber);
+  }
  @override
   void onInit() {
    total = argumentData[0]['total'];

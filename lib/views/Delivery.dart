@@ -43,6 +43,11 @@ class Delivery extends StatelessWidget {
         _space(Get.height * 0.012),
         _textme("86" , controller.nearPoint, false ,false),
         _space(Get.height * 0.02),
+        //-----note------//
+        _text("90" , Get.height * 0.015,Colors.black,FontWeight.w600),
+        _space(Get.height * 0.012),
+        _textme("90" , controller.note, false ,false),
+        _space(Get.height * 0.02),
       ],
     );
   }

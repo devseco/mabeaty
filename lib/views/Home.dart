@@ -4,8 +4,11 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:easy_autocomplete/easy_autocomplete.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:textfield_search/textfield_search.dart';
 import 'package:ui_ecommerce/controllers/Home_controller.dart';
 import 'package:ui_ecommerce/main.dart';
+
+import '../models/TestItem.dart';
 class Home extends StatelessWidget {
    Home({super.key});
   final Home_controller controller = Get.find();
@@ -281,29 +284,35 @@ class Home extends StatelessWidget {
     return Padding(padding: EdgeInsetsDirectional.only(start: Get.height * 0.02 , end: Get.height * 0.002),
     child: SizedBox(
       width: Get.width * 0.83,
-      child: GetBuilder<Home_controller>(builder: (c){
-        return EasyAutocomplete(
-            decoration:  InputDecoration(
-              fillColor: const Color(0xfff1ebf1),
-              filled: true,
-              prefixIcon: const Icon(Icons.search),
-              hintText: '9'.tr,
-              enabledBorder: const OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                borderSide:  BorderSide(
-                  color: Color(0xfff1ebf1),
-                ),
-              ),
-              focusedBorder: const OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                borderSide: BorderSide(color:Color(0xfff1ebf1),),
-              ),
+      child: TextFieldSearch(
+        label: 'My Label',
+        controller: controller.myController,
+        future: () {
+          return controller.fetchData();
+        },
+        getSelectedValue: (value) {
+          TestItem selectedItem = value as TestItem; // تأكد من أن القيمة هي من نوع TestItem
+          Get.toNamed('product' , arguments:[{"id": selectedItem.value}],);
+          controller.myController.clear();
+        },
+        decoration:  InputDecoration(
+          fillColor: const Color(0xfff1ebf1),
+          filled: true,
+          prefixIcon: const Icon(Icons.search),
+          hintText: '9'.tr,
+          enabledBorder: const OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(20.0)),
+            borderSide:  BorderSide(
+              color: Color(0xfff1ebf1),
             ),
-            suggestions: c.productNames,
-            onChanged: (value) => c.searchProducts(value),
-            onSubmitted: (value) => print('onSubmitted value: $value')
-        );
-      },)
+          ),
+          focusedBorder: const OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(20.0)),
+            borderSide:  BorderSide(color:Color(0xfff1ebf1),),
+          ),
+        ),
+
+      )
     ),
     );
   }

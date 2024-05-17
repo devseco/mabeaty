@@ -230,7 +230,7 @@ class ProductPage extends StatelessWidget {
    }
    lowerPrice() {
     return Padding(padding: EdgeInsetsDirectional.only(start: Get.height * 0.02),
-      child: Text( 'اقل سعر للبيع : ${formatter.format(controller.lowerPrice)}',
+      child: Text( 'اقل سعر للبيع : ${formatter.format(controller.lowerPriceLabel)}',
         style: TextStyle(
             fontSize: Get.height * 0.018,
             fontWeight: FontWeight.w400

@@ -90,12 +90,12 @@ class Billing extends StatelessWidget {
          itemCount: controller.filteredBillsList.length,
          itemBuilder: (BuildContext context, int index) {
            final BillOne = controller.filteredBillsList[index];
-           return BillItem(BillOne.price, BillOne.delivery, BillOne.city, BillOne.address, BillOne.date, BillOne.status, BillOne.phone, BillOne.id, BillOne.customerTotal, BillOne.customerName);
+           return BillItem(BillOne.price, BillOne.delivery, BillOne.city, BillOne.address, BillOne.date, BillOne.status, BillOne.phone, BillOne.id, BillOne.customerTotal, BillOne.customerName , BillOne.pay);
          },
        ),
      );
    }
-   BillItem(int price, int delivery, String city, String address, DateTime date, int status, String phone, int id , int customer_total , String customer_name) {
+   BillItem(int price, int delivery, String city, String address, DateTime date, int status, String phone, int id , int customer_total , String customer_name , int pay) {
     var finalTotal = price + delivery;
     var status_code ;
     var itemIcon;
@@ -148,10 +148,37 @@ class Billing extends StatelessWidget {
          ),
          child: Stack(
            children: [
-             PositionedDirectional(
+             (pay == 1)? PositionedDirectional(
                top: Get.height * 0.01,
                end:  Get.height * 0.005,
-               child: const FaIcon(FontAwesomeIcons.moneyBill , color: Colors.green,),),
+               child: Column(
+                 children: [
+                   FaIcon(FontAwesomeIcons.moneyBill , color: Colors.green,),
+                   SizedBox(
+                     height: Get.width * 0.02,
+                   ),
+                   Text('مستلم الارباح' , style: TextStyle(
+                     color: Colors.green,
+                     fontWeight: FontWeight.bold
+                   ),)
+                 ],
+               ),)
+             : PositionedDirectional(
+               top: Get.height * 0.01,
+               end:  Get.height * 0.005,
+               child: Column(
+                 children: [
+                   FaIcon(FontAwesomeIcons.moneyBill , color: Colors.grey,),
+                   SizedBox(
+                     height: Get.width * 0.02,
+                   ),
+                   Text('غير مستلم الارباح' , style: TextStyle(
+                     color: Colors.grey,
+                     fontWeight: FontWeight.bold
+                   ),)
+                 ],
+               ),),
+
              PositionedDirectional(
                bottom: Get.height * 0.03,
                end:  Get.height * 0.005,
@@ -245,7 +272,7 @@ class Billing extends StatelessWidget {
                  child: Text('${'89'.tr} : ${formatter.format(customer_total - finalTotal)} ${'18'.tr}' , textAlign: TextAlign.start,
                    style: const TextStyle(
                      fontWeight: FontWeight.bold,
-                       color: Colors.green
+                       color: Colors.orange
                    ),
                  ),
                ),),

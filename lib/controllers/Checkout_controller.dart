@@ -17,6 +17,7 @@ class Checkout_controller extends GetxController{
   int total = 0;
   int fullTotal = 0;
   var name_agent ;
+
   @override
   void onInit() {
     price = Get.arguments[0]['total'];
@@ -37,7 +38,7 @@ class Checkout_controller extends GetxController{
     }
     update();
   }
-  Future<bool> addBill(phone,city,address,price,delivery,items,customer_name,customer_total,customer_nearpoint , profit) async{
+  Future<bool> addBill(phone,city,address,price,delivery,items,customer_name,customer_total,customer_nearpoint , profit , note) async{
     var list = <Map<String, dynamic>>[];
     for (int x = 0; x < BoxCart.length; x++) {
       var cartItem = BoxCart.getAt(x);
@@ -52,7 +53,7 @@ class Checkout_controller extends GetxController{
       };
       list.add(mappedItem);
     }
-    var result = await RemoteServices.addBill(name_agent, phone, city, address, price, delivery, list , user_id ,customer_name , customer_total , customer_nearpoint , profit );
+    var result = await RemoteServices.addBill(name_agent, phone, city, address, price, delivery, list , user_id ,customer_name , customer_total , customer_nearpoint , profit , note );
       if(result.contains('successfully')){
         isPay(true);
         Cart_controller c = Get.put(Cart_controller());

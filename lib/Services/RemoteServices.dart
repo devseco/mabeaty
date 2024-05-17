@@ -4,6 +4,8 @@ import 'package:ui_ecommerce/models/Bill.dart';
 import 'package:ui_ecommerce/models/Category.dart';
 import 'package:ui_ecommerce/models/Product.dart';
 import 'package:ui_ecommerce/models/Sale.dart';
+import 'package:ui_ecommerce/models/TestItem.dart';
+import 'package:ui_ecommerce/models/UserInfo.dart';
 import '../models/Slider.dart';
 
 class RemoteServices {
@@ -30,6 +32,23 @@ class RemoteServices {
       return rawJson;
     }
   }
+  //Fetch Profile From Endpoint (userInfo)
+  static Future<UserInfo?> fetchProfile(id) async {
+    var endpoint = 'userInfo/2';
+    try {
+      var response = await client.get(Uri.parse(baseUrl + endpoint));
+      if (response.statusCode == 200) {
+        var jsonData = response.body;
+        UserInfo userinfo = userInfoFromJson(jsonData);
+        return userinfo;
+      } else {
+        return null;
+      }
+    } catch (e) {
+      return null;
+    }
+  }
+
   //Fetch Products From Endpoint (getProducts)
   static Future<List<Product>?> fetchProducts() async {
     var endpoint = 'getProducts';
@@ -46,25 +65,24 @@ class RemoteServices {
       return null;
     }
   }
-  static Future<List<Product>?> filterProducts(title) async {
+  static Future filterProducts(String title) async {
     var endpoint = 'filterProducts/${title}';
-    try {
-      var response = await client.get(Uri.parse(baseUrl + endpoint));
-      if (response.statusCode == 200) {
-        var jsonData = response.body;
-        List<Product> bills = productFromJson(jsonData);
-        return bills;
-      } else {
-        return null;
-      }
-    } catch (e) {
-      return null;
+    var response = await client.get(Uri.parse(baseUrl + endpoint));
+
+    if (response.statusCode == 200) {
+      var jsonData = json.decode(response.body);
+      var items = jsonData;
+      return items;
+    } else {
+      return [];
     }
   }
 
+
+
   //Fetch Items Recently From Endpoint (getProduct)
-  static Future<List<Product>?> fetchProductsRecently() async {
-    var endpoint = 'getProductsRecently';
+  static Future<List<Product>?> fetchProductsRecently(int page, int limit) async {
+    var endpoint = 'getProductsRecently/$page/$limit';
     try {
       var response = await client.get(Uri.parse(baseUrl + endpoint));
       if (response.statusCode == 200) {
@@ -79,7 +97,7 @@ class RemoteServices {
     }
   }
   //add new bill To Endpoint (addBill)
-  static Future<String> addBill(String name, String phone, String city, String address, int price, int delivery, List<Map<String, dynamic>> items, user_id , customer_name , customer_total , customer_nearpoint , profit) async {
+  static Future<String> addBill(String name, String phone, String city, String address, int price, int delivery, List<Map<String, dynamic>> items, user_id , customer_name , customer_total , customer_nearpoint , profit, note) async {
     var endpoint = 'addBill';
     var body = jsonEncode({
       'name': name,
@@ -93,7 +111,8 @@ class RemoteServices {
       'customer_name' : customer_name,
       'customer_total' : customer_total,
       'profit': profit,
-      'customer_nearpoint' : customer_nearpoint
+      'customer_nearpoint' : customer_nearpoint,
+      'note': note
     });
     try {
       var response = await http.post(

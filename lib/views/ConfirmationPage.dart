@@ -4,9 +4,8 @@ import 'package:ui_ecommerce/controllers/Checkout_controller.dart';
 class ConfirmationPage extends StatelessWidget {
   ConfirmationPage({super.key});
   final Checkout_controller checkout_controller = Get.put(Checkout_controller());
-
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext contex) {
     return Center(
       child: Container(
         width: Get.width,

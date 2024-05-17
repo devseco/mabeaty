@@ -13,6 +13,7 @@ class Product_controller extends GetxController {
   int count = 1;
   int id = 0;
   int lowerPrice = 0;
+  int lowerPriceLabel = 0;
   TextEditingController priceUser = TextEditingController();
   dynamic argumentData = Get.arguments;
 
@@ -41,6 +42,8 @@ class Product_controller extends GetxController {
     } else {
       lowerPrice = price + 15000;
     }
+    lowerPriceLabel = lowerPrice;
+
     update();
   }
   void fetchProduct() async{
@@ -67,6 +70,7 @@ class Product_controller extends GetxController {
     if(count < 3){
       if(count_now > 1){
         count++;
+        lowerPriceLabel = lowerPrice * count;
       }
     }
     update();
@@ -74,12 +78,14 @@ class Product_controller extends GetxController {
   void outCounter(){
     if(count != 1)
     count --;
+    lowerPriceLabel = lowerPrice * count;
     update();
   }
   @override
   void onInit() {
     id = argumentData[0]['id'];
     fetchProduct();
+
     // TODO: implement onInit
     super.onInit();
   }

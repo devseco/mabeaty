@@ -1,6 +1,8 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ui_ecommerce/Services/RemoteServices.dart';
 import 'package:ui_ecommerce/models/Category.dart';
+import 'package:ui_ecommerce/models/TestItem.dart';
 import '../models/Product.dart';
 import '../models/Slider.dart';
 class Home_controller extends GetxController {
@@ -11,14 +13,15 @@ class Home_controller extends GetxController {
   var isLoadingCategories= true.obs;
   var productsList = <Product>[].obs;
   var slidersList = <SliderBar>[].obs;
-  var filterProducts = <Product>[].obs;
+  var filterProducts = <TestItem>[].obs;
   var categoriesList = <CategoryModel>[].obs;
+  TextEditingController myController = TextEditingController();
 
   //fetch Productes
-  void fetchProducts() async{
+  void fetchProducts(page , limit) async{
     isLoadingProductes(true);
     try {
-      var products = await RemoteServices.fetchProductsRecently();
+      var products = await RemoteServices.fetchProductsRecently(page , limit);
       if(products != null){
         productsList.value = products;
       }else{
@@ -56,24 +59,32 @@ class Home_controller extends GetxController {
       isLoadingCategories(false);
     }
   }
-  void searchProducts(title) async{
-    try {
-      var filters = await RemoteServices.filterProducts(title);
-      if(filters != null){
-        filterProducts.value = filters;
-        productNames = filterProducts.map((product) => product.title).toList();
-        print(productNames);
-        update();
-      }
-    }finally{
 
+
+  Future<List<TestItem>> fetchData() async {
+    await Future.delayed(Duration(milliseconds: 2000));
+    List<TestItem> _list = [];
+    String _inputText = myController.text;
+    List<dynamic> filters = await RemoteServices.filterProducts(_inputText);
+    // تحويل كل عنصر في القائمة filters إلى كائن TestItem
+    for (var jsonItem in filters) {
+      _list.add(TestItem.fromJson(jsonItem));
     }
-    update();
+    return _list;
+  }
+
+
+
+
+  _printLatestValue() {
+    print("Textfield value: ${myController.text}");
+    //print("Textfield value: ${myController.text}");
   }
   @override
   void onInit() {
     // TODO: implement onInit
-    fetchProducts();
+    myController.addListener(_printLatestValue);
+    fetchProducts(1,10);
     fetchCategories();
     fetchSliders();
     super.onInit();
@@ -82,7 +93,6 @@ class Home_controller extends GetxController {
     index = i;
     update();
   }
-
 
 
 

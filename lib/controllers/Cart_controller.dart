@@ -86,8 +86,7 @@ class Cart_controller extends GetxController {
          totalCount += item.count as int;
        }
        print('Total : ${totalCount}');
-       if(totalCount != 6){
-         if(BoxCart.length != 6){
+       if(totalCount != 3){
            if(!BoxCart.containsKey(id)){
              BoxCart.put(id, CartModel(price: price, title: title, count: count, image: image, category: category, item: id,id: id  , priceUser : priceUser)).whenComplete(() {
                is_loadingDone();
@@ -104,10 +103,6 @@ class Cart_controller extends GetxController {
            }else{
              is_existsloading();
            }
-         }else{
-           is_Bloackloading();
-           msgAdded = "Error";
-         }
 
        }else{
          is_Bloackloading();
