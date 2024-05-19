@@ -1,13 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
-import 'package:easy_autocomplete/easy_autocomplete.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:textfield_search/textfield_search.dart';
 import 'package:ui_ecommerce/controllers/Home_controller.dart';
 import 'package:ui_ecommerce/main.dart';
-
 import '../models/TestItem.dart';
 class Home extends StatelessWidget {
    Home({super.key});
@@ -291,9 +289,12 @@ class Home extends StatelessWidget {
           return controller.fetchData();
         },
         getSelectedValue: (value) {
-          TestItem selectedItem = value as TestItem; // تأكد من أن القيمة هي من نوع TestItem
-          Get.toNamed('product' , arguments:[{"id": selectedItem.value}],);
-          controller.myController.clear();
+          if(value != null){
+            TestItem selectedItem = value as TestItem; // تأكد من أن القيمة هي من نوع TestItem
+            Get.toNamed('product' , arguments:[{"id": selectedItem.value}],);
+            controller.myController.clear();
+          }
+
         },
         decoration:  InputDecoration(
           fillColor: const Color(0xfff1ebf1),
@@ -316,5 +317,6 @@ class Home extends StatelessWidget {
     ),
     );
   }
+
 }
 

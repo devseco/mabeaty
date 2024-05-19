@@ -78,9 +78,7 @@ class RemoteServices {
     }
   }
 
-
-
-  //Fetch Items Recently From Endpoint (getProduct)
+//Fetch Items filter From Endpoint (getProduct)
   static Future<List<Product>?> fetchProductsRecently(int page, int limit) async {
     var endpoint = 'getProductsRecently/$page/$limit';
     try {
@@ -244,6 +242,35 @@ class RemoteServices {
       }
     } catch (e) {
       return null;
+    }
+  }
+  static Future<String> addOrder(name, phone, total,payment_type,payment_number,payment_name) async {
+    var endpoint = 'addOrder';
+    var body = jsonEncode({
+      'name': name,
+      'phone': phone,
+      'total': total,
+      'payment_type': payment_type,
+      'payment_number': payment_number,
+      'payment_name': payment_name,
+    });
+    try {
+      var response = await http.post(
+        Uri.parse(baseUrl + endpoint),
+        body: body,
+        headers: {'Content-Type': 'application/json'},
+      );
+      print(response.body);
+      if (response.statusCode == 200) {
+        var jsonData = response.body;
+        return jsonData;
+      } else {
+        String rawJson = '{${response.body},"Status_code":500}';
+        return rawJson;
+      }
+    } catch (e) {
+      String rawJson = '{"message":"An unexpected error occurred","Status_code":500}';
+      return rawJson;
     }
   }
 }

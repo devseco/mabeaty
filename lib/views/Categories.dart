@@ -116,6 +116,7 @@ class Categories extends StatelessWidget {
        child: SizedBox(
            width: Get.width * 0.83,
            child: TextField(
+             controller: controller.myController,
              decoration:  InputDecoration(
                fillColor: Color(0xfff1ebf1),
                filled: true,

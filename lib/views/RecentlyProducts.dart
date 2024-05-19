@@ -81,13 +81,12 @@ class RecentlyProducts extends StatelessWidget {
     );
   }
 
-  Padding filtersIcon() {
-    return Padding(
-      padding: EdgeInsetsDirectional.only(
-        start: Get.height * 0.009,
-        end: Get.height * 0.009,
+  Padding filtersIcon (){
+    return Padding(padding: EdgeInsetsDirectional.only(start: Get.height * 0.009 , end: Get.height * 0.009),
+      child:  GestureDetector(
+        onTap: showDialog,
+        child: const Icon(Icons.tune),
       ),
-      child: const Icon(Icons.tune),
     );
   }
 
@@ -243,6 +242,100 @@ class RecentlyProducts extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+  showDialog(){
+    return Get.dialog(
+        barrierDismissible: false,
+        Dialog(
+          child: Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20)),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(padding: const EdgeInsets.only(top: 10,bottom: 10),
+                  child: Center(
+                    child: Text("76".tr),
+                  ),
+                ),
+                const SizedBox(height:10,),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: GetBuilder<RecentlyProductsController>(builder: (c){
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        GestureDetector(
+                          onTap: (){
+                            c.changeSelected(1);
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.all(5.0),
+                            padding: const EdgeInsets.all(5.0),
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Colors.blueAccent , width: 0.5),
+                                color: (c.selectedFilter == 1)? Colors.deepPurple : Colors.white
+                            ),
+                            child: Text(
+                              'الاكثر توفرآ',
+                              style: TextStyle(
+                                  color: (c.selectedFilter == 1)? Colors.white : Colors.black
+                              ),
+                            ),
+                          ),
+                        ),
+                        spaceW(5),
+                        GestureDetector(
+                          onTap: (){
+                            c.changeSelected(2);
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.all(5.0),
+                            padding: const EdgeInsets.all(5.0),
+                            decoration: BoxDecoration(
+                                color: (c.selectedFilter == 2)? Colors.deepPurple : Colors.white,
+                                border: Border.all(color: Colors.blueAccent , width: 0.5)
+                            ),
+                            child: Text(
+                              'الاكثر مبيعآ',
+                              style: TextStyle(
+                                  color: (c.selectedFilter == 2)? Colors.white : Colors.black
+                              ),
+                            ),
+                          ),
+                        ),
+
+                      ],
+                    );
+                  },),
+                ),
+                const Divider(
+                  color: Colors.green,
+                  thickness: 1,
+                ),
+                Padding(padding: const EdgeInsets.all(10),
+                  child:  Row(
+                    children: [
+                      GestureDetector(
+                        onTap: Get.back,
+                        child: Container(
+                          child: Text(
+                              '53'.tr
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
+        )
     );
   }
 }

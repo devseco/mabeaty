@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ui_ecommerce/controllers/Checkout_controller.dart';
-
 import '../main.dart';
-
 class Delivery_controller extends GetxController{
   List<String> governorates_en = [
     'Baghdad',
@@ -74,7 +72,7 @@ class Delivery_controller extends GetxController{
   void onInit() {
    total = argumentData[0]['total'];
    totalUser = argumentData[0]['totalUser'];
-   var sharePhone = sharedPreferences!.getInt('phone')!;
+   var sharePhone = sharedPreferences!.getString('phone')!;
    print('${sharePhone} is phone');
    gonvernorates = sharedPreferences!.getString('lang') == 'ar' ? governorates_ar : governorates_ar;
    //phone.text = ;
