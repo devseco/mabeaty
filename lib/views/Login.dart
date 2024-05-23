@@ -8,14 +8,9 @@ class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-
-
-      ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
+      body: ListView(
         children: [
+          _space(Get.height * 0.05),
           _logo(),
           _space(Get.height * 0.03),
           _text("2" , Get.height * 0.03,Colors.black,FontWeight.w600),
@@ -26,8 +21,6 @@ class Login extends StatelessWidget {
           _space(Get.height * 0.02),
           _textme('4' , controller.password_ , true),
           _remberMeCheckBox(),
-          _space(Get.height * 0.01),
-          _text('13', Get.height * 0.016, Colors.black, FontWeight.w600),
           _space(Get.height * 0.02),
           GetBuilder<Login_controller>(builder: (builder){
             if(builder.loading){
@@ -46,7 +39,12 @@ class Login extends StatelessWidget {
           _space(Get.height * 0.02),
           _text('8', Get.height * 0.013, Colors.black, FontWeight.w300),
           _space(Get.height * 0.03),
-          _text('5', Get.height * 0.016, Colors.black, FontWeight.w600),
+          GestureDetector(
+            onTap: (){
+              Get.offNamed('register');
+            },
+            child: _text('5', Get.height * 0.016, Colors.black, FontWeight.w600),
+          )
         ],
       ),
 

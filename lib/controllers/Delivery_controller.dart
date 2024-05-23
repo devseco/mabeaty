@@ -75,6 +75,7 @@ class Delivery_controller extends GetxController{
    var sharePhone = sharedPreferences!.getString('phone')!;
    print('${sharePhone} is phone');
    gonvernorates = sharedPreferences!.getString('lang') == 'ar' ? governorates_ar : governorates_ar;
+
    //phone.text = ;
     // TODO: implement onInit
     super.onInit();

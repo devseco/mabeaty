@@ -27,7 +27,6 @@ class Home extends StatelessWidget {
           Row(
             children: [
               searchTextInput(),
-              filtersIcon(),
             ],
           ),
           spaceH(Get.height * 0.02),
@@ -281,7 +280,7 @@ class Home extends StatelessWidget {
   Padding searchTextInput() {
     return Padding(padding: EdgeInsetsDirectional.only(start: Get.height * 0.02 , end: Get.height * 0.002),
     child: SizedBox(
-      width: Get.width * 0.83,
+      width: Get.width * 0.9,
       child: TextFieldSearch(
         label: 'My Label',
         controller: controller.myController,

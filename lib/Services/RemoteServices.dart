@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:ui_ecommerce/models/Bill.dart';
 import 'package:ui_ecommerce/models/Category.dart';
 import 'package:ui_ecommerce/models/Product.dart';
+import 'package:ui_ecommerce/models/ProductsModel.dart';
 import 'package:ui_ecommerce/models/Sale.dart';
 import 'package:ui_ecommerce/models/TestItem.dart';
 import 'package:ui_ecommerce/models/UserInfo.dart';
@@ -32,9 +33,26 @@ class RemoteServices {
       return rawJson;
     }
   }
+  //Register
+  static Future register(phone , name , password , city , address) async {
+    var endpoint = 'addnew';
+    var body = jsonEncode({'phone': phone , 'name' : name , 'password' : password , 'city' : city , 'address' : address});
+    try {
+      var response = await client.post(Uri.parse(baseUrl + endpoint),
+        body:body,
+        headers: {'Content-Type': 'application/json'},
+      );
+      print(response.body);
+        var jsonData = response.body;
+        return jsonData;
+    } catch (e) {
+      String rawJson = '{"message":"An unexpected error occurred","Status_code":500}';
+      return rawJson;
+    }
+  }
   //Fetch Profile From Endpoint (userInfo)
   static Future<UserInfo?> fetchProfile(id) async {
-    var endpoint = 'userInfo/2';
+    var endpoint = 'userInfo/${id}';
     try {
       var response = await client.get(Uri.parse(baseUrl + endpoint));
       if (response.statusCode == 200) {
@@ -180,13 +198,13 @@ class RemoteServices {
     }
   }
   //Fetch Item By Id From Endpoint (getProduct)
-  static Future<List<Product>?> fetchProductone(id) async {
+  static Future<ProductModel?> fetchProductone(id) async {
     var endpoint = 'getProduct/${id}';
     try {
       var response = await client.get(Uri.parse(baseUrl + endpoint));
       if (response.statusCode == 200) {
         var jsonData = response.body;
-        List<Product> products = productFromJson(jsonData);
+        ProductModel products = productModelFromJson(jsonData);
         return products;
       } else {
         return null;

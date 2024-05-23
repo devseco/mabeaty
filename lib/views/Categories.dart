@@ -13,13 +13,6 @@ class Categories extends StatelessWidget {
           child: Column(
             children: [
               spaceH(Get.height * 0.015),
-              Row(
-                children: [
-                  searchTextInput(),
-                  filtersIcon(),
-                ],
-              ),
-              spaceH(Get.height * 0.015),
               Expanded(child: bestproductslist())
             ],
           )),

@@ -13,12 +13,6 @@ class Billing extends StatelessWidget {
       body: Column(
         children: [
           spaceH(Get.height * 0.015),
-          Row(
-            children: [
-              searchTextInput(),
-              filtersIcon(),
-            ],
-          ),
           spaceH(Get.height * 0.02),
           Container(
             height: 50, // Set the height as desired

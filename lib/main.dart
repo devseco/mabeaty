@@ -30,6 +30,7 @@ import 'package:ui_ecommerce/views/Landing.dart';
 import 'package:ui_ecommerce/views/Login.dart';
 import 'package:ui_ecommerce/views/ProductPage.dart';
 import 'package:ui_ecommerce/views/Products.dart';
+import 'package:ui_ecommerce/views/RegisterView.dart';
 import 'controllers/Cart_controller.dart';
 import 'package:intl/intl.dart';
 SharedPreferences? sharedPreferences;
@@ -74,6 +75,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/favorites', page: ()=>Favorites() , binding: Checkout_bindings()),
         GetPage(name: '/billing', page: ()=>Billing() , binding: Billing_bindings()),
         GetPage(name: '/Item_Billing', page: ()=>Item_Billing() , binding: ItemBilling_bindings()),
+        GetPage(name: '/register', page: ()=>RegisterView() , binding: Landing_bindings()),
       ],
     );
   }

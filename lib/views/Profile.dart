@@ -52,7 +52,6 @@ class Profile extends StatelessWidget {
                    dialogPayment();
                  }else{
                    Get.snackbar('خطآ', 'يجب ان يكون مبلغ القاصة اكبر او يساوي 10,000 دينار عراقي');
-
                  }
 
                },
@@ -276,21 +275,7 @@ class Profile extends StatelessWidget {
             ),
           ],
         ),
-        SizedBox(height: Get.width * 0.03,),
-        Row(
-          children: [
-            Icon(Icons.email , size: Get.width * 0.04,),
-            SizedBox(width: Get.width * 0.015,),
-            Text(
-              '${profileController.userList[0].userInfo.email}',
-              style: TextStyle(
-                  color: Colors.grey,
-                  fontSize: Get.width * 0.03,
-                  fontWeight: FontWeight.bold
-              ),
-            ),
-          ],
-        ),
+
         SizedBox(height: Get.width * 0.03,),
         Row(
           children: [

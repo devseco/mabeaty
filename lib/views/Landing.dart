@@ -8,6 +8,7 @@ import 'package:ui_ecommerce/views/Cart.dart';
 import 'package:ui_ecommerce/views/Categories.dart';
 import 'package:ui_ecommerce/views/Home.dart';
 import 'package:ui_ecommerce/views/Profile.dart';
+import 'package:url_launcher/url_launcher.dart';
 class Landing extends StatelessWidget {
    Landing({super.key});
    final Landing_controller controller =  Get.put(Landing_controller());
@@ -120,17 +121,23 @@ class Landing extends StatelessWidget {
      );
            }),
            spaceW(Get.height * 0.01),
-           const Icon(Icons.notifications_outlined),
-           spaceW(Get.height * 0.01),
          ],
        ),
      );
    }
-   Padding logo() {
-     return Padding(padding: EdgeInsetsDirectional.only(start: Get.height * 0.01, top: Get.height * 0.01),
-       child:  Image.asset('assets/images/logo.png' , fit: BoxFit.contain,width: Get.height * 0.06,height: Get.height * 0.03,),
+   GestureDetector logo() {
+    return GestureDetector(
+      onTap: (){
+        final uri = Uri.tryParse('https://linktr.ee/mabiati_iq');
+        if (uri != null) {
+          launchUrl(uri);
+        }
+      },
+      child: Padding(padding: EdgeInsetsDirectional.only(start: Get.height * 0.01, top: Get.height * 0.01),
+        child:  Image.asset('assets/images/logo.png' , fit: BoxFit.contain,width: Get.height * 0.06,height: Get.height * 0.03,),
 
-     );
+      ),
+    );
    }
 }
 

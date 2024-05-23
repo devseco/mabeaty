@@ -51,6 +51,7 @@ dependencies:
   easy_autocomplete: ^1.6.0
   textfield_search: ^0.10.0
   flutter_typeahead: ^5.2.0
+  url_launcher: ^6.2.6
 
 dev_dependencies:
   flutter_test:

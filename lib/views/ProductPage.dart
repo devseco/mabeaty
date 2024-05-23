@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -24,7 +25,7 @@ class ProductPage extends StatelessWidget {
          if(c.isLoadingItem.value){
            return Text('');
          }else{
-           if(c.productList.isNotEmpty){
+           if(c.productItemList.isNotEmpty){
              return title();
            }else{
              return Text('');
@@ -37,20 +38,20 @@ class ProductPage extends StatelessWidget {
        if(c.isLoadingItem.value){
         return loading_();
        }else{
-         if(c.productList.isNotEmpty){
+         if(c.productItemList.isNotEmpty){
            return SafeArea(
              child: ListView(
                children: [
                  sliders(),
                  line(),
                  spaceH(Get.height * 0.002),
-                 _text(c.productList[0].title , Get.height * 0.018,Colors.black,FontWeight.bold),
+                 _text(c.productItemList[0].title , Get.height * 0.018,Colors.black,FontWeight.bold),
                  spaceH(Get.height * 0.002),
-                 _description(c.productList[0].description),
+                 _description(c.productItemList[0].description),
                  spaceH(Get.height * 0.002),
-                 price(c.productList[0].price.toString(), c.productList[0].lastprice.toString()),
+                 price(c.productItemList[0].price.toString(), c.productItemList[0].lastprice.toString()),
                  spaceH(Get.height * 0.01),
-                 count_(c.productList[0].count, c.productList[0].renewable),
+                 count_(c.productItemList[0].count, c.productItemList[0].renewable),
                   spaceH(Get.height * 0.01),
                  lowerPrice(),
                  _counter(),
@@ -127,10 +128,10 @@ class ProductPage extends StatelessWidget {
         child: Container(
           child: ElevatedButton(
             onPressed: () {
-             if(controller.productList[0].count >= 1 ){
+             if(controller.productItemList[0].count >= 1 ){
                if(controller.priceUser.text.isNotEmpty){
                  if(int.parse(controller.priceUser.text.replaceAll(',','')) >= controller.lowerPrice){
-                   builder.putDate(controller.productList[0].title, controller.productList[0].price, controller.count, controller.productList[0].id, controller.productList[0].image, controller.productList[0].category ,int.parse(controller.priceUser.text.replaceAll(',','')) );
+                   builder.putDate(controller.productItemList[0].title, controller.productItemList[0].price, controller.count, controller.productItemList[0].id, controller.productItemList[0].image, controller.productItemList[0].category ,int.parse(controller.priceUser.text.replaceAll(',','')) );
                    if(!builder.isLoadingAdded.value){
                      if(builder.isAddedCart.value){
                        msgAdded('29'.tr, '30'.tr);
@@ -200,7 +201,7 @@ class ProductPage extends StatelessWidget {
                     IconButton(
                       icon: Icon(Icons.add),
                       onPressed:(){
-                        controller.inCounter(c.productList[0].count);
+                        controller.inCounter(c.productItemList[0].count);
                       }, // زيادة الكمية
                     ),
                   ],
@@ -294,7 +295,7 @@ class ProductPage extends StatelessWidget {
      );
    }
   title(){
-    return Text(controller.productList[0].title,
+    return Text(controller.productItemList[0].title,
     style: TextStyle(
       fontSize: Get.height * 0.02,
       fontWeight: FontWeight.bold
@@ -302,8 +303,6 @@ class ProductPage extends StatelessWidget {
 
     );
   }
-  //builder.putDate(controller.productList[0].title, controller.productList[0].price, controller.productList[0].id, controller.productList[0].image, controller.productList[0].category, controller.productList[0].lastprice, controller.productList[0].rate);
-   //
   line() {
     return const Divider(
       color: Colors.black12,
@@ -324,24 +323,47 @@ class ProductPage extends StatelessWidget {
   sliders() {
     return Padding(padding: EdgeInsetsDirectional.only(top: Get.height * 0.007),
       child: SizedBox(
-        height: Get.height * 0.303,
+        height: Get.height * 0.3,
         child: Container(
           decoration: BoxDecoration(
               border: Border.all(color: Colors.white60)
           ),
           child: ClipRRect(
-            child: CachedNetworkImage(
-              imageUrl: controller.productList[0].image,
-              imageBuilder: (context, imageProvider) => Container(
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: imageProvider,
-                    fit: BoxFit.contain,
-                  ),
-                ),
+            child:  CarouselSlider(
+              options: CarouselOptions(
+                autoPlay: true
+                ,viewportFraction: 1,
+                height: Get.height * 0.4,
+                onPageChanged: (index, reason) {
+                  controller.changeindex(index);
+                },
               ),
-              placeholder: (context, url) => const CircularProgressIndicator(),
-              errorWidget: (context, url, error) => const Icon(Icons.error),
+              items: controller.productItemList[0].images
+                  .map((item) => Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      border: Border.all(color: Colors.white60)
+                  ),
+                  margin: EdgeInsets.all(Get.height * 0.005),
+                  padding: EdgeInsetsDirectional.only(start: Get.height * 0.004,end: Get.height * 0.004,top: Get.height * 0.004,bottom: Get.height * 0.004),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10.0),
+                    child: CachedNetworkImage(
+                      imageUrl: item,
+                      imageBuilder: (context, imageProvider) => Container(
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: imageProvider,
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                      ),
+                      placeholder: (context, url) => const Center(child: CircularProgressIndicator(),),
+                      errorWidget: (context, url, error) => const Icon(Icons.error),
+                    ),
+                  )
+              ))
+                  .toList(),
             ),
           ),
         )
