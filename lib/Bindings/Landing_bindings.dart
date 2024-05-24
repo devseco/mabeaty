@@ -4,6 +4,7 @@ import 'package:ui_ecommerce/controllers/Favorite_controller.dart';
 import 'package:ui_ecommerce/controllers/Home_controller.dart';
 import 'package:ui_ecommerce/controllers/Landing_controller.dart';
 import 'package:ui_ecommerce/controllers/Login_controller.dart';
+import 'package:ui_ecommerce/controllers/ProfileController.dart';
 import '../controllers/Cart_controller.dart';
 class Landing_bindings implements Bindings{
   @override
@@ -13,5 +14,6 @@ class Landing_bindings implements Bindings{
    Get.lazyPut<Home_controller>(() => Home_controller() ,fenix: true);
    Get.lazyPut(() => Cart_controller() , fenix: true);
    Get.lazyPut(() => Billing_controller() , fenix: true);
+   Get.lazyPut(() => ProfileController() , fenix: true);
   }
 }

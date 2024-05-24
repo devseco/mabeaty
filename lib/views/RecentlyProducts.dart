@@ -223,22 +223,28 @@ class RecentlyProducts extends StatelessWidget {
                 fontWeight: FontWeight.w800,
               ),
             ),
-            spaceH(Get.height * 0.004),
-            Text(
-              formatter.format(lastprice) + " د.ع ",
-              textAlign: TextAlign.start,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                decoration: TextDecoration.lineThrough,
-                fontWeight: FontWeight.w800,
-              ),
-            ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('(${count})'),
-                spaceW(Get.height * 0.005),
+                Text(
+                  'المتوفر : ${count ~/ 2} - $count',
+                  textAlign: TextAlign.start,
+                  style:  TextStyle(
+                    fontSize: Get.width * 0.025,
+                    color: Colors.black45,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+                Text(
+                  (renewable == 1) ? 'قابل للتجديد' : '',
+                  textAlign: TextAlign.start,
+                  style: const TextStyle(
+                    color: Colors.deepPurple,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
               ],
-            ),
+            )
           ],
         ),
       ),

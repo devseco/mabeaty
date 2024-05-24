@@ -126,7 +126,8 @@ class Home extends StatelessWidget {
                  Text(
                    'المتوفر : ${count ~/ 2} - $count',
                    textAlign: TextAlign.start,
-                   style: const TextStyle(
+                   style:  TextStyle(
+                     fontSize: Get.width * 0.025,
                      color: Colors.black45,
                      fontWeight: FontWeight.w800,
                    ),

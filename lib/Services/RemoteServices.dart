@@ -11,7 +11,7 @@ import '../models/Slider.dart';
 
 class RemoteServices {
   static var client = http.Client();
-  static var baseUrl = 'http://127.0.0.1:3000/';
+  static var baseUrl = 'http://89.116.110.51:4000/';
 //Login
   static Future login(phone) async {
     var endpoint = 'login';

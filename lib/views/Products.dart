@@ -203,8 +203,10 @@ class Products extends StatelessWidget {
                  Text(
                    'المتوفر : ${count ~/ 2} - $count',
                    textAlign: TextAlign.start,
-                   style: const TextStyle(
+                   style:  TextStyle(
                      color: Colors.black45,
+                     fontSize: Get.width * 0.025,
+
                      fontWeight: FontWeight.w800,
                    ),
                  ),

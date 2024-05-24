@@ -76,48 +76,11 @@ class Profile extends StatelessWidget {
             SizedBox(
               height: Get.width * 0.06,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Icon(Icons.shopping_cart_outlined , size: Get.width * 0.04,),
-                SizedBox(width: Get.width * 0.015,),
-                Text(
-                  'سلة المشتريات',
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: Get.width * 0.04,
-                      fontWeight: FontWeight.w500
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: Get.width * 0.06,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Icon(Icons.info_outline , size: Get.width * 0.04,),
-                SizedBox(width: Get.width * 0.015,),
-                Text(
-                  'الدعم الفني',
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: Get.width * 0.04,
-                      fontWeight: FontWeight.w500
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: Get.width * 0.06,
-            ),
+
+
             GestureDetector(
               onTap: (){
                 profileController.logout();
-
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -134,6 +97,17 @@ class Profile extends StatelessWidget {
                     ),
                   ),
                 ],
+              ),
+            ),
+            SizedBox(
+              height: Get.width * 0.1,
+            ),
+            Text(
+              'برمجة وتصميم علي سيكو',
+              style: TextStyle(
+                  color: Colors.grey,
+                  fontSize: Get.width * 0.03,
+                  fontWeight: FontWeight.w500
               ),
             ),
 

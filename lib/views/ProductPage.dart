@@ -326,47 +326,73 @@ class ProductPage extends StatelessWidget {
         height: Get.height * 0.3,
         child: Container(
           decoration: BoxDecoration(
-              border: Border.all(color: Colors.white60)
+            border: Border.all(color: Colors.white60),
           ),
           child: ClipRRect(
-            child:  CarouselSlider(
+            child: CarouselSlider(
               options: CarouselOptions(
-                autoPlay: true
-                ,viewportFraction: 1,
+                autoPlay: true,
+                viewportFraction: 1,
                 height: Get.height * 0.4,
                 onPageChanged: (index, reason) {
                   controller.changeindex(index);
                 },
               ),
-              items: controller.productItemList[0].images
-                  .map((item) => Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
-                      border: Border.all(color: Colors.white60)
-                  ),
-                  margin: EdgeInsets.all(Get.height * 0.005),
-                  padding: EdgeInsetsDirectional.only(start: Get.height * 0.004,end: Get.height * 0.004,top: Get.height * 0.004,bottom: Get.height * 0.004),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10.0),
-                    child: CachedNetworkImage(
-                      imageUrl: item,
-                      imageBuilder: (context, imageProvider) => Container(
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: imageProvider,
-                            fit: BoxFit.fill,
+              items: controller.productItemList[0].images.map((item) => Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(30),
+                  border: Border.all(color: Colors.white60),
+                ),
+                margin: EdgeInsets.all(Get.height * 0.005),
+                padding: EdgeInsetsDirectional.only(
+                  start: Get.height * 0.004,
+                  end: Get.height * 0.004,
+                  top: Get.height * 0.004,
+                  bottom: Get.height * 0.004,
+                ),
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(10.0),
+                      child: CachedNetworkImage(
+                        imageUrl: item,
+                        imageBuilder: (context, imageProvider) => Container(
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: imageProvider,
+                              fit: BoxFit.fill,
+                            ),
                           ),
                         ),
+                        placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
+                        errorWidget: (context, url, error) => const Icon(Icons.error),
                       ),
-                      placeholder: (context, url) => const Center(child: CircularProgressIndicator(),),
-                      errorWidget: (context, url, error) => const Icon(Icons.error),
                     ),
-                  )
-              ))
-                  .toList(),
+                    Positioned(
+                      bottom: 10,
+                      right: 10,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.8), // Set your desired background color here
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: IconButton(
+                          icon: Icon(Icons.download_rounded, color: Colors.black),
+                          onPressed: () {
+                            controller.saveNetworkImage(item);
+                          },
+                        ),
+                      ),
+                    )
+
+                  ],
+                ),
+              ),).toList(),
             ),
           ),
         )
+
       ),
     );
   }

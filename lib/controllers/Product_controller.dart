@@ -1,7 +1,14 @@
+import 'dart:io';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:gal/gal.dart';
+import 'package:gallery_saver/gallery_saver.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:ui_ecommerce/models/Product.dart';
 import 'package:ui_ecommerce/models/ProductsModel.dart';
 import '../Services/RemoteServices.dart';
@@ -77,17 +84,44 @@ class Product_controller extends GetxController {
     }
     update();
   }
+
+
   void outCounter(){
     if(count != 1)
     count --;
     lowerPriceLabel = lowerPrice * count;
     update();
   }
+  void saveNetworkImage(String url) async {
+    final imagePath = '${Directory.systemTemp.path}/${DateTime.now().millisecondsSinceEpoch}}.jpg';
+    await Dio().download('$url',imagePath);
+    await Gal.putImage(imagePath);
+    Get.snackbar('حفظ الصورة', 'تم حفظ الصورة بنجاح');
+
+  }
+ void permission() async{
+   var status = await Permission.camera.status;
+   if (status.isDenied) {
+     // We haven't asked for permission yet or the permission has been denied before, but not permanently.
+     Map<Permission, PermissionStatus> statuses = await [
+     Permission.storage,
+         Permission.camera,
+   ].request();
+   print(statuses[Permission.storage]);
+   }
+
+
+// You can also directly ask permission about its status.
+   if (await Permission.location.isRestricted) {
+   // The OS restricts access, for example, because of parental controls.
+   }
+ }
+
   @override
   void onInit() {
     id = argumentData[0]['id'];
     fetchProduct();
-
+    permission();
     // TODO: implement onInit
     super.onInit();
   }
