@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:ui_ecommerce/controllers/Landing_controller.dart';
-import 'package:ui_ecommerce/models/CartModel.dart';
+import 'package:mabeaty/controllers/Landing_controller.dart';
+import 'package:mabeaty/models/CartModel.dart';
 late Box BoxCart;
 class Cart_controller extends GetxController {
   var isAddedCart = false.obs;

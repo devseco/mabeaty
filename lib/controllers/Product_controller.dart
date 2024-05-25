@@ -9,8 +9,8 @@ import 'package:gallery_saver/gallery_saver.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:ui_ecommerce/models/Product.dart';
-import 'package:ui_ecommerce/models/ProductsModel.dart';
+import 'package:mabeaty/models/Product.dart';
+import 'package:mabeaty/models/ProductsModel.dart';
 import '../Services/RemoteServices.dart';
 
 class Product_controller extends GetxController {
@@ -113,7 +113,7 @@ class Product_controller extends GetxController {
 
 // You can also directly ask permission about its status.
    if (await Permission.location.isRestricted) {
-   // The OS restricts access, for example, because of parental controls.
+   // The OS restricts access, for seco, because of parental controls.
    }
  }
 

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ui_ecommerce/Services/RemoteServices.dart';
-import 'package:ui_ecommerce/models/Category.dart';
-import 'package:ui_ecommerce/models/TestItem.dart';
+import 'package:mabeaty/Services/RemoteServices.dart';
+import 'package:mabeaty/models/Category.dart';
+import 'package:mabeaty/models/TestItem.dart';
 import '../models/Product.dart';
 import '../models/Slider.dart';
 class Home_controller extends GetxController {

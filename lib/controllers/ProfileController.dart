@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:ui_ecommerce/models/UserInfo.dart';
+import 'package:mabeaty/models/UserInfo.dart';
 import '../Services/RemoteServices.dart';
 import '../main.dart';
 import '../views/Login.dart';

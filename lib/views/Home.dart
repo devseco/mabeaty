@@ -4,8 +4,8 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:textfield_search/textfield_search.dart';
-import 'package:ui_ecommerce/controllers/Home_controller.dart';
-import 'package:ui_ecommerce/main.dart';
+import 'package:mabeaty/controllers/Home_controller.dart';
+import 'package:mabeaty/main.dart';
 import '../models/TestItem.dart';
 class Home extends StatelessWidget {
    Home({super.key});

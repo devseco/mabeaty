@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:ui_ecommerce/controllers/Products_controller.dart';
+import 'package:mabeaty/controllers/Products_controller.dart';
 import '../main.dart';
 class Products extends StatelessWidget {
    Products({super.key});

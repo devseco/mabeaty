@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ui_ecommerce/controllers/Category_controller.dart';
+import 'package:mabeaty/controllers/Category_controller.dart';
 
 class Categories extends StatelessWidget {
    Categories({super.key});

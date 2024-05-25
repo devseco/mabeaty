@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ui_ecommerce/models/Category.dart';
+import 'package:mabeaty/models/Category.dart';
 
 import '../Services/RemoteServices.dart';
 

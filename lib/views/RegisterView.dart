@@ -2,7 +2,7 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:ui_ecommerce/controllers/RegisterController.dart';
+import 'package:mabeaty/controllers/RegisterController.dart';
 class RegisterView extends StatelessWidget {
   RegisterView({super.key});
   final RegisterController controller = Get.put(RegisterController());

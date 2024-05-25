@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:ui_ecommerce/controllers/Cart_controller.dart';
+import 'package:mabeaty/controllers/Cart_controller.dart';
 import '../main.dart';
 
 class CartPage extends StatelessWidget {

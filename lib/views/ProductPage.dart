@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:ui_ecommerce/controllers/Cart_controller.dart';
-import 'package:ui_ecommerce/controllers/Favorite_controller.dart';
-import 'package:ui_ecommerce/controllers/Product_controller.dart';
+import 'package:mabeaty/controllers/Cart_controller.dart';
+import 'package:mabeaty/controllers/Favorite_controller.dart';
+import 'package:mabeaty/controllers/Product_controller.dart';
 import '../main.dart';
 class ProductPage extends StatelessWidget {
    ProductPage({super.key});

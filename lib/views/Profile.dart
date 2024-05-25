@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ui_ecommerce/controllers/ProfileController.dart';
-import 'package:ui_ecommerce/main.dart';
+import 'package:mabeaty/controllers/ProfileController.dart';
+import 'package:mabeaty/main.dart';
 class Profile extends StatelessWidget {
    Profile({Key? key}) : super(key: key);
   final ProfileController profileController = Get.put(ProfileController());

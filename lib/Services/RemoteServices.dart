@@ -1,12 +1,12 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:ui_ecommerce/models/Bill.dart';
-import 'package:ui_ecommerce/models/Category.dart';
-import 'package:ui_ecommerce/models/Product.dart';
-import 'package:ui_ecommerce/models/ProductsModel.dart';
-import 'package:ui_ecommerce/models/Sale.dart';
-import 'package:ui_ecommerce/models/TestItem.dart';
-import 'package:ui_ecommerce/models/UserInfo.dart';
+import 'package:mabeaty/models/Bill.dart';
+import 'package:mabeaty/models/Category.dart';
+import 'package:mabeaty/models/Product.dart';
+import 'package:mabeaty/models/ProductsModel.dart';
+import 'package:mabeaty/models/Sale.dart';
+import 'package:mabeaty/models/TestItem.dart';
+import 'package:mabeaty/models/UserInfo.dart';
 import '../models/Slider.dart';
 
 class RemoteServices {

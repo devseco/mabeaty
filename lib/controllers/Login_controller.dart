@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:ui_ecommerce/Bindings/Landing_bindings.dart';
-import 'package:ui_ecommerce/Services/RemoteServices.dart';
-import 'package:ui_ecommerce/main.dart';
-import 'package:ui_ecommerce/views/Landing.dart';
+import 'package:mabeaty/Bindings/Landing_bindings.dart';
+import 'package:mabeaty/Services/RemoteServices.dart';
+import 'package:mabeaty/main.dart';
+import 'package:mabeaty/views/Landing.dart';
 class Login_controller extends GetxController{
 
   //variable for check Remember me

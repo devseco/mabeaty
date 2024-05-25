@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ui_ecommerce/controllers/Home_controller.dart';
-import 'package:ui_ecommerce/controllers/Landing_controller.dart';
-import 'package:ui_ecommerce/locale/Locale_controller.dart';
-import 'package:ui_ecommerce/views/Billing.dart';
-import 'package:ui_ecommerce/views/Cart.dart';
-import 'package:ui_ecommerce/views/Categories.dart';
-import 'package:ui_ecommerce/views/Home.dart';
-import 'package:ui_ecommerce/views/Profile.dart';
+import 'package:mabeaty/controllers/Home_controller.dart';
+import 'package:mabeaty/controllers/Landing_controller.dart';
+import 'package:mabeaty/locale/Locale_controller.dart';
+import 'package:mabeaty/views/Billing.dart';
+import 'package:mabeaty/views/Cart.dart';
+import 'package:mabeaty/views/Categories.dart';
+import 'package:mabeaty/views/Home.dart';
+import 'package:mabeaty/views/Profile.dart';
 import 'package:url_launcher/url_launcher.dart';
 class Landing extends StatelessWidget {
    Landing({super.key});

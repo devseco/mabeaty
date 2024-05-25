@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
-import 'package:ui_ecommerce/models/FavoriteModel.dart';
+import 'package:mabeaty/models/FavoriteModel.dart';
 late Box BoxFavorite;
 class Favorite_controller extends GetxController{
 

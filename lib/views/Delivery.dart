@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:ui_ecommerce/controllers/Checkout_controller.dart';
-import 'package:ui_ecommerce/controllers/Delivery_controller.dart';
-import 'package:ui_ecommerce/main.dart';
+import 'package:mabeaty/controllers/Checkout_controller.dart';
+import 'package:mabeaty/controllers/Delivery_controller.dart';
+import 'package:mabeaty/main.dart';
 class Delivery extends StatelessWidget {
    Delivery({super.key});
    final Delivery_controller controller = Get.put(Delivery_controller());

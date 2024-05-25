@@ -1,6 +1,6 @@
 import 'dart:ui';
 import 'package:get/get.dart';
-import 'package:ui_ecommerce/main.dart';
+import 'package:mabeaty/main.dart';
 class Locale_controller extends GetxController {
   Locale inliaLang = sharedPreferences!.getString('lang') == 'ar' ? Locale('ar') : Locale('ar');
   void changelocale() {

@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:ui_ecommerce/controllers/Product_controller.dart';
+import 'package:mabeaty/controllers/Product_controller.dart';
 class Product_bindings implements Bindings {
   @override
   void dependencies() {

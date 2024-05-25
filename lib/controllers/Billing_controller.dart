@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-import 'package:ui_ecommerce/main.dart';
-import 'package:ui_ecommerce/models/Bill.dart';
+import 'package:mabeaty/main.dart';
+import 'package:mabeaty/models/Bill.dart';
 import '../Services/RemoteServices.dart';
 
 class Billing_controller extends GetxController{

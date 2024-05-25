@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:ui_ecommerce/views/Favorites.dart';
+import 'package:mabeaty/views/Favorites.dart';
 
 class Favorite_bindings implements Bindings{
   @override
