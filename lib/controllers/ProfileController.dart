@@ -61,6 +61,15 @@ class ProfileController extends GetxController{
      return false;
    }
   }
+  void deleteAccount() async{
+    var name = sharedPreferences!.getString('name');
+    var user_id = sharedPreferences!.getInt('user_id');
+    await RemoteServices.deleteAccount(name , user_id);
+
+    sharedPreferences!.clear();
+    BoxCart.clear();
+    Get.off(() => Login());
+  }
   @override
   void onInit() {
     fetchProfile();

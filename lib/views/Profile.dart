@@ -146,7 +146,7 @@ class Profile extends StatelessWidget {
        actions: [
          TextButton(
            onPressed: () {
-           profileController.deleteAccount();
+             profileController.deleteAccount();
            },
            child: Text("ارسال"),
          ),
@@ -159,8 +159,7 @@ class Profile extends StatelessWidget {
        ],
      );
    }
-
-   Widget statusOrders(){
+  Widget statusOrders(){
     return GetBuilder<ProfileController>(builder: (builder){
       return Container(
         width: Get.width,

@@ -35,41 +35,38 @@ class Login_controller extends GetxController{
     errorlogin = true;
     update();
   }
-   void Login() async{
-    if(phone_.text.isNotEmpty && password_.text.isNotEmpty){
-      is_loading();
-      var response = await RemoteServices.login(phone_.text.trim() , password_.text.trim());
-      if(response != null){
-        var json_response = jsonDecode(response);
-        if(json_response['message'] == "Login Successfully"){
-          await sharedPreferences!.setString('token', json_response['access_token']);
-          await sharedPreferences!.setString('phone', json_response['phone']);
-          await sharedPreferences!.setInt('user_id', json_response['user_id']);
-          await sharedPreferences!.setString('name', json_response['username']);
-          if(isremember){
-            await sharedPreferences!.setBool('remember', true);
-          }
-          isnot_loading();
-          Get.off(() => Landing() , binding: Landing_bindings());
-        }else if(json_response['message'] == "No user found"){
-          errormsg = "24";
-          is_error();
-          print(json_response['message']);
-          isnot_loading();
-        }else{
-          errormsg = "24";
-          is_error();
-          print(json_response['message']);
-          isnot_loading();
-        }
-      }else{
-        errormsg = "24";
-        is_error();
-        isnot_loading();
-      }
-    }else{
-      errormsg = "24";
-      is_error();
-    }
+   void Login() async {
+     if (phone_.text.isNotEmpty && password_.text.isNotEmpty) {
+       is_loading();
+       var response = await RemoteServices.login(
+           phone_.text.trim(), password_.text.trim());
+       if (response != null) {
+         var json_response = jsonDecode(response);
+         if (json_response['message'] == "Login Successfully") {
+           await sharedPreferences!.setString(
+               'token', json_response['access_token']);
+           await sharedPreferences!.setString('phone', json_response['phone']);
+           await sharedPreferences!.setInt('user_id', json_response['user_id']);
+           await sharedPreferences!.setString(
+               'name', json_response['username']);
+           if (isremember) {
+             await sharedPreferences!.setBool('remember', true);
+           }
+           isnot_loading();
+           Get.off(() => Landing(), binding: Landing_bindings());
+         } else if (json_response['message'] == "No user found") {
+           errormsg = "24";
+           is_error();
+           print(json_response['message']);
+           isnot_loading();
+         } else {
+           errormsg = "24";
+           is_error();
+           print(json_response['message']);
+           isnot_loading();
+         }
+       }
+     }
    }
+
 }

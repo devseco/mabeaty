@@ -1,9 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:mabeaty/controllers/Cart_controller.dart';
-import 'package:mabeaty/controllers/Home_controller.dart';
 import 'package:mabeaty/views/Login.dart';
 import '../main.dart';
 class Landing_controller extends GetxController{

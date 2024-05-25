@@ -113,7 +113,7 @@ class Product_controller extends GetxController {
 
 // You can also directly ask permission about its status.
    if (await Permission.location.isRestricted) {
-   // The OS restricts access, for mabeaty, because of parental controls.
+   // The OS restricts access, for seco, because of parental controls.
    }
  }
 
