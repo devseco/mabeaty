@@ -105,7 +105,7 @@ class locale extends Translations {
 
     },
     'en': {
-      '0': 'Seco Store',
+      '0': 'mabeaty Store',
       '1':'Login',
       '2':'Welcome',
       '3':'Phone',

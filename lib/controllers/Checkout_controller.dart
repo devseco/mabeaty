@@ -1,9 +1,9 @@
 import 'package:get/get.dart';
-import 'package:ui_ecommerce/Services/RemoteServices.dart';
-import 'package:ui_ecommerce/controllers/Billing_controller.dart';
-import 'package:ui_ecommerce/controllers/Cart_controller.dart';
-import 'package:ui_ecommerce/controllers/Delivery_controller.dart';
-import 'package:ui_ecommerce/main.dart';
+import 'package:mabeaty/Services/RemoteServices.dart';
+import 'package:mabeaty/controllers/Billing_controller.dart';
+import 'package:mabeaty/controllers/Cart_controller.dart';
+import 'package:mabeaty/controllers/Delivery_controller.dart';
+import 'package:mabeaty/main.dart';
 class Checkout_controller extends GetxController{
   var isPay = false.obs;
   int price  = 0;

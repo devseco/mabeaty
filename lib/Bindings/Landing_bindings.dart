@@ -1,10 +1,10 @@
 import 'package:get/get.dart';
-import 'package:ui_ecommerce/controllers/Billing_controller.dart';
-import 'package:ui_ecommerce/controllers/Favorite_controller.dart';
-import 'package:ui_ecommerce/controllers/Home_controller.dart';
-import 'package:ui_ecommerce/controllers/Landing_controller.dart';
-import 'package:ui_ecommerce/controllers/Login_controller.dart';
-import 'package:ui_ecommerce/controllers/ProfileController.dart';
+import 'package:mabeaty/controllers/Billing_controller.dart';
+import 'package:mabeaty/controllers/Favorite_controller.dart';
+import 'package:mabeaty/controllers/Home_controller.dart';
+import 'package:mabeaty/controllers/Landing_controller.dart';
+import 'package:mabeaty/controllers/Login_controller.dart';
+import 'package:mabeaty/controllers/ProfileController.dart';
 import '../controllers/Cart_controller.dart';
 class Landing_bindings implements Bindings{
   @override

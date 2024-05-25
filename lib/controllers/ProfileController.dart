@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:ui_ecommerce/models/UserInfo.dart';
+import 'package:mabeaty/models/UserInfo.dart';
 import '../Services/RemoteServices.dart';
 import '../main.dart';
 import '../views/Login.dart';
+import 'Cart_controller.dart';
 class ProfileController extends GetxController{
   var isLoadingUser = true.obs;
   var isPay = false.obs;
@@ -24,6 +25,15 @@ class ProfileController extends GetxController{
       isLoadingUser(false);
     }
     update();
+  }
+  void deleteAccount() async{
+    var name = sharedPreferences!.getString('name');
+    var user_id = sharedPreferences!.getInt('user_id');
+    await RemoteServices.deleteAccount(name , user_id);
+
+   sharedPreferences!.clear();
+    BoxCart.clear();
+    Get.off(() => Login());
   }
   void logout(){
     sharedPreferences!.clear();

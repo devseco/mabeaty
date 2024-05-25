@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:ui_ecommerce/controllers/Billing_controller.dart';
-import 'package:ui_ecommerce/main.dart';
+import 'package:mabeaty/controllers/Billing_controller.dart';
+import 'package:mabeaty/main.dart';
 class Billing extends StatelessWidget {
    Billing({super.key});
    final Billing_controller controller = Get.find();

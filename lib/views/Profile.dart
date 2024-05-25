@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ui_ecommerce/controllers/ProfileController.dart';
-import 'package:ui_ecommerce/main.dart';
+import 'package:mabeaty/controllers/ProfileController.dart';
+import 'package:mabeaty/main.dart';
 class Profile extends StatelessWidget {
    Profile({Key? key}) : super(key: key);
   final ProfileController profileController = Get.put(ProfileController());
@@ -59,7 +59,7 @@ class Profile extends StatelessWidget {
                  mainAxisAlignment: MainAxisAlignment.start,
                  crossAxisAlignment: CrossAxisAlignment.start,
                  children: [
-                   Icon(Icons.request_page , size: Get.width * 0.04,),
+                   Icon(Icons.request_page , size: Get.width * 0.04, color: Colors.green,),
                    SizedBox(width: Get.width * 0.015,),
                    Text(
                      'طلب حساب',
@@ -76,8 +76,31 @@ class Profile extends StatelessWidget {
             SizedBox(
               height: Get.width * 0.06,
             ),
-
-
+            GestureDetector(
+              onTap: (){
+                showConfirmationPrompt();
+                //profileController.logout();
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Icon(Icons.delete , size: Get.width * 0.04,color: Colors.redAccent,),
+                  SizedBox(width: Get.width * 0.015,),
+                  Text(
+                    'حذف الحساب',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: Get.width * 0.04,
+                        fontWeight: FontWeight.w500
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: Get.width * 0.06,
+            ),
             GestureDetector(
               onTap: (){
                 profileController.logout();
@@ -116,7 +139,28 @@ class Profile extends StatelessWidget {
       ),
     );
   }
-  Widget statusOrders(){
+   void showConfirmationPrompt() {
+     Get.defaultDialog(
+       title: "حذف الحساب",
+       middleText: "هل انت متآكد من ارسال طلب حذف الحساب",
+       actions: [
+         TextButton(
+           onPressed: () {
+           profileController.deleteAccount();
+           },
+           child: Text("ارسال"),
+         ),
+         TextButton(
+           onPressed: () {
+             Get.back(); // Close the dialog
+           },
+           child: Text("الغاء"),
+         ),
+       ],
+     );
+   }
+
+   Widget statusOrders(){
     return GetBuilder<ProfileController>(builder: (builder){
       return Container(
         width: Get.width,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:ui_ecommerce/controllers/Login_controller.dart';
+import 'package:mabeaty/controllers/Login_controller.dart';
 class Login extends StatelessWidget {
   Login({super.key});
   final Login_controller controller = Get.put(Login_controller());

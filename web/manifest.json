@@ -1,6 +1,6 @@
 {
-    "name": "ui_ecommerce",
-    "short_name": "ui_ecommerce",
+    "name": "mabeaty",
+    "short_name": "mabeaty",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

@@ -1,4 +1,4 @@
-package com.example.ui_ecommerce
+package com.mabeaty.seco
 
 import io.flutter.embedding.android.FlutterActivity
 

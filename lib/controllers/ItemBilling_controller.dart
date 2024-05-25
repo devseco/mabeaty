@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:ui_ecommerce/models/Sale.dart';
+import 'package:mabeaty/models/Sale.dart';
 
 import '../Services/RemoteServices.dart';
 

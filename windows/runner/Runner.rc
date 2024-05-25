@@ -89,13 +89,13 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "ui_ecommerce" "\0"
+            VALUE "CompanyName", "com.mabeaty" "\0"
+            VALUE "FileDescription", "mabeaty" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "ui_ecommerce" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2024 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "ui_ecommerce.exe" "\0"
-            VALUE "ProductName", "ui_ecommerce" "\0"
+            VALUE "InternalName", "mabeaty" "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2024 com.mabeaty. All rights reserved." "\0"
+            VALUE "OriginalFilename", "mabeaty.exe" "\0"
+            VALUE "ProductName", "mabeaty" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END
