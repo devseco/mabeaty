@@ -11,6 +11,7 @@ class Categories extends StatelessWidget {
     return  Scaffold(
       body: SafeArea(
           child: Column(
+
             children: [
               spaceH(Get.height * 0.015),
               Expanded(child: bestproductslist())
