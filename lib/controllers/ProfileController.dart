@@ -26,6 +26,15 @@ class ProfileController extends GetxController{
     }
     update();
   }
+  void deleteAccount() async{
+    var name = sharedPreferences!.getString('name');
+    var user_id = sharedPreferences!.getInt('user_id');
+    await RemoteServices.deleteAccount(name , user_id);
+
+   sharedPreferences!.clear();
+    BoxCart.clear();
+    Get.off(() => Login());
+  }
   void logout(){
     sharedPreferences!.clear();
     //BoxCart.clear();

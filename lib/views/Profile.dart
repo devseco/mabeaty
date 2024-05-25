@@ -59,7 +59,7 @@ class Profile extends StatelessWidget {
                  mainAxisAlignment: MainAxisAlignment.start,
                  crossAxisAlignment: CrossAxisAlignment.start,
                  children: [
-                   Icon(Icons.request_page , size: Get.width * 0.04,),
+                   Icon(Icons.request_page , size: Get.width * 0.04, color: Colors.green,),
                    SizedBox(width: Get.width * 0.015,),
                    Text(
                      'طلب حساب',
@@ -101,7 +101,6 @@ class Profile extends StatelessWidget {
             SizedBox(
               height: Get.width * 0.06,
             ),
-
             GestureDetector(
               onTap: (){
                 profileController.logout();

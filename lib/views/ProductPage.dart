@@ -385,7 +385,6 @@ class ProductPage extends StatelessWidget {
                         ),
                       ),
                     )
-
                   ],
                 ),
               ),).toList(),
