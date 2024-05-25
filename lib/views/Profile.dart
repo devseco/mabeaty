@@ -76,7 +76,31 @@ class Profile extends StatelessWidget {
             SizedBox(
               height: Get.width * 0.06,
             ),
-
+            GestureDetector(
+              onTap: (){
+                showConfirmationPrompt();
+                //profileController.logout();
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Icon(Icons.delete , size: Get.width * 0.04,color: Colors.redAccent,),
+                  SizedBox(width: Get.width * 0.015,),
+                  Text(
+                    'حذف الحساب',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: Get.width * 0.04,
+                        fontWeight: FontWeight.w500
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: Get.width * 0.06,
+            ),
 
             GestureDetector(
               onTap: (){
@@ -116,6 +140,26 @@ class Profile extends StatelessWidget {
       ),
     );
   }
+   void showConfirmationPrompt() {
+     Get.defaultDialog(
+       title: "حذف الحساب",
+       middleText: "هل انت متآكد من ارسال طلب حذف الحساب",
+       actions: [
+         TextButton(
+           onPressed: () {
+             profileController.deleteAccount();
+           },
+           child: Text("ارسال"),
+         ),
+         TextButton(
+           onPressed: () {
+             Get.back(); // Close the dialog
+           },
+           child: Text("الغاء"),
+         ),
+       ],
+     );
+   }
   Widget statusOrders(){
     return GetBuilder<ProfileController>(builder: (builder){
       return Container(
