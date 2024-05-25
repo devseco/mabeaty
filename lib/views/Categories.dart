@@ -16,6 +16,7 @@ class Categories extends StatelessWidget {
               spaceH(Get.height * 0.015),
               Expanded(child: bestproductslist())
             ],
+
           )),
 
     );
