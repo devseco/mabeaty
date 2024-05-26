@@ -94,7 +94,7 @@ class ProductPage extends StatelessWidget {
             borderRadius: BorderRadius.circular(10.0),
             borderSide: const BorderSide(color: Colors.black, width: 0.1),
           ),
-          hintText: 'مبلغ البيع للزبون',
+          hintText: 'مبلغ البيع للزبون (للقطعة الواحدة)',
           hintStyle: TextStyle(color: Colors.grey),
         ),
 
@@ -130,7 +130,7 @@ class ProductPage extends StatelessWidget {
             onPressed: () {
              if(controller.productItemList[0].count >= 1 ){
                if(controller.priceUser.text.isNotEmpty){
-                 if(int.parse(controller.priceUser.text.replaceAll(',','')) >= controller.lowerPrice){
+                 if(int.parse(controller.priceUser.text.replaceAll(',','')) >= controller.fullLaowerPrice){
                    builder.putDate(controller.productItemList[0].title, controller.productItemList[0].price, controller.count, controller.productItemList[0].id, controller.productItemList[0].image, controller.productItemList[0].category ,int.parse(controller.priceUser.text.replaceAll(',','')) );
                    if(!builder.isLoadingAdded.value){
                      if(builder.isAddedCart.value){
@@ -216,7 +216,7 @@ class ProductPage extends StatelessWidget {
   }
    _description(String des){
      return Padding(padding: EdgeInsetsDirectional.only(start: Get.height * 0.02 , end: Get.height * 0.05),
-       child: Text(des,
+       child: SelectableText(des,
          textAlign: TextAlign.start,
          maxLines: 5,
          style: TextStyle(
@@ -282,20 +282,22 @@ class ProductPage extends StatelessWidget {
      ),
      );
    }
-   _text(String title , double size , Color color , FontWeight fontWeight){
-     return Padding(padding: EdgeInsetsDirectional.only(start: Get.height * 0.02),
-     child: Text(title,
-       textAlign: TextAlign.start,
-       style: TextStyle(
+   Widget _text(String title, double size, Color color, FontWeight fontWeight) {
+     return Padding(
+       padding: EdgeInsetsDirectional.only(start: Get.height * 0.02),
+       child: SelectableText(
+         title,
+         textAlign: TextAlign.start,
+         style: TextStyle(
            fontSize: size,
            fontWeight: fontWeight,
-           color : color
+           color: color,
+         ),
        ),
-     ),
      );
    }
   title(){
-    return Text(controller.productItemList[0].title,
+    return SelectableText(controller.productItemList[0].title,
     style: TextStyle(
       fontSize: Get.height * 0.02,
       fontWeight: FontWeight.bold

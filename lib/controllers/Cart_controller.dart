@@ -74,7 +74,6 @@ class Cart_controller extends GetxController {
     var counter = count + 1;
     BoxCart.putAt(id, CartModel(price: price, title: title, count: counter, image: image, category: category, item: id,id: id , priceUser: priceUser));
     PlusAllData();
-
     update();
   }
   void putDate(title , price , count,id,image, category , priceUser)  {
@@ -92,12 +91,12 @@ class Cart_controller extends GetxController {
                is_loadingDone();
                Cart_controller cart_controller = Get.put(Cart_controller());
                cart_controller.PlusAllData();
-               Get.offNamed('/');
+               Get.offNamed('/landing');
                update();
              }).onError((error, stackTrace) {
                is_loadingDone();
                msgAdded = "Error";
-               Get.offNamed('/');
+               Get.offNamed('/landing');
                update();
              });
            }else{

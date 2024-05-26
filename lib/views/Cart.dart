@@ -56,35 +56,40 @@ class CartPage extends StatelessWidget {
                  );
                }),
                 GetBuilder<Cart_controller>(builder: (builder){
-                  return Container(
-                    height: Get.height * 0.09,
-                    width: Get.height * 0.15,
-                    margin: EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(color: Colors.white , width: 0.1)
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Center(
-                          child: Text(formatter.format(builder.total) + ' '+'18'.tr, style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: Get.height * 0.014,
-                              fontWeight: FontWeight.bold
-                          ),),
-                        ),
-                        Center(
-                          child: Text(formatter.format(builder.totalUser) + ' '+'18'.tr, style: TextStyle(
-                              color: Colors.deepPurple,
-                              fontSize: Get.height * 0.018,
-                              fontWeight: FontWeight.bold
-                          ),),
-                        ),
-                      ],
-                    )
-                  );
+        if(BoxCart.isNotEmpty){
+          return Container(
+              height: Get.height * 0.09,
+              width: Get.height * 0.15,
+              margin: EdgeInsets.all(5),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(color: Colors.white , width: 0.1)
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Center(
+                    child: Text(formatter.format(builder.total) + ' '+'18'.tr, style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: Get.height * 0.014,
+                        fontWeight: FontWeight.bold
+                    ),),
+                  ),
+                  Center(
+                    child: Text(formatter.format(builder.totalUser) + ' '+'18'.tr, style: TextStyle(
+                        color: Colors.deepPurple,
+                        fontSize: Get.height * 0.018,
+                        fontWeight: FontWeight.bold
+                    ),),
+                  ),
+                ],
+              )
+          );
+        }else{
+          return SizedBox();
+        }
+
                 })
               ],
             ),

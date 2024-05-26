@@ -19,6 +19,7 @@ class Product_controller extends GetxController {
   int count = 1;
   int id = 0;
   int lowerPrice = 0;
+  int fullLaowerPrice = 0;
   int lowerPriceLabel = 0;
   TextEditingController priceUser = TextEditingController();
   dynamic argumentData = Get.arguments;
@@ -49,6 +50,7 @@ class Product_controller extends GetxController {
       lowerPrice = price + 15000;
     }
     lowerPriceLabel = lowerPrice;
+    fullLaowerPrice = lowerPrice;
 
     update();
   }
@@ -77,6 +79,7 @@ class Product_controller extends GetxController {
       if(count_now > 1){
         count++;
         lowerPriceLabel = lowerPrice * count;
+        fullLaowerPrice = lowerPrice * count;
       }
     }
     update();
@@ -84,9 +87,12 @@ class Product_controller extends GetxController {
 
 
   void outCounter(){
-    if(count != 1)
-    count --;
-    lowerPriceLabel = lowerPrice * count;
+    if(count != 1){
+      count --;
+      lowerPriceLabel = lowerPrice * count;
+      fullLaowerPrice = lowerPrice * count;
+    }
+
     update();
   }
   void saveNetworkImage(String url) async {
