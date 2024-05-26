@@ -16,18 +16,12 @@ class Products extends StatelessWidget {
         scrolledUnderElevation:0.0,
         surfaceTintColor: Colors.transparent,
         leadingWidth: Get.height * 0.2,
-
         leading: logo(),
       ),
       body: Column(
         children: [
           spaceH(Get.height * 0.015),
-          Row(
-            children: [
-              searchTextInput(),
-              filtersIcon(),
-            ],
-          ),
+          searchTextInput(),
           spaceH(Get.height * 0.015),
           GetBuilder<Products_Controller>(builder: (builder){
             if(!builder.isLoadingItem.value){
@@ -88,31 +82,34 @@ class Products extends StatelessWidget {
       child: const Icon(Icons.tune),
     );
   }
-  Padding searchTextInput() {
-    return Padding(padding: EdgeInsetsDirectional.only(start: Get.height * 0.02 , end: Get.height * 0.002),
-      child: SizedBox(
-          width: Get.width * 0.83,
-          child: TextField(
-
-            decoration:  InputDecoration(
-              fillColor: Color(0xfff1ebf1),
-              filled: true,
-              prefixIcon: const Icon(Icons.search),
-              hintText: '9'.tr,
-              enabledBorder: const OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                borderSide:  BorderSide(
-                  color: Color(0xfff1ebf1),
-                ),
-              ),
-              focusedBorder: const OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                borderSide: BorderSide(color:Color(0xfff1ebf1),),
-              ),
-            ),
-          )),
-    );
-  }
+   Padding searchTextInput() {
+     return Padding(
+         padding: EdgeInsetsDirectional.only(start: Get.height * 0.02, end: Get.height * 0.002),
+         child: SizedBox(
+           width: Get.width * 0.83,
+           child: TextField(
+             controller: controller.searchQueryController, // TextEditingController for capturing search query
+             decoration: InputDecoration(
+               fillColor: Color(0xfff1ebf1),
+               filled: true,
+               prefixIcon: Icon(Icons.search),
+               hintText: '9'.tr, // Replace with your desired hint text
+               enabledBorder: OutlineInputBorder(
+                 borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                 borderSide: BorderSide(color: Color(0xfff1ebf1)),
+               ),
+               focusedBorder: OutlineInputBorder(
+                 borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                 borderSide: BorderSide(color: Color(0xfff1ebf1)),
+               ),
+             ),
+             onChanged: (query) {
+               controller.filterProductList(query);
+               print(query);
+             },
+           ),
+         ));
+   }
   SizedBox spaceH(double size) {
     return SizedBox(
       height: size,

@@ -23,7 +23,7 @@ class Billing extends StatelessWidget {
           Obx(() {
             if (!controller.isLoadingBills.value) {
               if (controller.filters.isNotEmpty) {
-                return  BillList();
+                return  Expanded(child: BillList());
               } else {
                 return Center(
                   child: Text('لا توجد فواتير حالياً'), // تم تحديث النص ليتناسب مع اللغة المستخدمة
@@ -255,7 +255,7 @@ class Billing extends StatelessWidget {
                top: Get.height * 0.01,
                start:  Get.height * 0.005,
                child: SizedBox(
-                 width: Get.height * 0.2,
+                 width: Get.height * 0.25,
                  child: Text('${'47'.tr} : ${formatter.format(price)} ${'18'.tr}' , textAlign: TextAlign.start,
                    style: const TextStyle(
                      fontWeight: FontWeight.w400,
@@ -266,7 +266,7 @@ class Billing extends StatelessWidget {
                top: Get.height * 0.04,
                start:  Get.height * 0.005,
                child: SizedBox(
-                 width: Get.height * 0.2,
+                 width: Get.height * 0.25,
                  child: Text('${'48'.tr} : ${formatter.format(delivery)} ${'18'.tr}' , textAlign: TextAlign.start,
                    style: const TextStyle(
                      fontWeight: FontWeight.w400,
@@ -277,7 +277,7 @@ class Billing extends StatelessWidget {
                top: Get.height * 0.07,
                start:  Get.height * 0.005,
                child: SizedBox(
-                 width: Get.height * 0.2,
+                 width: Get.height * 0.25,
                  child: Text('${'88'.tr} : ${formatter.format(finalTotal)} ${'18'.tr}' , textAlign: TextAlign.start,
                    style: const TextStyle(
                      fontWeight: FontWeight.w400,
@@ -288,7 +288,7 @@ class Billing extends StatelessWidget {
                top: Get.height * 0.1,
                start:  Get.height * 0.005,
                child: SizedBox(
-                 width: Get.height * 0.2,
+                 width: Get.height * 0.25,
                  child: Text('${'89'.tr} : ${formatter.format(customer_total - finalTotal)} ${'18'.tr}' , textAlign: TextAlign.start,
                    style: const TextStyle(
                      fontWeight: FontWeight.bold,
@@ -300,7 +300,7 @@ class Billing extends StatelessWidget {
                top: Get.height * 0.13,
                start:  Get.height * 0.005,
                child: SizedBox(
-                 width: Get.height * 0.2,
+                 width: Get.height * 0.25,
                  child: Text('${'49'.tr} : ${formatter.format(customer_total)} ${'18'.tr}' , textAlign: TextAlign.start,
                    style: const TextStyle(
                      fontWeight: FontWeight.bold,
@@ -311,7 +311,7 @@ class Billing extends StatelessWidget {
                top: Get.height * 0.16,
                start:  Get.height * 0.005,
                child: SizedBox(
-                 width: Get.height * 0.2,
+                 width: Get.height * 0.25,
                  child: Text('${'82'.tr} : ${customer_name} ' , textAlign: TextAlign.start,
                    style: const TextStyle(
                      fontWeight: FontWeight.w600,
