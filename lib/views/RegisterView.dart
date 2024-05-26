@@ -20,6 +20,8 @@ class RegisterView extends StatelessWidget {
           _space(Get.height * 0.02),
           _textme('56' , controller.name_ , false),
           _space(Get.height * 0.02),
+          _textme('96' , controller.pageName_ , false),
+          _space(Get.height * 0.02),
           _textme('3' , controller.phone_ , false),
           _space(Get.height * 0.02),
           _textme('4' , controller.password_ , true),

@@ -1,28 +1,41 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:mabeaty/controllers/Category_controller.dart';
-
 class Categories extends StatelessWidget {
    Categories({super.key});
    final Category_controller controller = Get.put(Category_controller());
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
-      body: SafeArea(
-          child: Column(
-
-            children: [
-              spaceH(Get.height * 0.015),
-              Expanded(child: bestproductslist())
-            ],
-
-          )),
+    return Scaffold(
+      body:Obx(() {
+        if (!controller.isLoadingCategories.value) {
+          if (controller.categoriesList.isNotEmpty) {
+            return  categorieslist();
+          } else {
+            return Center(
+              child: Text('لا توجد فئات حالياً'), // تم تحديث النص ليتناسب مع اللغة المستخدمة
+            );
+          }
+        } else {
+          return loading_(); // تم تحديث النص ليتناسب مع اللغة المستخدمة
+        }
+      })
 
     );
   }
-   bestproductslist() {
-     return GridView.builder(
+   loading_() {
+     return Center(
+       child: LoadingAnimationWidget.staggeredDotsWave(
+         color: Colors.black,
+         size: 80,
+       ),
+     );
+   }
+   categorieslist() {
+     return RefreshIndicator(
+       child: GridView.builder(
        padding: EdgeInsets.only(right: Get.height * 0.009,left: Get.height * 0.009),
        // to disable GridView's scrolling
        shrinkWrap: true, // You won't see infinite size error
@@ -41,7 +54,11 @@ class Categories extends StatelessWidget {
              Category.id
          );
        },
-     );
+     ),
+         onRefresh: ()async{
+       controller.fetchCategories();
+
+         });
    }
    CategoryItem(String url , String title  , int index){
      return GestureDetector(
@@ -99,36 +116,6 @@ class Categories extends StatelessWidget {
    SizedBox spaceW(double size) {
      return SizedBox(
        width: size,
-     );
-   }
-   Padding filtersIcon (){
-     return Padding(padding: EdgeInsetsDirectional.only(start: Get.height * 0.009 , end: Get.height * 0.009),
-       child: const Icon(Icons.tune),
-     );
-   }
-   Padding searchTextInput() {
-     return Padding(padding: EdgeInsetsDirectional.only(start: Get.height * 0.02 , end: Get.height * 0.002),
-       child: SizedBox(
-           width: Get.width * 0.83,
-           child: TextField(
-             controller: controller.myController,
-             decoration:  InputDecoration(
-               fillColor: Color(0xfff1ebf1),
-               filled: true,
-               prefixIcon: const Icon(Icons.search),
-               hintText: '27'.tr,
-               enabledBorder: const OutlineInputBorder(
-                 borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                 borderSide:  BorderSide(
-                   color: Color(0xfff1ebf1),
-                 ),
-               ),
-               focusedBorder: const OutlineInputBorder(
-                 borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                 borderSide: BorderSide(color:Color(0xfff1ebf1),),
-               ),
-             ),
-           )),
      );
    }
 }

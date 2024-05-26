@@ -57,9 +57,9 @@ class RemoteServices {
     }
   }
   //Register
-  static Future register(phone , name , password , city , address) async {
+  static Future register(phone , name , password , city , address , pageName) async {
     var endpoint = 'addnew';
-    var body = jsonEncode({'phone': phone , 'name' : name , 'password' : password , 'city' : city , 'address' : address});
+    var body = jsonEncode({'phone': phone , 'name' : name , 'password' : password , 'city' : city , 'address' : address , 'pageName' : pageName});
     try {
       var response = await client.post(Uri.parse(baseUrl + endpoint),
         body:body,
@@ -136,7 +136,7 @@ class RemoteServices {
     }
   }
   //add new bill To Endpoint (addBill)
-  static Future<String> addBill(String name, String phone, String city, String address, int price, int delivery, List<Map<String, dynamic>> items, user_id , customer_name , customer_total , customer_nearpoint , profit, note) async {
+  static Future<String> addBill(String name, String phone, String city, String address, int price, int delivery, List<Map<String, dynamic>> items, user_id , customer_name , customer_total , customer_nearpoint , profit, note , namePage) async {
     var endpoint = 'addBill';
     var body = jsonEncode({
       'name': name,
@@ -151,7 +151,8 @@ class RemoteServices {
       'customer_total' : customer_total,
       'profit': profit,
       'customer_nearpoint' : customer_nearpoint,
-      'note': note
+      'note': note,
+      'pageName': namePage
     });
     try {
       var response = await http.post(

@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:textfield_search/textfield_search.dart';
@@ -14,49 +15,62 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return  Scaffold(
       resizeToAvoidBottomInset: false,
-      body: Column(
-        children: [
-          spaceH(Get.height * 0.015),
-          Obx(() {
-            if(!controller.isLoadingSliders.value){
-              return (controller.slidersList.length > 0)? sliders() : placholder404();
-            }else{
-              return placholderSlider();
-            }
-          }),
-          Row(
+      body: RefreshIndicator(
+        onRefresh: () async {
+          controller.fetchProducts(1,10);
+          controller.fetchCategories();
+          controller.fetchSliders();
+        },
+        child: SingleChildScrollView(
+          child: Column(
             children: [
-              searchTextInput(),
+              spaceH(Get.height * 0.015),
+              Obx(() {
+                if (!controller.isLoadingSliders.value) {
+                  return (controller.slidersList.length > 0) ? sliders() : placholder404();
+                } else {
+                  return placholderSlider();
+                }
+              }),
+              Row(
+                children: [
+                  searchTextInput(),
+                ],
+              ),
+              spaceH(Get.height * 0.02),
+              bestproductslabels(),
+              spaceH(Get.height * 0.02),
+              SizedBox(
+                height: Get.width * 1,
+                child: Obx(() {
+                  if (!controller.isLoadingProductes.value) {
+                    if ((controller.productsList.isNotEmpty)) {
+                      return recentlyproductslist();
+                    } else {
+                      return Center(child: Text('20'.tr),);
+                    }
+                  } else {
+                    return const Center(child: CircularProgressIndicator(),);
+                  }
+                }),
+              ),
+              spaceH(Get.height * 0.015),
             ],
           ),
-          spaceH(Get.height * 0.02),
-          bestproductslabels(),
-              spaceH(Get.height * 0.02),
-              Obx(() {
-                if(!controller.isLoadingProductes.value){
-                  if ((controller.productsList.isNotEmpty)) {
-                    return recentlyproductslist();
-                  } else {
-                    return Center(child: Text('20'.tr),);
-                  }
-                }else{
-                  return const Center(child: CircularProgressIndicator(),);
-                }
-              })
-        ],
-      )
+        ),
+      ),
     );
   }
    recentlyproductslist() {
-     return Expanded(child: GridView.builder(
-       shrinkWrap: true,
+     return GridView.builder(
+       padding: EdgeInsets.only(bottom: Get.width * 0.35),
        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
          crossAxisCount: 2,
          crossAxisSpacing: 5.0,
          mainAxisSpacing: 10.0,
          childAspectRatio: 0.89,
        ),
-       itemCount: (controller.productsList.length > 12 )?  12 : controller.productsList.length,
+       itemCount: (controller.productsList.length > 6 )?  6 : controller.productsList.length,
        itemBuilder: (BuildContext context, int index) {
          final product = controller.productsList[index];
          return BestProductItem(
@@ -69,7 +83,7 @@ class Home extends StatelessWidget {
              product.renewable
          );
        },
-     ));
+     );
    }
    BestProductItem(String url , String title , int price , int id  , int lastprice , int count , int renewable){
      return GestureDetector(
@@ -120,8 +134,9 @@ class Home extends StatelessWidget {
                ),
              ),
              spaceH(Get.height * 0.004),
-             Row(
-               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+             Column(
+               mainAxisAlignment: MainAxisAlignment.start,
+               crossAxisAlignment: CrossAxisAlignment.start,
                children: [
                  Text(
                    'المتوفر : ${count ~/ 2} - $count',
@@ -135,9 +150,11 @@ class Home extends StatelessWidget {
                  Text(
                    (renewable == 1) ? 'قابل للتجديد' : '',
                    textAlign: TextAlign.start,
-                   style: const TextStyle(
+                   style:  TextStyle(
                      color: Colors.deepPurple,
                      fontWeight: FontWeight.w400,
+                     fontSize: Get.width * 0.025,
+
                    ),
                  ),
                ],

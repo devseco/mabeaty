@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
@@ -11,8 +12,7 @@ import '../models/TestItem.dart';
 
 class RecentlyProducts extends StatelessWidget {
   RecentlyProducts({super.key});
-  final RecentlyProductsController controller = Get.find();
-
+  final RecentlyProductsController controller = Get.put(RecentlyProductsController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,21 +39,19 @@ class RecentlyProducts extends StatelessWidget {
               ],
             ),
             spaceH(Get.height * 0.015),
-            Expanded(
-              child: GetBuilder<RecentlyProductsController>(builder: (builder) {
-                if (!builder.isLoadingItem.value) {
-                  if (builder.productList.isNotEmpty) {
-                    return ItemsList();
-                  } else {
-                    return Center(
-                      child: Text('12'.tr),
-                    );
-                  }
+            GetBuilder<RecentlyProductsController>(builder: (builder) {
+              if (!builder.isLoadingItem.value) {
+                if (builder.productList.isNotEmpty) {
+                  return Expanded(child: ItemsList());
                 } else {
-                  return loading_();
+                  return Center(
+                    child: Text('12'.tr),
+                  );
                 }
-              }),
-            ),
+              } else {
+                return loading_();
+              }
+            }),
           ],
         ),
       ),
@@ -136,40 +134,42 @@ class RecentlyProducts extends StatelessWidget {
   }
 
   ItemsList() {
-    return GridView.builder(
-      controller: controller.scrollController,
-      padding: EdgeInsets.only(
-        right: Get.height * 0.009,
-        left: Get.height * 0.009,
-      ),
-      physics: AlwaysScrollableScrollPhysics(),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        crossAxisSpacing: 15.0,
-        mainAxisSpacing: 15.0,
-        childAspectRatio: 0.8,
-      ),
-      itemCount: controller.productList.length + (controller.isLoadingItem.value ? 1 : 0),
-      itemBuilder: (BuildContext context, int index) {
-        if (index >= controller.productList.length && controller.isLoadingItem.value) {
-          print('loooad more');
-          return Center(child: loading_());
-        } else if (index < controller.productList.length) {
-          final product = controller.productList[index];
-          return Item(
-            product.image,
-            product.title,
-            product.price,
-            product.id,
-            product.lastprice,
-            product.count,
-            product.renewable,
-          );
-        } else {
-          print('end loading');
-          return Container(); // عودة حاوية فارغة إذا كان الشرط لا ينطبق
-        }
+    return RefreshIndicator(
+      onRefresh: () async{
+        controller.fetchProducts(1, 10);
       },
+      child: GridView.builder(
+        controller: controller.scrollController,
+        padding: EdgeInsets.only(
+          right: Get.height * 0.009,
+          left: Get.height * 0.009,
+          bottom: Get.width * 0.6
+        ),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 15.0,
+          mainAxisSpacing: 15.0,
+          childAspectRatio: 0.8,
+        ),
+        itemCount: controller.productList.length + (controller.isLoadingItem.value ? 1 : 0),
+        itemBuilder: (BuildContext context, int index) {
+          if (index >= controller.productList.length) {
+            // Show loading indicator at the bottom
+            return Center(child: CircularProgressIndicator());
+          } else {
+            final product = controller.productList[index];
+            return Item(
+              product.image,
+              product.title,
+              product.price,
+              product.id,
+              product.lastprice,
+              product.count,
+              product.renewable,
+            );
+          }
+        },
+      ),
     );
   }
 
@@ -223,8 +223,10 @@ class RecentlyProducts extends StatelessWidget {
                 fontWeight: FontWeight.w800,
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            spaceH(Get.height * 0.01),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   'المتوفر : ${count ~/ 2} - $count',
@@ -235,12 +237,14 @@ class RecentlyProducts extends StatelessWidget {
                     fontWeight: FontWeight.w800,
                   ),
                 ),
+                spaceH(Get.height * 0.007),
                 Text(
                   (renewable == 1) ? 'قابل للتجديد' : '',
                   textAlign: TextAlign.start,
-                  style: const TextStyle(
+                  style:  TextStyle(
                     color: Colors.deepPurple,
                     fontWeight: FontWeight.w400,
+                    fontSize: Get.width * 0.025,
                   ),
                 ),
               ],

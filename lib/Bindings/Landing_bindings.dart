@@ -9,8 +9,8 @@ import '../controllers/Cart_controller.dart';
 class Landing_bindings implements Bindings{
   @override
   void dependencies() {
+    Get.lazyPut(() => Login_controller(),fenix: true);
    Get.lazyPut(() => Landing_controller(),fenix: true);
-   Get.lazyPut(() => Login_controller(),fenix: true);
    Get.lazyPut<Home_controller>(() => Home_controller() ,fenix: true);
    Get.lazyPut(() => Cart_controller() , fenix: true);
    Get.lazyPut(() => Billing_controller() , fenix: true);

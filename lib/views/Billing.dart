@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:mabeaty/controllers/Billing_controller.dart';
 import 'package:mabeaty/main.dart';
 class Billing extends StatelessWidget {
@@ -19,13 +20,32 @@ class Billing extends StatelessWidget {
             child: filterList(),
           ),
           spaceH(Get.height * 0.01),
-          (!controller.isLoadingBills.value)? (controller.filters.isNotEmpty)? Expanded(child:  BillList()) : Center(child: Padding(child: Text('لا توجد بيانات'), padding: EdgeInsets.all(Get.width * 0.25),),) : Center(child: CircularProgressIndicator(),),
+          Obx(() {
+            if (!controller.isLoadingBills.value) {
+              if (controller.filters.isNotEmpty) {
+                return  BillList();
+              } else {
+                return Center(
+                  child: Text('لا توجد فواتير حالياً'), // تم تحديث النص ليتناسب مع اللغة المستخدمة
+                );
+              }
+            } else {
+              return loading_(); // تم تحديث النص ليتناسب مع اللغة المستخدمة
+            }
+          }),
           spaceH(Get.height * 0.015),
         ],
       )
     );
   }
-
+   loading_() {
+     return Center(
+       child: LoadingAnimationWidget.staggeredDotsWave(
+         color: Colors.black,
+         size: 80,
+       ),
+     );
+   }
    Widget filterList() {
      return ListView(
        shrinkWrap: true,
@@ -77,16 +97,22 @@ class Billing extends StatelessWidget {
 
    BillList() {
      return GetBuilder<Billing_controller>(
-       builder: (controller) => ListView.builder(
-         physics: const PageScrollPhysics(),
-         padding: EdgeInsets.only(right: Get.height * 0.009, left: Get.height * 0.009, top: Get.height * 0.01),
-         shrinkWrap: true,
-         itemCount: controller.filteredBillsList.length,
-         itemBuilder: (BuildContext context, int index) {
-           final BillOne = controller.filteredBillsList[index];
-           return BillItem(BillOne.price, BillOne.delivery, BillOne.city, BillOne.address, BillOne.date, BillOne.status, BillOne.phone, BillOne.id, BillOne.customerTotal, BillOne.customerName , BillOne.pay);
-         },
-       ),
+       builder: (controller) => RefreshIndicator(
+           child: ListView.builder(
+             physics:  AlwaysScrollableScrollPhysics(),
+             padding: EdgeInsets.only(right: Get.height * 0.009, left: Get.height * 0.009, top: Get.height * 0.01),
+             shrinkWrap: true,
+             itemCount: controller.filteredBillsList.length,
+             itemBuilder: (BuildContext context, int index) {
+               final BillOne = controller.filteredBillsList[index];
+               return BillItem(BillOne.price, BillOne.delivery, BillOne.city, BillOne.address, BillOne.date, BillOne.status, BillOne.phone, BillOne.id, BillOne.customerTotal, BillOne.customerName , BillOne.pay);
+             },
+           ),
+           onRefresh: ()async{
+             controller.fetchBills();
+             controller.filteredBillsList = controller.billsList;
+             controller.selectedFilter('الكل');
+           }),
      );
    }
    BillItem(int price, int delivery, String city, String address, DateTime date, int status, String phone, int id , int customer_total , String customer_name , int pay) {

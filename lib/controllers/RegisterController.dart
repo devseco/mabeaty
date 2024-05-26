@@ -16,6 +16,7 @@ class RegisterController extends GetxController{
   late TextEditingController password_ = TextEditingController();
   late TextEditingController name_ = TextEditingController();
   late TextEditingController address_  = TextEditingController();
+  late TextEditingController pageName_  = TextEditingController();
   List<String> governorates_en = [
     'Baghdad',
     'Basra',
@@ -75,9 +76,9 @@ class RegisterController extends GetxController{
     update();
   }
   void register() async{
-    if(phone_.text.isNotEmpty && name_.text.isNotEmpty && password_.text.isNotEmpty && address_.text.isNotEmpty && selectedGovernorate!.isNotEmpty ){
+    if(phone_.text.isNotEmpty && name_.text.isNotEmpty && password_.text.isNotEmpty && address_.text.isNotEmpty && selectedGovernorate!.isNotEmpty  && pageName_.text.isNotEmpty){
       is_loading();
-      var response = await RemoteServices.register(phone_.text.trim(), name_.text.trim(), password_.text.trim(), selectedGovernorate!, address_.text.trim());
+      var response = await RemoteServices.register(phone_.text.trim(), name_.text.trim(), password_.text.trim(), selectedGovernorate!, address_.text.trim() , pageName_.text.trim());
       if(response != null){
         var json_response = jsonDecode(response);
         print(json_response);

@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -196,9 +197,10 @@ class Products extends StatelessWidget {
                    color: Colors.deepPurple
                ),
              ),
-             spaceH(Get.height * 0.004),
-             Row(
-               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+             spaceH(Get.height * 0.01),
+             Column(
+               mainAxisAlignment: MainAxisAlignment.start,
+               crossAxisAlignment: CrossAxisAlignment.start,
                children: [
                  Text(
                    'المتوفر : ${count ~/ 2} - $count',
@@ -206,16 +208,17 @@ class Products extends StatelessWidget {
                    style:  TextStyle(
                      color: Colors.black45,
                      fontSize: Get.width * 0.025,
-
                      fontWeight: FontWeight.w800,
                    ),
                  ),
+                 spaceH(Get.height * 0.008),
                  Text(
                    (renewable == 1) ? 'قابل للتجديد' : '',
                    textAlign: TextAlign.start,
-                   style: const TextStyle(
+                   style:  TextStyle(
                      color: Colors.deepPurple,
                      fontWeight: FontWeight.w400,
+                     fontSize: Get.width * 0.025,
                    ),
                  ),
                ],
